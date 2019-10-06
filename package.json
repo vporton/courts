@@ -1,0 +1,30 @@
+{
+  "name": "courts",
+  "version": "0.0.1",
+  "description": "Courts That Perform Crypto Rewards Smart Contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vporton/courts.git"
+  },
+  "keywords": [
+    "ethereum",
+    "crypto",
+    "court",
+    "politics",
+    "reward",
+    "human",
+    "people",
+    "victim",
+    "compensation"
+  ],
+  "author": "Victor Porton",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/vporton/courts/issues"
+  },
+  "homepage": "https://github.com/vporton/courts#readme"
+}
