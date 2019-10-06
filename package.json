@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/vporton/courts/issues"
   },
-  "homepage": "https://github.com/vporton/courts#readme"
+  "homepage": "https://github.com/vporton/courts#readme",
+  "dependencies": {
+    "@openzeppelin/cli": "^2.5.3"
+  }
 }
