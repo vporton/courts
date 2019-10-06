@@ -3,5 +3,11 @@
   "contracts": {},
   "dependencies": {},
   "name": "courts",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "compiler": {
+    "manager": "openzeppelin",
+    "compilerSettings": {
+      "optimizer": {}
+    }
+  }
 }
