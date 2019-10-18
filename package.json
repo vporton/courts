@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/vporton/courts#readme",
   "dependencies": {
-    "@openzeppelin/cli": "^2.5.3"
+    "@openzeppelin/cli": "^2.5.3",
+    "truffle": "^5.0.41"
   }
 }
