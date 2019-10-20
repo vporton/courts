@@ -11,10 +11,13 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
+    
+    uint256 internal nonce; // to save memory use it for both courts and intercourt tokens
 
     // Everybody is both a regular account holder and a court.
     // Accouts intended to be a court, may usually hold zero balances, but they can be
     // used as regular money holders, too.
+    // TODO: Can money be withdrawn from a court account?
     // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
 
@@ -24,23 +27,24 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     // TODO: Do we allow infinite limits?
     
     // token => (owner => spentLimit)
-    mapping (uint256 => mapping (address => uint256)) internal spentLimit;
+    mapping (address => mapping (address => uint256)) internal spentLimit; // TODO
     
     struct TrustedCourt {
-        address court;
+        uint256 courtId;
         mapping (uint256 => uint256) limits; // intercourt token => amount
     }
     
     // truster => trustee
-    mapping (address => TrustedCourt[]) internal trustedCourts;
-    
-    // TODO: do we need both two following variables? We can combine them into one variable.
+    mapping (uint256 => TrustedCourt[]) internal trustedCourts;
     
     // token => court
-    mapping (uint256 => address) internal tokenControllingCourts;
+    //mapping (address => uint256) internal tokenControllingCourts;
 
     // token => intercourt token
-    mapping (uint256 => uint256) internal interCourtTokens;
+    //mapping (address => uint256) internal interCourtTokens;
+    
+    // court => owner
+    mapping (uint256 => address) internal courtOwners;
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -59,12 +63,15 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     */
     bytes4 constant private INTERFACE_SIGNATURE_ERC1155 = 0xd9b67a26;
 
+    bytes4 constant private INTERFACE_SIGNATURE_URI = 0x0e89341c;
+    
     function supportsInterface(bytes4 _interfaceId)
     public
     view
     returns (bool) {
          if (_interfaceId == INTERFACE_SIGNATURE_ERC165 ||
-             _interfaceId == INTERFACE_SIGNATURE_ERC1155) {
+             _interfaceId == INTERFACE_SIGNATURE_ERC1155 ||
+             _interfaceId == INTERFACE_SIGNATURE_URI) {
             return true;
          }
 
@@ -92,7 +99,7 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
         require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
-        // SafeMath will throw with insuficient funds _from
+        // SafeMath will throw with insufficient funds _from
         // or if _id is not valid (balance will be 0)
         balances[_id][_from] = balances[_id][_from].sub(_value);
         balances[_id][_to]   = _value.add(balances[_id][_to]);
@@ -211,31 +218,28 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
 
 /////////////////////////////////////////// Court //////////////////////////////////////////////
 
-    function generateTokenAddress(address court, uint256 intecourtToken) public pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(court, court)));
+    function generateTokenAddress(uint256 court, uint256 intecourtToken) public pure returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(court, intecourtToken)));
     }
     
     /// Court Minting ///
     
     // FIXME: Limits
 
-    // TODO: If intecourtToken is 0x0?
-    // TODO: Should have court argument?
-    function mint(uint256 intecourtToken, uint256 amount, address _to, bytes calldata _data) external {
-        //require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
-        require(_to != address(0x0), "destination address must be non-zero.");
+    function mint(uint256 court, uint256 intecourtToken, uint256 amount, address to, bytes calldata _data) external {
+        require(courtOwners[court] == msg.sender, "Only court owner can mint.");
+        require(to != address(0x0), "destination address must be non-zero.");
+        require(intecourtToken != 0, "Token cannot be zero.");
 
-        address court = msg.sender;
         uint256 token = generateTokenAddress(court, intecourtToken);
-        balances[token][_to] = amount.add(balances[token][_to]);
+        balances[token][to] = amount.add(balances[token][to]);
 
-        emit TransferSingle(msg.sender, court, _to, token, amount);
+        emit TransferSingle(msg.sender, address(0x0), to, token, amount);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
-        if (_to.isContract()) {
-            address _from = msg.sender;
-            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, intecourtToken, amount, _data);
+        if (to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, address(0x0), to, token, amount, _data);
         }
     }
 
@@ -245,10 +249,10 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     /// Transfer through Multiple Courts ///
     
     // Here _id is an intercourt token
-    function intercourtTransfer(address _from, address _to, uint256 _id, uint256 _value, address[] calldata courtsPath, bytes calldata _data) external {
+    function intercourtTransfer(address _from, address _to, uint256 _id, uint256 _value, uint256[] calldata courtsPath, bytes calldata _data) external {
         uint256[] memory _ids = new uint256[](1);
-        uint256[] memory _values = new uint256[](1);
         _ids[0] = _id;
+        uint256[] memory _values = new uint256[](1);
         _values[0] = _value;
         _doIntercourtTransferBatch(_from, _to, _ids, _values, courtsPath);
 
@@ -263,7 +267,7 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     }
 
     // Here _id is an intercourt token
-    function intercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, address[] calldata courtsPath, bytes calldata _data) external {
+    function intercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, uint256[] calldata courtsPath, bytes calldata _data) external {
         _doIntercourtTransferBatch(_from, _to, _ids, _values, courtsPath);
 
         // MUST emit event
@@ -271,9 +275,32 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
-        if (_to.isContract()) {
-            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
+        for (uint i = 0; i < _ids.length; ++i) {
+            if (_to.isContract()) {
+                _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _ids[i], _values[i], _data);
+            }
         }
+    }
+
+/////////////////////////////////////////// Administrativia //////////////////////////////////////////////
+
+    function createCourt() external returns (uint256) {
+        uint256 id = ++nonce;
+        courtOwners[id] = msg.sender;
+        return id;
+    }
+
+    function createToken(string calldata _uri) external returns (uint256) {
+        uint256 id = ++nonce;
+        if (bytes(_uri).length > 0)
+            emit URI(_uri, id);
+        return id;
+    }
+
+
+    function setURI(string calldata _uri, uint256 _id) external {
+        require(courtOwners[_id] == msg.sender);
+        emit URI(_uri, _id);
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
@@ -300,7 +327,7 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     }
     
     // Here _id is an intercourt token
-    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, address[] memory courtsPath) internal {
+    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory courtsPath) internal {
 
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
@@ -308,12 +335,12 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
         for (uint i = 0; i < courtsPath.length; ++i) {
-            address courtAddr = courtsPath[i];
-            TrustedCourt[] storage curTrustedCourts = trustedCourts[courtAddr];
+            uint256 court = courtsPath[i];
+            TrustedCourt[] storage curTrustedCourts = trustedCourts[court];
             for (uint j = 0; j < curTrustedCourts.length; ++j) {
                 TrustedCourt storage trusted = curTrustedCourts[j]; // TODO: Check if it is a ref not copy
                 bool found = false;
-                if (trusted.court == courtAddr) {
+                if (trusted.courtId == court) {
                     // TODO: require() here for a more meaningful error message?
                     for (uint k = 0; k < _ids.length; ++k) {
                         uint256 _id = _ids[k];
