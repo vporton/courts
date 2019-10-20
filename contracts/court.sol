@@ -7,16 +7,40 @@ import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
 // A sample implementation of core ERC1155 function.
-contract ERC1155 is IERC1155, ERC165, CommonConstants
+contract RewardCourt is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
 
-    // id => (owner => balance)
+    // Everybody is both a regular account holder and a court.
+    // Accouts intended to be a court, may usually hold zero balances, but they can be
+    // used as regular money holders, too.
+    // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
 
     // owner => (operator => approved)
     mapping (address => mapping(address => bool)) internal operatorApproval;
+    
+    // TODO: Do we allow infinite limits?
+    
+    // token => (owner => spentLimit)
+    mapping (address => mapping (address => uint256)) internal spentLimit;
+    
+    struct TrustedCourt {
+        address court;
+        mapping (address => uint256) limits; // intercourt token
+    }
+    
+    // truster => trustee
+    mapping (address => TrustedCourt[]) internal trustedCourts;
+    
+    // TODO: do we need both two following variables? We can combine them into one variable.
+    
+    // token => court
+    mapping (address => address) internal tokenControllingCourts;
+
+    // token => intercourt token
+    mapping (address => address) internal interCourtTokens;
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -185,6 +209,68 @@ contract ERC1155 is IERC1155, ERC165, CommonConstants
         return operatorApproval[_owner][_operator];
     }
 
+/////////////////////////////////////////// Court //////////////////////////////////////////////
+
+    function generateTokenAddress(address court, address intecourtToken) pure return address {
+        return address(uint256(keccak256(abi.encodePacked(court, court))));
+    }
+    
+    /// Court Minting ///
+    
+    // FIXME: Limits
+
+    // TODO: If intecourtToken is 0x0?
+    // TODO: Should have court argument?
+    function mint(uint256 intecourtToken, uint256 amount, address to) external {
+        //require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+        require(to != address(0x0), "destination address must be non-zero.")
+
+        address court constant = msg.sender;
+        address token constant = generateTokenAddress(court, intecourtToken);
+        balances[token][to] = amount.add(balances[token][to]);
+
+        emit TransferSingle(msg.sender, court, to, token, amount);
+
+        // Now that the balance is updated and the event was emitted,
+        // call onERC1155Received if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+        }
+    }
+
+    // No batch mint, because minting multiple tokens operation seems uncommon.
+    // Having multiple recepients would be very useful, but what should we do it transfer acceptance fails only for a part of them?
+
+    /// Transfer through Multiple Courts ///
+    
+    // Here _id is an intercourt token
+    function intercourtTransfer(address _from, address _to, uint256 _id, uint256 _value, address courtsPath[], bytes calldata _data) external {
+        _doIntercourtTransferBatch(_from, _to, [_id], [_value], courtsPath);
+
+        // MUST emit event
+        emit TransferSingle(msg.sender, _from, _to, _id, _value);
+
+        // Now that the balance is updated and the event was emitted,
+        // call onERC1155Received if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+        }
+    }
+
+    // Here _id is an intercourt token
+    function intercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, address courtsPath[], bytes calldata _data) external {
+        _doIntercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, address courtsPath[])
+
+        // MUST emit event
+        emit TransferBatch(msg.sender, _from, _to, _ids, _values);
+
+        // Now that the balance is updated and the event was emitted,
+        // call onERC1155Received if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+        }
+    }
+
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
@@ -206,5 +292,47 @@ contract ERC1155 is IERC1155, ERC165, CommonConstants
         // Note: if the below reverts in the onERC1155BatchReceived function of the _to address you will have an undefined revert reason returned rather than the one in the require test.
         // If you want predictable revert reasons consider using low level _to.call() style instead so the revert does not bubble up and you can revert yourself on the ERC1155_BATCH_ACCEPTED test.
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
+    }
+    
+    // Here _id is an intercourt token
+    function _doIntercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, address courtsPath[]) internal {
+
+        require(_to != address(0x0), "_to must be non-zero.");
+        assert(_ids.length == _values.length);
+        // TODO: Check the path is not empty
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+
+        for (uint i = 0; i < courtsPath.length; ++i) {
+            address courtAddr constant = courtsPath[i];
+            TrustedCourt[] curTrustedCourts = trustedCourts[courtAddr];
+            for (uint j = 0; j < curTrustedCourts.length; ++j) {
+                TrustedCourt trusted = curTrustedCourts[j]; // TODO: Check if it is a ref not copy
+                bool found = false;
+                if (trusted.address == courtAddr) {
+                    // TODO: require() here for a more meaningful error message?
+                    for (uint k = 0; k < _ids.length; ++k) {
+                        uint256 _id = _ids[k];
+                        uint256 _value = _values[k];
+                        trusted.limits[_id] = trusted.limits[_id].sub(_value);
+                    }
+                    found = true;
+                    break;
+                }
+            }
+            require(found, "A court in the path is not in a trusted list.");
+        }
+
+        address fromToken constant = generateTokenAddress(courtsPath[0], _id);
+        address toToken constant = generateTokenAddress(courtsPath[courtsPath.length-1], _id);
+
+        for (uint k = 0; k < _ids.length; ++k) {
+            uint256 _id = _ids[k];
+            uint256 _value = _values[k];
+            // TODO: Correct the сomment.
+            // SafeMath will throw with insufficient funds _from
+            // or if _id is not valid (balance will be 0)
+            balances[fromToken][_from] = balances[_id][fromToken].sub(_value);
+            balances[toToken][_to]   = _value.add(balances[toToken][_to]);
+        }        
     }
 }
