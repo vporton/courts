@@ -6,8 +6,7 @@ import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
-// A sample implementation of core ERC1155 function.
-contract RewardCourt is IERC1155, ERC165, CommonConstants
+contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
@@ -31,11 +30,12 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     
     struct TrustedCourt {
         uint256 courtId;
+        // TODO: Getting limits
         mapping (uint256 => uint256) limits; // intercourt token => amount
     }
     
     // truster => trustee
-    mapping (uint256 => TrustedCourt[]) internal trustedCourts;
+    mapping (uint256 => TrustedCourt[]) public trustedCourts;
     
     // token => court
     //mapping (address => uint256) internal tokenControllingCourts;
@@ -284,6 +284,12 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
 
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
+    function setOwner(uint256 court, address owner) external {
+        // TODO: allow court == 0?
+        require(courtOwners[court] == msg.sender);
+        courtOwners[court] = owner;
+    }
+
     function createCourt() external returns (uint256) {
         uint256 id = ++nonce;
         courtOwners[id] = msg.sender;
@@ -301,6 +307,18 @@ contract RewardCourt is IERC1155, ERC165, CommonConstants
     function setURI(string calldata _uri, uint256 _id) external {
         require(courtOwners[_id] == msg.sender);
         emit URI(_uri, _id);
+    }
+    
+    function setTrustedCourtLimits(uint256 truster, uint256[] calldata courts, uint256[] calldata limits, uint256[] calldata intercourtTokens) external {
+        // TODO
+    }
+
+    function addToTrustedCourtLimits(uint256 truster, uint256[] calldata courts, uint256[] calldata limits, uint256[] calldata intercourtTokens) external {
+        // TODO
+    }
+    
+    function untrustCourt(uint256 truster, uint256 trustee) external {
+        // TODO
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
