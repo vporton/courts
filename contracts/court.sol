@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+    pragma solidity ^0.5.0;
 
 import "./SafeMath.sol";
 import "./Address.sol";
@@ -36,6 +36,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     // truster => trustee
     mapping (uint256 => TrustedCourt[]) public trustedCourts;
+    
+    // truster => (trustee => bool)
+    mapping (uint256 => mapping (uint256 => bool)) public allTrustedCourts; // which courts are trusted
     
     // token => court
     //mapping (address => uint256) internal tokenControllingCourts;
@@ -309,16 +312,58 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         emit URI(_uri, _id);
     }
     
-    function setTrustedCourtLimits(uint256 truster, uint256[] calldata courts, uint256[] calldata limits, uint256[] calldata intercourtTokens) external {
-        // TODO
-    }
+    function _changeTrustedCourtLimits(uint256 truster, uint256 trustee, uint256[] memory intercourtTokens, uint256[] memory limits, function(mapping (uint256 => uint256) storage, uint256[] memory, uint256[] memory) changer) private {
+        require(limits.length == intercourtTokens.length);
 
-    function addToTrustedCourtLimits(uint256 truster, uint256[] calldata courts, uint256[] calldata limits, uint256[] calldata intercourtTokens) external {
-        // TODO
+        uint insertPosition;
+        if (allTrustedCourts[truster][trustee]) {
+            for (insertPosition = 0; /*insertPosition < courts.length*/; ++insertPosition) {
+                if (trustedCourts[truster][insertPosition].courtId == trustee)
+                    break;
+            }
+        } else {
+            insertPosition = trustedCourts[truster].length;
+            ++trustedCourts[truster].length;
+        }
+        
+        mapping (uint256 => uint256) storage m = trustedCourts[truster][insertPosition].limits;
+        changer(m, intercourtTokens, limits);
+
+        trustedCourts[truster][insertPosition].courtId = trustee;
+        allTrustedCourts[truster][trustee] = true;
     }
     
-    function untrustCourt(uint256 truster, uint256 trustee) external {
-        // TODO
+    function setTrustedCourtLimits(uint256 truster, uint256 trustee, uint256[] calldata intercourtTokens, uint256[] calldata limits) external {
+        _changeTrustedCourtLimits(truster, trustee, intercourtTokens, limits, _setTrustedCourtLimitsChanger);
+    }
+
+    function addToTrustedCourtLimits(uint256 truster, uint256 trustee, uint256[] calldata intercourtTokens, uint256[] calldata limits) external {
+        _changeTrustedCourtLimits(truster, trustee, intercourtTokens, limits, _addToTrustedCourtLimitsChanger);
+    }
+    
+    function _setTrustedCourtLimitsChanger(mapping (uint256 => uint256) storage m, uint256[] memory intercourtTokens, uint256[] memory limits) internal {
+        for (uint j = 0; j < limits.length; ++j)
+            m[intercourtTokens[j]] = limits[j];
+    }
+
+    function _addToTrustedCourtLimitsChanger(mapping (uint256 => uint256) storage m, uint256[] memory intercourtTokens, uint256[] memory limits) internal {
+        for (uint j = 0; j < limits.length; ++j)
+            m[intercourtTokens[j]] = limits[j].add(m[intercourtTokens[j]]);
+    }
+    
+    function untrustCourts(uint256 truster, uint256[] calldata trustees) external {
+        TrustedCourt[] storage tc = trustedCourts[truster];
+        for (uint j = 0; j < trustees.length; ++j) {
+            uint256 trustee = trustees[j];
+            allTrustedCourts[truster][trustee] = false;
+            for (uint i = 0; i < tc.length; ++i) {
+                if (tc[i].courtId == trustee) {
+                    tc[i] = tc[tc.length - 1];
+                    --tc.length;
+                    break;
+                }
+            }
+        }
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
@@ -358,7 +403,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             TrustedCourt[] storage curTrustedCourts = trustedCourts[court];
             for (uint j = 0; j < curTrustedCourts.length; ++j) {
                 TrustedCourt storage trusted = curTrustedCourts[j]; // TODO: Check if it is a ref not copy
-                bool found = false;
+                require(allTrustedCourts[court][trusted.courtId], "A court in the path is not in a trusted list.");
                 if (trusted.courtId == court) {
                     // TODO: require() here for a more meaningful error message?
                     for (uint k = 0; k < _ids.length; ++k) {
@@ -366,10 +411,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                         uint256 _value = _values[k];
                         trusted.limits[_id] = trusted.limits[_id].sub(_value);
                     }
-                    found = true;
                     break;
                 }
-                require(found, "A court in the path is not in a trusted list.");
             }
         }
 
