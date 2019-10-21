@@ -14,7 +14,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     uint256 internal nonce; // to save memory use it for both courts and intercourt tokens
 
     // Everybody is both a regular account holder and a court.
-    // Accouts intended to be a court, may usually hold zero balances, but they can be
+    // Accounts intended to be a court, may usually hold zero balances, but they can be
     // used as regular money holders, too.
     // TODO: Can money be withdrawn from a court account?
     // token => (owner => balance)
@@ -28,7 +28,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     // Trustee can be either a court ID or limit ID.
     // truster => (trustee => bool)
-    mapping (uint256 => mapping (uint256 => bool)) public allTrustedCourts; // which courts are trusted // TODO: rename
+    mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted // TODO: rename
     
     // limitId => court
     mapping (uint256 => uint256) limitCourts;
@@ -241,9 +241,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         balances[token][to] = amount.add(balances[token][to]);
 
         courtTotalSpents[court][intecourtToken] = amount.add(courtTotalSpents[court][intecourtToken]);
-        
-        // if (isLimitCourt(court))
-        //     require(limitCourts[court][intecourtToken] >= courtTotalSpents[court][intecourtToken], "Limit exceeded.")
 
         emit TransferSingle(msg.sender, address(0x0), to, token, amount);
 
@@ -331,7 +328,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint i = 0; i < limits.length; ++i) {
             uint256 newValue = courtTotalSpents[i][intercourtTokens[i]].add(courtLimits[trustees[i]][intercourtTokens[i]]);
             if (newValue != 0) {
-                allTrustedCourts[truster][trustees[i]] = true;
+                trustedCourts[truster][trustees[i]] = true;
                 courtLimits[truster][intercourtTokens[i]] = newValue;
             }
         }
@@ -342,7 +339,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint i = 0; i < limits.length; ++i) {
             uint256 newValue = limits[i].add(courtLimits[truster][intercourtTokens[i]]);
             if (newValue != 0) {
-                allTrustedCourts[truster][trustees[i]] = true;
+                trustedCourts[truster][trustees[i]] = true;
                 courtLimits[truster][intercourtTokens[i]] = newValue;
             }
         }
@@ -350,7 +347,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     function untrustCourts(uint256 truster, uint256[] calldata trustees) external {
         for (uint i = 0; i < trustees.length; ++i) {
-            allTrustedCourts[truster][trustees[i]] = false;
+            trustedCourts[truster][trustees[i]] = false;
         }
     }
 
@@ -388,7 +385,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint i = 0; i < courtsPath.length - 1; ++i) {
             uint256 truster = courtsPath[i];
             uint256 trustee = courtsPath[i+1];
-            require(allTrustedCourts[truster][trustee], "A court in the path is not in a trusted list.");
+            require(trustedCourts[truster][trustee], "A court in the path is not in a trusted list.");
         }
 
         for (uint k = 0; k < _ids.length; ++k) {
