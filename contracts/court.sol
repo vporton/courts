@@ -376,9 +376,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
-        // TODO: Check the path is not empty
+        require(courtsPath.length != 0);
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
-        require(checkNoDuplicates(courtsPath), "Duplicate courts.");
+        //require(checkNoDuplicates(courtsPath), "Duplicate courts.");
 
         for (uint i = 0; i < courtsPath.length - 1; ++i) {
             uint256 truster = courtsPath[i];
@@ -404,12 +404,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }        
     }
 
-    // TODO: Needed?    
-    function checkNoDuplicates(uint256[] memory array) private pure returns (bool) {
-        for (uint256 i = 1; i < array.length; ++i) {
-            for (uint256 j = 0; j < i; ++j)
-                if (array[i] == array[j]) return false;
-        }
-        return true;
-    }
+    // function checkNoDuplicates(uint256[] memory array) private pure returns (bool) {
+    //     for (uint256 i = 1; i < array.length; ++i) {
+    //         for (uint256 j = 0; j < i; ++j)
+    //             if (array[i] == array[j]) return false;
+    //     }
+    //     return true;
+    // }
 }
