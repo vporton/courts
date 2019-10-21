@@ -351,6 +351,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         assert(_ids.length == _values.length);
         // TODO: Check the path is not empty
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+        require(checkNoDuplicates(courtsPath), "Duplicate courts.");
 
         for (uint i = 0; i < courtsPath.length; ++i) {
             uint256 court = courtsPath[i];
@@ -383,5 +384,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             balances[fromToken][_from] = balances[fromToken][_from].sub(_value);
             balances[toToken][_to]   = _value.add(balances[toToken][_to]);
         }        
+    }
+    
+    function checkNoDuplicates(uint256[] memory array) private pure returns (bool) {
+        for (uint256 i = 1; i < array.length; ++i) {
+            for (uint256 j = 0; j < i; ++j)
+                if (array[i] == array[j]) return false;
+        }
+        return true;
     }
 }
