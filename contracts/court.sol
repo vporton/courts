@@ -13,10 +13,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     uint256 internal nonce; // to save memory use it for both courts and intercourt tokens
 
-    // Everybody is both a regular account holder and a court.
-    // Accounts intended to be a court, may usually hold zero balances, but they can be
-    // used as regular money holders, too.
-    // TODO: Can money be withdrawn from a court account?
     // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
 
