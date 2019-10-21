@@ -24,7 +24,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     // Trustee can be either a court ID or limit ID.
     // truster => (trustee => bool)
-    mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted // TODO: rename
+    mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
     
     // limitId => court
     mapping (uint256 => uint256) limitCourts;
@@ -33,7 +33,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
     
     // court => (intercourt token => amount)
-    mapping (uint256 => mapping (uint256 => uint256)) public courtTotalSpents; // TODO: private?
+    mapping (uint256 => mapping (uint256 => uint256)) public courtTotalSpents;
     
     // token => court
     //mapping (address => uint256) internal tokenControllingCourts;
@@ -287,7 +287,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
     function setOwner(uint256 court, address owner) external {
-        // TODO: allow court == 0?
         require(courtOwners[court] == msg.sender);
         courtOwners[court] = owner;
     }
