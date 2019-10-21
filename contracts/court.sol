@@ -31,6 +31,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     struct TrustedCourt {
         uint256 courtId;
         // TODO: Getting limits
+        // the value ~uint256(0) is special (infinity)
         mapping (uint256 => uint256) limits; // intercourt token => amount
     }
     
@@ -409,7 +410,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                     for (uint k = 0; k < _ids.length; ++k) {
                         uint256 _id = _ids[k];
                         uint256 _value = _values[k];
-                        trusted.limits[_id] = trusted.limits[_id].sub(_value);
+                        if (trusted.limits[_id] != ~uint256(0))
+                            trusted.limits[_id] = trusted.limits[_id].sub(_value);
                     }
                     break;
                 }
