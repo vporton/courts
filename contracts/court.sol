@@ -262,8 +262,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         _values[0] = _value;
         _doIntercourtTransferBatch(_from, _to, _ids, _values, courtsPath);
 
-        // MUST emit event
-        emit TransferSingle(msg.sender, _from, _to, _id, _value);
+        // _id does not make sense in this context.
+        //emit TransferSingle(msg.sender, _from, _to, _id, _value);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
@@ -276,8 +276,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function intercourtTransferBatch(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, uint256[] calldata courtsPath, bytes calldata _data) external {
         _doIntercourtTransferBatch(_from, _to, _ids, _values, courtsPath);
 
-        // MUST emit event
-        emit TransferBatch(msg.sender, _from, _to, _ids, _values);
+        // _ids do not make sense in this context.
+        //emit TransferBatch(msg.sender, _from, _to, _ids, _values);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
@@ -391,7 +391,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _value = _values[k];
             uint256 fromToken = generateTokenAddress(courtsPath[0], _id);
             uint256 toToken = generateTokenAddress(courtsPath[courtsPath.length-1], _id);
-            // TODO: Correct the сomment.
             // SafeMath will throw with insufficient funds _from
             // or if _id is not valid (balance will be 0)
             balances[fromToken][_from] = balances[fromToken][_from].sub(_value);
