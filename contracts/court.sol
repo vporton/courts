@@ -216,16 +216,35 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
 /////////////////////////////////////////// Court //////////////////////////////////////////////
 
+    /**
+        @notice Check if given court ID corresponds to a limit court.
+        @param _court     Court ID
+        @return           True if it is a limit court
+    */
     function isLimitCourt(uint256 _court) public view returns (bool) {
         return limitCourts[_court] != 0;
     }
 
+    /**
+        @notice Generate a token ID for a court and an intercourt token.
+        @param _court     Court ID
+        @param _intercourtToken Intercourt token ID
+        @return           Token ID
+    */
     function generateTokenAddress(uint256 _court, uint256 _intercourtToken) public pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
     }
     
     /// Court Minting ///
     
+    /**
+        @notice Mint money for somebody.
+        @param _court     Court ID
+        @param _intercourtToken Intercourt token
+        @param _amount    Transfer amount
+        @param _to      Target address
+        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+    */
     function mint(uint256 _court, uint256 _intercourtToken, uint256 _amount, address _to, bytes calldata _data) external {
         require(courtOwners[_court] == msg.sender, "Only _court owner can mint.");
         require(_to != address(0x0), "destination address must be non-zero.");
@@ -249,7 +268,16 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // Having multiple recepients would be very useful, but what should we do it transfer acceptance fails only for a part of them?
 
     /// Transfer through Multiple Courts ///
-    
+
+    /**
+        @notice Transfer money through several courts with automatic currency conversion between court tokens.
+        @param _from    Source address
+        @param _to      Target address
+        @param _intercourtToken Intercourt token
+        @param _value   Transfer amount
+        @param _courtsPath Through which courts to transfer
+        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+    */
     function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] calldata _courtsPath, bytes calldata _data) external {
         uint256[] memory _ids = new uint256[](1);
         _ids[0] = _intercourtToken;
@@ -267,6 +295,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }
     }
 
+    /**
+        @notice Transfer money through several courts with automatic currency conversion between court tokens.
+        @param _from    Source address
+        @param _to      Target address
+        @param _intercourtTokens Intercourt tokens (order and length must match _values array)
+        @param _values  Transfer amounts per token type (order and length must match _intercourtTokens array)
+        @param _courtsPath Through which courts to transfer
+        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+    */
     function intercourtTransferBatch(address _from, address _to, uint256[] calldata _intercourtTokens, uint256[] calldata _values, uint256[] calldata _courtsPath, bytes calldata _data) external {
         _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
 
@@ -284,17 +321,33 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
+    /**
+        @notice Set court owner.
+        @param _court   Court
+        @param _owner   New owner
+    */
     function setOwner(uint256 _court, address _owner) external {
         require(courtOwners[_court] == msg.sender);
         courtOwners[_court] = _owner;
     }
 
+    /**
+        @notice Create a regular court.
+        @return           Court ID
+    */
     function createCourt() external returns (uint256) {
         uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
         return _id;
     }
 
+
+    // FIXME: Need to check that _court is not a limit court?
+    /**
+        @notice Create a limit court.
+        @param _court   Base  court
+        @return           Limit court ID
+    */
     function createLimitCourt(uint256 _court) external returns (uint256) {
         uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
@@ -302,15 +355,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return _id;
     }
 
-    function createToken(string calldata _uri) external returns (uint256) {
+    /**
+        @notice Create an intercourt token.
+        @return           Intercourt token
+    */
+    function createIntercourtToken(/*string calldata _uri*/) external returns (uint256) {
         uint256 _id = ++nonce;
-        if (bytes(_uri).length > 0)
-            emit URI(_uri, _id);
+        // _id is Intercourt token, not a token
+        // if (bytes(_uri).length > 0)
+        //     emit URI(_uri, _id);
         return _id;
     }
 
+    /**
+        @notice SET description URI for a token.
+        @param _uri     URI with a description
+        @param _id      Token
+    */
     function setURI(string calldata _uri, uint256 _id) external {
-        require(courtOwners[_id] == msg.sender);
+        require(courtOwners[_id] == msg.sender); // FIXME: It is not a court.
         emit URI(_uri, _id);
     }
     
