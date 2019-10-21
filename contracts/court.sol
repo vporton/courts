@@ -367,16 +367,20 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return _id;
     }
 
-    /**
-        @notice SET description URI for a token.
-        @param _uri     URI with a description
-        @param _id      Token
-    */
-    function setURI(string calldata _uri, uint256 _id) external {
-        require(courtOwners[_id] == msg.sender); // FIXME: It is not a court.
-        emit URI(_uri, _id);
-    }
+    // function setURI(string calldata _uri, uint256 _id) external {
+    //     // It's impossible to determine _intercourtToken (unless we store it for every token generated
+    //     // what would be to resource-intensive)
+    //     require(courtOwners[_intercourtToken] == msg.sender); // Also, it is not a court.
+    //     emit URI(_uri, _id);
+    // }
     
+    /**
+        @notice Set remaining court trust limits.
+        @param _truster The truster court
+        @param _trustees The trustees courts
+        @param _intercourtTokens Intercourt tokens (order and length must match _limits array)
+        @param _limits  New limits (order and length must match _intercourtTokens array)
+    */
     function setCourtLimits(uint256 _truster, uint256[] calldata _trustees, uint256[] calldata _intercourtTokens, uint256[] calldata _limits) external {
         require(courtOwners[_truster] == msg.sender);
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
@@ -389,6 +393,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }
     }
 
+    /**
+        @notice Add to remaining court trust limits.
+        @param _truster The truster court
+        @param _trustees The trustees courts
+        @param _intercourtTokens Intercourt tokens (order and length must match _limits array)
+        @param _limits  Limit values to add (order and length must match _intercourtTokens array)
+    */
     function addToCourtLimits(uint256 _truster, uint256[] calldata _trustees, uint256[] calldata _intercourtTokens, uint256[] calldata _limits) external {
         require(courtOwners[_truster] == msg.sender);
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
@@ -401,6 +412,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }
     }
     
+    /**
+        @notice Do not trust these courts anymore.
+        @param _truster The truster court
+        @param _trustees The trustees court to remove
+    */
     function untrustCourts(uint256 _truster, uint256[] calldata _trustees) external {
         for (uint i = 0; i < _trustees.length; ++i) {
             trustedCourts[_truster][_trustees[i]] = false;
