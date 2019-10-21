@@ -322,6 +322,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
     
     function setCourtLimits(uint256 truster, uint256[] calldata trustees, uint256[] calldata intercourtTokens, uint256[] calldata limits) external {
+        require(courtOwners[_id] == msg.sender);
         require(limits.length == intercourtTokens.length && trustees.length == intercourtTokens.length);
         for (uint i = 0; i < limits.length; ++i) {
             uint256 newValue = courtTotalSpents[i][intercourtTokens[i]].add(courtLimits[trustees[i]][intercourtTokens[i]]);
@@ -333,6 +334,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     function addToCourtLimits(uint256 truster, uint256[] calldata trustees, uint256[] calldata intercourtTokens, uint256[] calldata limits) external {
+        require(courtOwners[_id] == msg.sender);
         require(limits.length == intercourtTokens.length && trustees.length == intercourtTokens.length);
         for (uint i = 0; i < limits.length; ++i) {
             uint256 newValue = limits[i].add(courtLimits[truster][intercourtTokens[i]]);
