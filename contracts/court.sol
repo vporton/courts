@@ -33,12 +33,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // limitId => court
     mapping (uint256 => uint256) limitCourts;
     
-    // TODO: token or intercourt token?
-    // limitId => (token => amount)
+    // limitId => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
     
-    // TODO: token or intercourt token?
-    // court => (token => amount)
+    // court => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtTotalSpents; // TODO: private?
     
     // token => court
