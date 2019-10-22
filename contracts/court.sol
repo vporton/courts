@@ -230,12 +230,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _court     Court ID to start with
         @return           Non-limit court ID
     */
-    function getFinalCourt(uint256 _court) public view returns (uint256) {
-        for(;;) {
-            uint256 _court2 = limitCourts[_court];
-            if (!isLimitCourt(_court2)) return _court2;
-            _court = _court2;
-        }
+    function getFinalCourt(uint256 _court) external view returns (uint256) {
+        return _getFinalCourt(_court);
     }
 
     /**
@@ -463,6 +459,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
     
+    function _getFinalCourt(uint256 _court) public view returns (uint256) {
+        for(;;) {
+            uint256 _court2 = limitCourts[_court];
+            if (!isLimitCourt(_court2)) return _court2;
+            _court = _court2;
+        }
+    }
+
     function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory _courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
@@ -479,8 +483,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint k = 0; k < _ids.length; ++k) {
             uint256 _intercourtToken = _ids[k];
             uint256 _value = _values[k];
-            uint256 _fromCourt = getFinalCourt(_courtsPath[0]);
-            uint256 _toCourt = getFinalCourt(_courtsPath[_courtsPath.length-1]);
+            uint256 _fromCourt = _getFinalCourt(_courtsPath[0]);
+            uint256 _toCourt = _getFinalCourt(_courtsPath[_courtsPath.length-1]);
             uint256 _fromToken = generateTokenAddress(_fromCourt, _intercourtToken);
             uint256 _toToken = generateTokenAddress(_toCourt, _intercourtToken);
             // SafeMath will throw with insufficient funds _from
