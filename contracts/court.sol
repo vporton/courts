@@ -132,7 +132,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         // MUST Throw on errors
         require(_to != address(0x0), "destination address must be non-zero.");
-        require(_ids.length == _values.length, "_ids and _values array lenght must match.");
+        require(_ids.length == _values.length, "_ids and _values array length must match.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
         for (uint256 i = 0; i < _ids.length; ++i) {
@@ -305,17 +305,22 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
     function intercourtTransferBatch(address _from, address _to, uint256[] calldata _intercourtTokens, uint256[] calldata _values, uint256[] calldata _courtsPath, bytes calldata _data) external {
+        require(_intercourtTokens.length == _values.length, "_intercourtTokens and _values array length must match.");
+
         _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
 
         // _intercourtTokens do not make sense in this context.
         //emit TransferBatch(msg.sender, _from, _to, _intercourtTokens, _values);
 
-        // Now that the balance is updated and the event was emitted,
-        // call onERC1155Received if the destination is a contract.
-        for (uint i = 0; i < _intercourtTokens.length; ++i) {
-            if (_to.isContract()) {
-                _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _intercourtTokens[i], _values[i], _data);
-            }
+        uint256 [] memory _ids = new uint256[](_intercourtTokens.length);
+        for (uint i = 0; i < _ids.length; ++i) {
+            _ids[i] = generateTokenAddress(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
+        }
+        
+        // Now that the balances are updated and the events are emitted,
+        // call onERC1155BatchReceived if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
         }
     }
 
