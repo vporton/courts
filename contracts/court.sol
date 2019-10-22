@@ -240,7 +240,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _intercourtToken Intercourt token ID
         @return           Token ID
     */
-    function generateTokenAddress(uint256 _court, uint256 _intercourtToken) public pure returns (uint256) {
+    function generateTokenId(uint256 _court, uint256 _intercourtToken) public pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
     }
     
@@ -259,7 +259,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_to != address(0x0), "destination address must be non-zero.");
         require(_intercourtToken != 0, "Token cannot be zero.");
 
-        uint256 token = generateTokenAddress(_court, _intercourtToken);
+        uint256 token = generateTokenId(_court, _intercourtToken);
         balances[token][_to] = _amount.add(balances[token][_to]);
 
         courtTotalSpents[_court][_intercourtToken] = _amount.add(courtTotalSpents[_court][_intercourtToken]);
@@ -323,7 +323,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         uint256 [] memory _ids = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _ids.length; ++i) {
-            _ids[i] = generateTokenAddress(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
+            _ids[i] = generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
         
         // Now that the balances are updated and the events are emitted,
@@ -485,8 +485,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _value = _values[k];
             uint256 _fromCourt = _getFinalCourt(_courtsPath[0]);
             uint256 _toCourt = _getFinalCourt(_courtsPath[_courtsPath.length-1]);
-            uint256 _fromToken = generateTokenAddress(_fromCourt, _intercourtToken);
-            uint256 _toToken = generateTokenAddress(_toCourt, _intercourtToken);
+            uint256 _fromToken = generateTokenId(_fromCourt, _intercourtToken);
+            uint256 _toToken = generateTokenId(_toCourt, _intercourtToken);
             // SafeMath will throw with insufficient funds _from
             // or if _intercourtToken is not valid (balance will be 0)
             balances[_fromToken][_from] = balances[_fromToken][_from].sub(_value);
