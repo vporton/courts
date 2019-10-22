@@ -460,7 +460,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
     
     function _getFinalCourt(uint256 _court) public view returns (uint256) {
-        for(;;) {
+        for (;;) {
             uint256 _court2 = limitCourts[_court];
             if (!isLimitCourt(_court2)) return _court2;
             _court = _court2;
@@ -492,9 +492,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             balances[_fromToken][_from] = balances[_fromToken][_from].sub(_value);
             balances[_toToken][_to] = _value.add(balances[_toToken][_to]);
             for (uint i = 0; i < _courtsPath.length; ++i) {
-                uint256 _court = _courtsPath[i];
-                if (isLimitCourt(_court))
-                      require(courtTotalSpents[_court][_intercourtToken] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
+                for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
+                    require(courtTotalSpents[_court][_intercourtToken] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
+                }
             }
         }
     }
