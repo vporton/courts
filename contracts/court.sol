@@ -415,7 +415,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     /**
         @notice Do not trust these courts anymore.
         @param _truster The truster court
-        @param _trustees The trustees court to remove
+        @param _trustees The trustee courts to remove
     */
     function untrustCourts(uint256 _truster, uint256[] calldata _trustees) external {
         for (uint i = 0; i < _trustees.length; ++i) {
