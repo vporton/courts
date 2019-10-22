@@ -226,6 +226,19 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     /**
+        @notice Get final (non-limit) court in a chain of courts.
+        @param _court     Court ID to start with
+        @return           Non-limit court ID
+    */
+    function getFinalCourt(uint256 _court) public view returns (uint256) {
+        for(;;) {
+            uint256 _court2 = limitCourts[_court];
+            if (!isLimitCourt(_court2)) return _court2;
+            _court = _court2;
+        }
+    }
+
+    /**
         @notice Generate a token ID for a court and an intercourt token.
         @param _court     Court ID
         @param _intercourtToken Intercourt token ID
@@ -347,11 +360,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
 
-    // FIXME: Need to check that _court is not a limit court?
     /**
         @notice Create a limit court.
-        @param _court   Base  court
-        @return           Limit court ID
+        @param _court   Base (limit or non-limit) court
+        @return         Limit court ID
     */
     function createLimitCourt(uint256 _court) external returns (uint256) {
         uint256 _id = ++nonce;
@@ -467,12 +479,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint k = 0; k < _ids.length; ++k) {
             uint256 _intercourtToken = _ids[k];
             uint256 _value = _values[k];
-            uint256 _fromToken = generateTokenAddress(_courtsPath[0], _intercourtToken);
-            uint256 _toToken = generateTokenAddress(_courtsPath[_courtsPath.length-1], _intercourtToken);
+            uint256 _fromCourt = getFinalCourt(_courtsPath[0]);
+            uint256 _toCourt = getFinalCourt(_courtsPath[_courtsPath.length-1]);
+            uint256 _fromToken = generateTokenAddress(_fromCourt, _intercourtToken);
+            uint256 _toToken = generateTokenAddress(_toCourt, _intercourtToken);
             // SafeMath will throw with insufficient funds _from
             // or if _intercourtToken is not valid (balance will be 0)
             balances[_fromToken][_from] = balances[_fromToken][_from].sub(_value);
-            balances[_toToken][_to]   = _value.add(balances[_toToken][_to]);
+            balances[_toToken][_to] = _value.add(balances[_toToken][_to]);
             for (uint i = 0; i < _courtsPath.length; ++i) {
                 uint256 _court = _courtsPath[i];
                 if (isLimitCourt(_court))
