@@ -44,6 +44,16 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // court ID or limit ID => owner
     mapping (uint256 => address) internal courtOwners;
 
+    struct TokenDecomposition
+    {
+        uint256 court;
+        uint256 intercourtToken;
+    }
+
+    // token ID => TokenDecomposition
+    // This mapping is updated on address calculation and on intercourt transfers.
+    mapping (uint256 => TokenDecomposition) public tokenDecomposition;
+
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
     /*
@@ -235,15 +245,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     /**
-        @notice Generate a token ID for a court and an intercourt token.
+        @notice Generate a token ID for a court and an intercourt token. Updates tokenDecomposition.
         @param _court     Court ID
         @param _intercourtToken Intercourt token ID
         @return           Token ID
     */
-    function generateTokenId(uint256 _court, uint256 _intercourtToken) public pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
+    function generateTokenId(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
+        return _generateTokenId(_court, _intercourtToken);
     }
-    
+
     /// Court Minting ///
     
     /**
@@ -259,7 +269,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_to != address(0x0), "destination address must be non-zero.");
         require(_intercourtToken != 0, "Token cannot be zero.");
 
-        uint256 token = generateTokenId(_court, _intercourtToken);
+        uint256 token = _generateTokenId(_court, _intercourtToken);
         balances[token][_to] = _amount.add(balances[token][_to]);
 
         courtTotalSpents[_court][_intercourtToken] = _amount.add(courtTotalSpents[_court][_intercourtToken]);
@@ -323,7 +333,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         uint256 [] memory _ids = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _ids.length; ++i) {
-            _ids[i] = generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
+            _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
         
         // Now that the balances are updated and the events are emitted,
@@ -463,6 +473,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
     
+    function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
+        _token = uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
+        tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
+    }
+    
     function _getFinalCourt(uint256 _court) public view returns (uint256) {
         for (;;) {
             uint256 _court2 = limitCourts[_court];
@@ -489,8 +504,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _value = _values[k];
             uint256 _fromCourt = _getFinalCourt(_courtsPath[0]);
             uint256 _toCourt = _getFinalCourt(_courtsPath[_courtsPath.length-1]);
-            uint256 _fromToken = generateTokenId(_fromCourt, _intercourtToken);
-            uint256 _toToken = generateTokenId(_toCourt, _intercourtToken);
+            uint256 _fromToken = _generateTokenId(_fromCourt, _intercourtToken);
+            uint256 _toToken = _generateTokenId(_toCourt, _intercourtToken);
             // SafeMath will throw with insufficient funds _from
             // or if _intercourtToken is not valid (balance will be 0)
             balances[_fromToken][_from] = balances[_fromToken][_from].sub(_value);
