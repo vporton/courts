@@ -35,7 +35,7 @@ class MyForm extends React.Component {
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
-            <td><input id="intercourt_token"
+            <td><input id="intercourtToken"
                        type="number"
                        onBlur={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
           </tr>
@@ -76,8 +76,8 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
   right: 20px;
 `
 
-function calculateTokenId(court, intercourt_token) {
-  return soliditySha3(court, intercourt_token)
+function calculateTokenId(court, intercourtToken) {
+  return soliditySha3(court, intercourtToken)
 }
 
 export default App
