@@ -1,9 +1,9 @@
 {
-  "name": "Counter",
-  "author": "Placeholder-author",
-  "description": "An application for Aragon",
+  "name": "Judge",
+  "author": "Victor Porton",
+  "description": "Minting tokens to anybody you choose",
   "details_url": "/meta/details.md",
-  "source_url": "https://<placeholder-repository-url>",
+  "source_url": "https://github.com/vporton/courts",
   "icons": [
     {
       "src": "/meta/icon.svg",

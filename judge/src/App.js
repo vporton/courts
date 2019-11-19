@@ -5,25 +5,32 @@ import styled from 'styled-components'
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { count, isSyncing } = appState
-  console.log(count, isSyncing)
+  const { isSyncing } = appState
+  console.log(isSyncing)
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
-        <Count>Count: {count}</Count>
-        <Buttons>
-          <Button mode="secondary" onClick={() => api.decrement(1).toPromise()}>
-            Decrement
-          </Button>
-          <Button mode="secondary" onClick={() => api.increment(1).toPromise()}>
-            Increment
-          </Button>
-        </Buttons>
+        <H1>Judge Whom to Give Rewards</H1>
+        <H2>Send any amount of tokens to recepients of your choice.</H2>
+        <table>
+          <tr><th><label>Recepient:</label></th><td><input id="recepient"/></td></tr>
+          <tr><th><label>Enter amount:</label></th><td><input id="amount"/></td></tr>
+        </table>
+        <button>Mint!</button>
       </BaseLayout>
     </Main>
   )
 }
+
+const H1 = styled.div`
+  font-size: 200%;
+  font-weight: bold;
+`
+
+const H2 = styled.div`
+  font-size: 144%;
+`
 
 const BaseLayout = styled.div`
   display: flex;
@@ -31,17 +38,6 @@ const BaseLayout = styled.div`
   justify-content: center;
   height: 100vh;
   flex-direction: column;
-`
-
-const Count = styled.h1`
-  font-size: 30px;
-`
-
-const Buttons = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 40px;
-  margin-top: 20px;
 `
 
 const Syncing = styled.div.attrs({ children: 'Syncing…' })`
