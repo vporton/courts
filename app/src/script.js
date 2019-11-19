@@ -10,6 +10,7 @@ app.store(async (state, { event }) => {
   // Initial state
   if (state == null) {
     nextState = {
+      controlledCourt: await getControlledCourt(),
     }
   }
 
@@ -24,3 +25,7 @@ app.store(async (state, { event }) => {
 
   return nextState
 })
+
+async function getControlledCourt() {
+  return await app.call('controlledCourt').toPromise()
+}

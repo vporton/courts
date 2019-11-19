@@ -1,6 +1,6 @@
 pragma solidity ^0.4.0;
 
-import "./SafeMath.sol";
+import "@aragon/os/contracts/lib/math/SafeMath.sol";
 import "./Address.sol";
 import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
