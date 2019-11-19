@@ -4,8 +4,6 @@ import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
 const { soliditySha3 } = require("web3-utils");
 
-var token = "";
-
 function App() {
   const { api, appState } = useAragonApi()
   const { controlledCourt, isSyncing } = appState
@@ -17,19 +15,35 @@ function App() {
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <p>Controlled court: {controlledCourt}</p>
+        <MyForm/>
+      </BaseLayout>
+    </Main>
+  )
+}
+
+class MyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  render() {
+    return (
+      <div>
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
-            <td><input id="intercourt_token" onChange={() => token = calculateTokenId(controlledCourt, intercourt_token)}/></td>
+            <td><input id="intercourt_token" onBlur={() => this.setState({token: calculateTokenId(controlledCourt, intercourt_token)})}/></td>
           </tr>
-          <tr><TH>Token:</TH><td>{token}</td></tr>
+          <tr><TH>Token:</TH><td id="token"></td></tr>
           <tr><TH><label>Recepient:</label></TH><td><input id="recepient"/></td></tr>
           <tr><TH><label>Amount:</label></TH><td><input id="amount"/></td></tr>
         </table>
         <button>Mint!</button>
-      </BaseLayout>
-    </Main>
-  )
+      </div>
+    )
+  }
 }
 
 const H1 = styled.div`
@@ -60,7 +74,6 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
 `
 
 function calculateTokenId(court, intercourt_token) {
-  return soliditySha3("fdfd", "fed") // FIXME
   return soliditySha3(court, intercourt_token)
 }
 
