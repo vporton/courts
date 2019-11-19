@@ -15,7 +15,7 @@ function App() {
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <p>Controlled court: {controlledCourt}</p>
-        <MyForm/>
+        <MyForm controlledCourt={controlledCourt}/>
       </BaseLayout>
     </Main>
   )
@@ -25,6 +25,7 @@ class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: null
     }
   }
 
@@ -34,9 +35,11 @@ class MyForm extends React.Component {
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
-            <td><input id="intercourt_token" onBlur={() => this.setState({token: calculateTokenId(controlledCourt, intercourt_token)})}/></td>
+            <td><input id="intercourt_token"
+                       type="number"
+                       onBlur={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
           </tr>
-          <tr><TH>Token:</TH><td id="token"></td></tr>
+          <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
           <tr><TH><label>Recepient:</label></TH><td><input id="recepient"/></td></tr>
           <tr><TH><label>Amount:</label></TH><td><input id="amount"/></td></tr>
         </table>
