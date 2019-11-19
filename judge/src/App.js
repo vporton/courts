@@ -14,8 +14,9 @@ function App() {
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <table>
-          <tr><th><label>Recepient:</label></th><td><input id="recepient"/></td></tr>
-          <tr><th><label>Enter amount:</label></th><td><input id="amount"/></td></tr>
+          <tr><TH><label>Intercourt token:</label></TH><td><input id="intercourt_token"/></td></tr>
+          <tr><TH><label>Recepient:</label></TH><td><input id="recepient"/></td></tr>
+          <tr><TH><label>Amount:</label></TH><td><input id="amount"/></td></tr>
         </table>
         <button>Mint!</button>
       </BaseLayout>
@@ -30,6 +31,10 @@ const H1 = styled.div`
 
 const H2 = styled.div`
   font-size: 144%;
+`
+
+const TH = styled.th`
+  text-align: right;
 `
 
 const BaseLayout = styled.div`
