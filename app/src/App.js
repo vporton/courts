@@ -41,7 +41,7 @@ class MyForm extends React.Component {
           </tr>
           <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
           <tr><TH><label>Recepient:</label></TH><td><input id="recepient"/></td></tr>
-          <tr><TH><label>Amount:</label></TH><td><input id="amount"/></td></tr>
+          <tr><TH><label>Amount:</label></TH><td><input id="amount" type="number"/></td></tr>
         </table>
         <button>Mint!</button>
       </div>
