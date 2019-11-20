@@ -2,11 +2,11 @@ import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
-const { soliditySha3 } = require("web3-utils");
+const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { controlledCourt, isSyncing } = appState
+  const { controlledCourt, isSyncing, intercourtTokenValid, recepientValid, amountValid } = appState
   console.log(isSyncing)
   return (
     <Main>
@@ -29,6 +29,30 @@ class MyForm extends React.Component {
     }
   }
 
+  onICTokenChange() {
+    const ict = document.getElementById('intercourtToken').value
+    const valid = /^[0-9]+$/.test(ict)
+    this.setState({token: calculateTokenId(this.props.controlledCourt, ict), intercourtTokenValid: valid})
+  }
+
+  onRecepientTokenChange() {
+    try {
+      const address = toChecksumAddress(document.getElementById('recepient').value)
+      this.setState({recepientValid: true})
+    } catch(e) { 
+      console.error('invalid Ethereum address', e.message)
+      this.setState({recepientValid: false})
+    }
+  }
+
+  onAmountChange() {
+   this.setState({amountValid: /^[0-9]+$/.test(document.getElementById('amount').value)})
+  }
+
+  valid() {
+    return this.state.intercourtTokenValid && this.state.recepientValid  && this.state.amountValid
+  }
+  
   render() {
     const style = {width: '50em'} // prevent the widget to "jump" after the token address is shown
     return (
@@ -38,13 +62,24 @@ class MyForm extends React.Component {
             <TH><label>Intercourt token:</label></TH>
             <td><input id="intercourtToken"
                        type="number"
-                       onChange={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
+                       onChange={this.onICTokenChange.bind(this)}
+                       class={this.state.intercourtTokenValid ? "" : "error"}/></td>
           </tr>
           <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
-          <tr><TH><label>Recepient:</label></TH><td><input id="recepient" size="40" maxlength="40"/></td></tr>
-          <tr><TH><label>Amount:</label></TH><td><input id="amount" type="number"/></td></tr>
+          <tr>
+            <TH><label>Recepient:</label></TH>
+            <td><input id="recepient" size="42" maxlength="42"
+                       onChange={this.onRecepientTokenChange.bind(this)}
+                       class={this.state.recepientValid ? "" : "error"}/></td>
+          </tr>
+          <tr>
+            <TH><label>Amount:</label></TH>
+            <td><input id="amount" type="number" class="error"
+                       onChange={this.onAmountChange.bind(this)}
+                       class={this.state.amountValid ? "" : "error"}/></td>
+          </tr>
         </table>
-        <button>Mint!</button>
+        <button disabled={this.valid() ? "" : "disabled"}>Mint!</button>
       </div>
     )
   }

@@ -2,10 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AragonApi } from '@aragon/api-react'
 import App from './App'
+import './App.css';
 
 const reducer = state => {
   if (state === null) {
-    return { isSyncing: true }
+    return { isSyncing: true, intercourtTokenValid: false, recepientValid: false, amountValid: false }
   }
   return state
 }
