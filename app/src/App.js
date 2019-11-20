@@ -30,8 +30,9 @@ class MyForm extends React.Component {
   }
 
   render() {
+    const style = {width: '50em'} // prevent the widget to "jump" after the token address is shown
     return (
-      <div>
+      <div style={style}>
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
@@ -40,7 +41,7 @@ class MyForm extends React.Component {
                        onChange={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
           </tr>
           <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
-          <tr><TH><label>Recepient:</label></TH><td><input id="recepient" size="66" maxlength="66"/></td></tr>
+          <tr><TH><label>Recepient:</label></TH><td><input id="recepient" size="40" maxlength="40"/></td></tr>
           <tr><TH><label>Amount:</label></TH><td><input id="amount" type="number"/></td></tr>
         </table>
         <button>Mint!</button>
