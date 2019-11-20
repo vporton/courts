@@ -37,7 +37,7 @@ class MyForm extends React.Component {
             <TH><label>Intercourt token:</label></TH>
             <td><input id="intercourtToken"
                        type="number"
-                       onBlur={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
+                       onChange={e => this.setState({token: calculateTokenId(this.props.controlledCourt, Number(e.target.value))})}/></td>
           </tr>
           <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
           <tr><TH><label>Recepient:</label></TH><td><input id="recepient" size="66" maxlength="66"/></td></tr>
