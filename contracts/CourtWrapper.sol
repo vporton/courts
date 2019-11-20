@@ -11,7 +11,7 @@ contract CourtWrapper is AragonApp {
     /// ACL
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
-    address public controlledCourt;
+    uint256 public controlledCourt;
     
     function initialize() public onlyInit {
         initialized();
