@@ -13,8 +13,8 @@ contract CourtWrapper is AragonApp {
 
     address public ownedContract;
 
-    function initialize(/*address _ownedContract*/) public onlyInit {
-        //ownedContract = _ownedContract;
+    function initialize(address _ownedContract) public onlyInit {
+        ownedContract = _ownedContract;
         initialized();
     }
 

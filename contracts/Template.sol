@@ -61,7 +61,7 @@ contract Template is TemplateBase {
         tokenFactory = new MiniMeTokenFactory();
     }
 
-    function newInstance(/*address ownedContract*/) public {
+    function newInstance(address ownedContract) public {
         Kernel dao = fac.newDAO(this);
         ACL acl = ACL(dao.acl());
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
@@ -79,7 +79,7 @@ contract Template is TemplateBase {
         token.changeController(tokenManager);
 
         // Initialize apps
-        app.initialize(/*ownedContract*/);
+        app.initialize(ownedContract);
         tokenManager.initialize(token, true, 0);
         voting.initialize(token, 50 * PCT, 50 * PCT, 7 days);
 

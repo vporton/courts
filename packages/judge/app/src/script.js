@@ -8,11 +8,14 @@ app.store(async (state, { event }) => {
   let nextState = { ...state }
 
   // Initial state
+  console.log("A0", state)
   if (state == null) {
     nextState = {
-      controlledCourt: await getControlledCourt()
+      ownedContract: "0x3"/*await getOwnedContract()*/,
+      controlledCourt: "0x4"/*await getControlledCourt()*/
     }
   }
+  console.log("A1", nextState)
 
   switch (event) {
     case events.SYNC_STATUS_SYNCING:
@@ -23,6 +26,7 @@ app.store(async (state, { event }) => {
       break
   }
 
+  console.log("A2", nextState)
   return nextState
 })
 
@@ -32,6 +36,10 @@ app.store(async (state, { event }) => {
 //   }
 // )
 
+async function getOwnedContract() {
+  return "0x1"//await app.call('ownedContract').toPromise()
+}
+
 async function getControlledCourt() {
-  return await app.call('controlledCourt').toPromise()
+  return "0x2"//await app.call('controlledCourt').toPromise()
 }

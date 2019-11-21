@@ -6,16 +6,18 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { isSyncing, controlledCourt, intercourtTokenValid, recepientValid, amountValid } = appState
+  const { isSyncing, ownedContract, controlledCourt, intercourtTokenValid, recepientValid, amountValid } = appState
   console.log(isSyncing)
+  //console.log(appState)
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
+        <p>Owned contract: {ownedContract}</p>
         <p>Controlled court: {controlledCourt}</p>
-        <MyForm controlledCourt={controlledCourt}/>
+        <MyForm/>
       </BaseLayout>
     </Main>
   )
