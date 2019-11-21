@@ -1,7 +1,13 @@
-# courts
+# Reward Courts
 Courts That Perform Crypto Rewards Smart Contract
 
 For more details, see [the wiki](https://github.com/vporton/courts/wiki).
+
+# Tweaks
+
+```
+sudo npm install --unsafe-perm=true  go-ipfs@0.4.22 --global
+```
 
 # Development based on Aragon React Boilerplate
 
