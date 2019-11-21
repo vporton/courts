@@ -3,5 +3,58 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.18.5"
-  }
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "build:apps": "npm run build:app:judge",
+    "build:app:judge": "lerna run build:app --scope=@porton/apps-judge",
+    "build:script:judge": "lerna run build:script --scope=@porton/apps-judge",
+    "clean:aragon": "rm -rf ~/.aragon && rm -rf ~/.ipfs",
+    "clean:build": "npm run clean -- $npm_package_build_exclude_pattern",
+    "clean": "git clean -fXd",
+    "coverage": "lerna run coverage --no-bail",
+    "coveralls": "cat apps/*/coverage/lcov.info | coveralls",
+    "cypress:open": "cypress open",
+    "cypress:run": "wait-on http://localhost:3000/#/0x5b6a3301a67A4bfda9D3a528CaD34cac6e7F8070 && cypress run",
+    "cypress": "CYPRESS=true apps/shared/test-helpers/ganache-cli.sh",
+    "deploy:apps:rinkeby": "lerna run --scope='@porton/apps-*' deploy:rinkeby --stream",
+    "deploy:apps:rpc": "lerna run --scope='@porton/apps-*' deploy:rpc --stream",
+    "deploy:apps:staging": "lerna run --scope='@porton/apps-*' deploy:staging --stream",
+    "deploy:rinkeby": "npm run deploy:apps:rinkeby",
+    "deploy:rpc": "npm run deploy:apps:rpc",
+    "deploy:staging": "npm run deploy:apps:staging",
+    "devchain:reset": "npx aragon devchain --reset",
+    "devchain": "lerna run devchain --stream",
+    "frontend": "lerna run frontend --stream --parallel",
+    "frontend:address": "cd apps/judge && npm run frontend",
+    "lint:judge": "cd apps/judge && npm run lint",
+    "lint": "npm run lint:contracts && lerna exec --scope=@porton/apps-* --stream -- eslint app",
+    "mine": "lerna exec --scope=@porton/test-helpers truffle exec ./mine.js",
+    "postinstall": "npm run bootstrap",
+    "publish:cd": "shared/deployments/publish-cd.sh",
+    "publish:apps": "lerna run publish",
+    "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
+    "restart": "RESTART_KIT=true apps/shared/test-helpers/ganache-cli.sh",
+    "start:template": "cd templates/open-enterprise && npm run publish:aragen && npm run start:template:aragen",
+    "start:dev-template": "cd templates/dev && npm run publish:aragen && npm run start:template:aragen",
+    "start:judge": "cd apps/judge && npm start",
+    "start:dev": "DEV=true apps/shared/test-helpers/ganache-cli.sh",
+    "start:no:client": "NO_CLIENT=true apps/shared/test-helpers/ganache-cli.sh",
+    "start": "npm run start:judge",
+    "test:judge": "cd apps/judge && npm test",
+    "test": "lerna run test --no-bail"
+  },
+  "dependencies": {
+    "@aragon/cli": "^6.4.1",
+    "ipfs": "^0.39.0",
+    "ipfs-http-client": "29.1.0",
+    "rxjs": "^6.4.0",
+    "rxjs-compat": "^6.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
+  },
+  "build_exclude_pattern": "-e !node_modules -e !**/node_modules/**/*"
 }
