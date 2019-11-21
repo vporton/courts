@@ -32,7 +32,7 @@ class MyForm extends React.Component {
   onICTokenChange() {
     const ict = document.getElementById('intercourtToken').value
     const valid = /^[0-9]+$/.test(ict)
-    console.log("this.state.controlledCourt=", this.state.controlledCourt, ', ict=', ict)
+    //console.log("this.state.controlledCourt=", this.state.controlledCourt, ', ict=', ict)
     this.setState({token: calculateTokenId(this.state.controlledCourt, ict), intercourtTokenValid: valid})
   }
 
