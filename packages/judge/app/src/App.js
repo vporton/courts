@@ -6,7 +6,7 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { controlledCourt, isSyncing, intercourtTokenValid, recepientValid, amountValid } = appState
+  const { isSyncing, controlledCourt, intercourtTokenValid, recepientValid, amountValid } = appState
   console.log(isSyncing)
   return (
     <Main>
@@ -32,7 +32,8 @@ class MyForm extends React.Component {
   onICTokenChange() {
     const ict = document.getElementById('intercourtToken').value
     const valid = /^[0-9]+$/.test(ict)
-    this.setState({token: calculateTokenId(this.props.controlledCourt, ict), intercourtTokenValid: valid})
+    console.log("this.state.controlledCourt=", this.state.controlledCourt, ', ict=', ict)
+    this.setState({token: calculateTokenId(this.state.controlledCourt, ict), intercourtTokenValid: valid})
   }
 
   onRecepientTokenChange() {
