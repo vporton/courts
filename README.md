@@ -7,6 +7,7 @@ For more details, see [the wiki](https://github.com/vporton/courts/wiki).
 
 ```
 sudo npm install --unsafe-perm=true  go-ipfs@0.4.22 --global
+lerna bootstrap
 ```
 
 # Development based on Aragon React Boilerplate
