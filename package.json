@@ -41,7 +41,7 @@
     "start:dev": "DEV=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start:no:client": "NO_CLIENT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start": "npm run start:judge",
-    "migrate:courts": "npm run start:dev && truffle migrate",
+    "migrate:courts": "./migrate.sh",
     "test:judge": "cd packages/judge && npm test",
     "test": "lerna run test --no-bail"
   },
