@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.18.5"
+    "lerna": "^3.19.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
@@ -16,7 +16,7 @@
     "coveralls": "cat packages/*/coverage/lcov.info | coveralls",
     "cypress:open": "cypress open",
     "cypress:run": "wait-on http://localhost:3000/#/0x5b6a3301a67A4bfda9D3a528CaD34cac6e7F8070 && cypress run",
-    "cypress": "CYPRESS=true packages/shared/test-helpers/ganache-cli.sh",
+    "cypress": "CYPRESS=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "deploy:apps:rinkeby": "lerna run --scope='@porton/apps-*' deploy:rinkeby --stream",
     "deploy:apps:rpc": "lerna run --scope='@porton/apps-*' deploy:rpc --stream",
     "deploy:apps:staging": "lerna run --scope='@porton/apps-*' deploy:staging --stream",
@@ -34,18 +34,23 @@
     "publish:cd": "shared/deployments/publish-cd.sh",
     "publish:apps": "lerna run publish",
     "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
-    "restart": "RESTART_KIT=true packages/shared/test-helpers/ganache-cli.sh",
+    "restart": "RESTART_KIT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start:template": "cd templates/open-enterprise && npm run publish:aragen && npm run start:template:aragen",
     "start:dev-template": "cd templates/dev && npm run publish:aragen && npm run start:template:aragen",
     "start:judge": "cd packages/judge && npm start",
-    "start:dev": "DEV=true packages/shared/test-helpers/ganache-cli.sh",
-    "start:no:client": "NO_CLIENT=true packages/shared/test-helpers/ganache-cli.sh",
+    "start:dev": "DEV=true node_modules/@aragon/test-helpers/ganache-cli.sh",
+    "start:no:client": "NO_CLIENT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start": "npm run start:judge",
+    "migrate:courts": "npm run start:dev && truffle migrate",
     "test:judge": "cd packages/judge && npm test",
     "test": "lerna run test --no-bail"
   },
   "dependencies": {
     "@aragon/cli": "^6.4.1",
+    "@aragon/os": "^4.3.0",
+    "@aragon/apps-voting": "^2.1.0",
+    "@aragon/apps-token-manager": "^2.1.0",
+    "@aragon/test-helpers": "^2.1.0",
     "ipfs": "^0.39.0",
     "ipfs-http-client": "29.1.0",
     "npm": "^6.13.1",

@@ -8,7 +8,7 @@
  * you are free to choose a different license for the rest of the project.
  */
 
-pragma solidity 0.4.24;
+pragma solidity ^0.4.0;
 
 import "@aragon/os/contracts/factory/DAOFactory.sol";
 import "@aragon/os/contracts/apm/Repo.sol";
