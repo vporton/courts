@@ -36,7 +36,9 @@
     "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
     "restart": "RESTART_KIT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
 
-    "start:template": "npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --template Template --template-init @ARAGON_ENS $(cat build/RewardCourts.address.txt)",
+    "prepublishOnly": "npx truffle migrate --network rpc",
+    "start:ipfs": "aragon run --files dist",
+    "start:template": "aragon run --network-id 15 --files dist --template Template --template-init @ARAGON_ENS --template-new-instance newInstance --template-args 0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     "start:judge": "cd apps/judge && npm start",
     "start:dev": "DEV=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start:no:client": "NO_CLIENT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
