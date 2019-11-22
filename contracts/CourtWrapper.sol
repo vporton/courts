@@ -11,6 +11,8 @@ contract CourtWrapper is AragonApp {
     /// ACL
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
+    // FIXME
+    //RewardCourts public ownedContract;
     address public ownedContract;
 
     function initialize(address _ownedContract) public onlyInit {

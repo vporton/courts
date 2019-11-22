@@ -2,13 +2,14 @@ import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
+import app from './script'
 const { soliditySha3, toChecksumAddress } = require("web3-utils");
+
+export let mainWidget = null;
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { isSyncing, intercourtTokenValid, recepientValid, amountValid } = appState
-  const ownedContract = "0x3"/*await getOwnedContract()*/
-  const controlledCourt = "0x4"/*await getControlledCourt()*/
+  const { isSyncing } = appState
   console.log(isSyncing)
   return (
     <Main>
@@ -16,9 +17,7 @@ function App() {
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <p>Owned contract: {ownedContract}</p>
-        <p>Controlled court: {controlledCourt}</p>
-        <MyForm/>
+        <MainWidget/>
       </BaseLayout>
     </Main>
   )
@@ -36,7 +35,6 @@ class MyForm extends React.Component {
   onICTokenChange() {
     const ict = document.getElementById('intercourtToken').value
     const valid = /^[0-9]+$/.test(ict)
-    //console.log("this.state.controlledCourt=", this.state.controlledCourt, ', ict=', ict)
     this.setState({token: calculateTokenId(this.state.controlledCourt, ict), intercourtTokenValid: valid})
   }
 
@@ -90,6 +88,34 @@ class MyForm extends React.Component {
   }
 }
 
+class MainWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+    mainWidget = this;
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Owned contract: {this.state.ownedContract}</p>
+        <p>Controlled court: {this.state.controlledCourt}</p>
+        <MyForm/>
+      </div>
+    )
+  }
+}
+
+// FIXME: `app` is undefined!
+app.call('ownedContract').subscribe((contract) => {
+//   import mainWidget from './App'
+  console.log('mainWidget:', mainWidget)
+  console.log('contract:', contract)
+  mainWidget.setState({ownedContract: contract})
+  contract.call('controlledCourt').subscribe((v) => mainWidget.setState({controlledCourt: v}))
+})
+
 const H1 = styled.div`
   font-size: 200%;
   font-weight: bold;
@@ -119,14 +145,6 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
 
 function calculateTokenId(court, intercourtToken) {
   return soliditySha3(court, intercourtToken)
-}
-
-async function getOwnedContract() {
-  return "0x1"//await app.call('ownedContract').toPromise()
-}
-
-async function getControlledCourt() {
-  return "0x2"//await app.call('controlledCourt').toPromise()
 }
 
 export default App

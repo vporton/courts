@@ -2,7 +2,7 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import Aragon, { events } from '@aragon/api'
 
-const app = new Aragon()
+export const app = new Aragon()
 
 app.store(async (state, { event }) => {
   let nextState = { ...state }
@@ -28,6 +28,6 @@ app.store(async (state, { event }) => {
 
 // app.state().subscribe(
 //   state => {
-//     document.getElementById("token").innerHTML = state.token
 //   }
 // )
+// 
