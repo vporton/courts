@@ -10,7 +10,7 @@ app.store(async (state, { event }) => {
   // Initial state
   if (state == null) {
     nextState = {
-      ownedContract: null
+      ownedContract: await getOwnedContract() 
     }
   }
 
@@ -37,8 +37,4 @@ async function getOwnedContract() {
   return app.call('ownedContract').toPromise()
 }
 
-app.call('ownedContract').subscribe((contract) => {
-  console.log('contract:', contract)
-  app.setState({ownedContract: contract})
-  //contract.call('controlledCourt').subscribe((v) => app.setState({controlledCourt: v}))
-})
+
