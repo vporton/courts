@@ -11,16 +11,16 @@ contract CourtWrapper is AragonApp {
     /// ACL
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
-    // FIXME
-    //RewardCourts public ownedContract;
-    address public ownedContract;
+    RewardCourts public ownedContract;
+    uint256 public courtId;
 
-    function initialize(address _ownedContract) public onlyInit {
+    function initialize(RewardCourts _ownedContract, uint256 _courtId) public onlyInit {
         ownedContract = _ownedContract;
+        courtId = _courtId;
         initialized();
     }
 
-    function mint(uint256 _court, uint256 _intercourtToken, uint256 _amount, address _to, bytes _data) external auth(JUDGE_ROLE) {
-        RewardCourts(ownedContract).mint(_court, _intercourtToken, _amount, _to, _data);
+    function mint(uint256 _intercourtToken, uint256 _amount, address _to, bytes _data) external auth(JUDGE_ROLE) {
+        RewardCourts(ownedContract).mint(courtId, _intercourtToken, _amount, _to, _data);
     }
 }

@@ -14,7 +14,7 @@ function App() {
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MainWidget ownedContract={appState.ownedContract}/>
+        <MainWidget ownedContract={appState.ownedContract} courtId={appState.courtId}/>
       </BaseLayout>
     </Main>
   )
@@ -96,7 +96,7 @@ class MainWidget extends React.Component {
     return (
       <div>
         <p>Owned contract: {this.props.ownedContract}</p>
-        <p>Controlled court: this.props.controlledCourt</p>
+        <p>Controlled court: this.props.courtId</p>
         <MyForm/>
       </div>
     )

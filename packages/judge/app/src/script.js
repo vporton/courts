@@ -10,6 +10,7 @@ app.store(async (state, { event }) => {
   // Initial state
   if (nextState.ownedContract == null) {
     nextState.ownedContract = await getOwnedContract()
+    nextState.courtId = await getCourtId()
   }
 
   switch (event) {
@@ -34,4 +35,6 @@ async function getOwnedContract() {
   return app.call('ownedContract').toPromise()
 }
 
-
+async function getCourtId() {
+  return app.call('courtId').toPromise()
+}
