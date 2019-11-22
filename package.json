@@ -50,7 +50,6 @@
     "test": "lerna run test --no-bail"
   },
   "dependencies": {
-    "@aragon/cli": "^6.4.1",
     "@aragon/os": "^4.3.0",
     "@aragon/apps-voting": "^2.1.0",
     "@aragon/apps-token-manager": "^2.1.0",
