@@ -34,7 +34,7 @@
     "truffle": "4.1.14"
   },
   "scripts": {
-    "start": "npx aragon run",
+    "start": "npx aragon run --app-init-args 0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb --files dist",
     "prepare": "cd app && npm install && cd ..",
     "start:app": "cd app && npm start && cd ..",
     "test": "cross-env TRUFFLE_TEST=true npm run ganache-cli:test",
