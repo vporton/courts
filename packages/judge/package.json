@@ -34,11 +34,7 @@
     "truffle": "4.1.14"
   },
   "scripts": {
-    "start": "npm run start:ipfs",
-    "start:ipfs": "npx aragon run --files dist",
-    "start:http": "npx aragon run --http localhost:8001 --http-served-from ./dist",
-    "start:ipfs:template": "npm run start:ipfs -- --template Template --template-init @ARAGON_ENS --template-args=[\"$(cat ../../build/RewardCourts.address.txt)\"]",
-    "start:http:template": "npm run start:http -- --template Template --template-init @ARAGON_ENS --template-args=[\"$(cat ../../build/RewardCourts.address.txt)\"]",
+    "start": "npx aragon run",
     "prepare": "cd app && npm install && cd ..",
     "start:app": "cd app && npm start && cd ..",
     "test": "cross-env TRUFFLE_TEST=true npm run ganache-cli:test",
