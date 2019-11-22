@@ -36,3 +36,9 @@ app.store(async (state, { event }) => {
 async function getOwnedContract() {
   return app.call('ownedContract').toPromise()
 }
+
+app.call('ownedContract').subscribe((contract) => {
+  console.log('contract:', contract)
+  this.setState({ownedContract: contract})
+  //contract.call('controlledCourt').subscribe((v) => this.setState({controlledCourt: v}))
+})

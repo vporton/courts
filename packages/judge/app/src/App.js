@@ -8,12 +8,6 @@ function App() {
   const { api, appState } = useAragonApi()
   const { isSyncing } = appState
   console.log(isSyncing)
-  api.call('ownedContract').subscribe((contract) => {
-    console.log('mainWidget:', mainWidget)
-    console.log('contract:', contract)
-    this.setState({ownedContract: contract})
-    //contract.call('controlledCourt').subscribe((v) => this.setState({controlledCourt: v}))
-  })
   return (
     <Main>
       <BaseLayout>
@@ -101,8 +95,8 @@ class MainWidget extends React.Component {
   render() {
     return (
       <div>
-        <p>Owned contract: {this.state.ownedContract}</p>
-        <p>Controlled court: {this.state.controlledCourt}</p>
+        <p>Owned contract: {this.props.ownedContract}</p>
+        <p>Controlled court: this.props.controlledCourt</p>
         <MyForm/>
       </div>
     )
