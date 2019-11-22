@@ -6,9 +6,10 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { isSyncing, ownedContract, controlledCourt, intercourtTokenValid, recepientValid, amountValid } = appState
+  const { isSyncing, intercourtTokenValid, recepientValid, amountValid } = appState
+  const ownedContract = "0x3"/*await getOwnedContract()*/
+  const controlledCourt = "0x4"/*await getControlledCourt()*/
   console.log(isSyncing)
-  //console.log(appState)
   return (
     <Main>
       <BaseLayout>
@@ -27,7 +28,8 @@ class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: null
+      token: null,
+      intercourtTokenValid: false, recepientValid: false, amountValid: false
     }
   }
 
@@ -49,7 +51,7 @@ class MyForm extends React.Component {
   }
 
   onAmountChange() {
-   this.setState({amountValid: /^[0-9]+$/.test(document.getElementById('amount').value)})
+    this.setState({amountValid: /^[0-9]+$/.test(document.getElementById('amount').value)})
   }
 
   valid() {
@@ -117,6 +119,14 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
 
 function calculateTokenId(court, intercourtToken) {
   return soliditySha3(court, intercourtToken)
+}
+
+async function getOwnedContract() {
+  return "0x1"//await app.call('ownedContract').toPromise()
+}
+
+async function getControlledCourt() {
+  return "0x2"//await app.call('controlledCourt').toPromise()
 }
 
 export default App

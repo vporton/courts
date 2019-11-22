@@ -6,7 +6,7 @@ import './App.css';
 
 const reducer = state => {
   if (state === null) {
-    return { isSyncing: true, intercourtTokenValid: false, recepientValid: false, amountValid: false }
+    return { isSyncing: true }
   }
   return state
 }
