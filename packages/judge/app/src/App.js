@@ -4,8 +4,6 @@ import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
 const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
-export let mainWidget = null;
-
 function App() {
   const { api, appState } = useAragonApi()
   const { isSyncing } = appState
@@ -14,7 +12,7 @@ function App() {
     console.log('mainWidget:', mainWidget)
     console.log('contract:', contract)
     this.setState({ownedContract: contract})
-    contract.call('controlledCourt').subscribe((v) => this.setState({controlledCourt: v}))
+    //contract.call('controlledCourt').subscribe((v) => this.setState({controlledCourt: v}))
   })
   return (
     <Main>
@@ -22,7 +20,7 @@ function App() {
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MainWidget ownedContract={this.state.ownedContract} controlledCourt="{this.state.controlledCourt}"/>
+        <MainWidget ownedContract={appState.ownedContract}/>
       </BaseLayout>
     </Main>
   )

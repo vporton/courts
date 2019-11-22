@@ -10,6 +10,7 @@ app.store(async (state, { event }) => {
   // Initial state
   if (state == null) {
     nextState = {
+      ownedContract: await getOwnedContract()
     }
   }
 
@@ -31,3 +32,7 @@ app.store(async (state, { event }) => {
 //   }
 // )
 // 
+
+async function getOwnedContract() {
+  return app.call('ownedContract').toPromise()
+}
