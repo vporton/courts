@@ -36,8 +36,8 @@
     "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
     "restart": "RESTART_KIT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
 
-    "start:template": "cd packages/judge &&  npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --app-init-args $(cat ../../build/RewardCourts.address.txt)",
-    "start:dev-template": "cd templates/dev && npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --app-init-args $(cat ../../build/RewardCourts.address.txt)",
+    "start:template": "cd packages/judge && npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --app-init-args 0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb; exit; npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --app-init-args $(cat ../../build/RewardCourts.address.txt)",
+    "start:dev-template": "cd templates/dev && npx aragon run --files dist --prepublish-script \"npx truffle migrate --network rpc\" --app-init-args 0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb; exit; npx truffle migrate --network rpc\" --app-init-args $(cat ../../build/RewardCourts.address.txt)",
     "start:judge": "cd apps/judge && npm start",
     "start:dev": "DEV=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start:no:client": "NO_CLIENT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
