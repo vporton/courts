@@ -2,7 +2,6 @@ import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
-import app from './script'
 const { soliditySha3, toChecksumAddress } = require("web3-utils");
 
 export let mainWidget = null;
@@ -11,13 +10,19 @@ function App() {
   const { api, appState } = useAragonApi()
   const { isSyncing } = appState
   console.log(isSyncing)
+  api.call('ownedContract').subscribe((contract) => {
+    console.log('mainWidget:', mainWidget)
+    console.log('contract:', contract)
+    this.setState({ownedContract: contract})
+    contract.call('controlledCourt').subscribe((v) => this.setState({controlledCourt: v}))
+  })
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MainWidget/>
+        <MainWidget ownedContract={this.state.ownedContract} controlledCourt="{this.state.controlledCourt}"/>
       </BaseLayout>
     </Main>
   )
@@ -93,7 +98,6 @@ class MainWidget extends React.Component {
     super(props);
     this.state = {
     }
-    mainWidget = this;
   }
 
   render() {
@@ -106,15 +110,6 @@ class MainWidget extends React.Component {
     )
   }
 }
-
-// FIXME: `app` is undefined!
-app.call('ownedContract').subscribe((contract) => {
-//   import mainWidget from './App'
-  console.log('mainWidget:', mainWidget)
-  console.log('contract:', contract)
-  mainWidget.setState({ownedContract: contract})
-  contract.call('controlledCourt').subscribe((v) => mainWidget.setState({controlledCourt: v}))
-})
 
 const H1 = styled.div`
   font-size: 200%;
