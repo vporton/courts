@@ -8,10 +8,8 @@ app.store(async (state, { event }) => {
   let nextState = { ...state }
 
   // Initial state
-  if (state == null) {
-    nextState = {
-      ownedContract: await getOwnedContract() 
-    }
+  if (nextState.ownedContract == null) {
+    nextState.ownedContract = await getOwnedContract()
   }
 
   switch (event) {
@@ -23,7 +21,6 @@ app.store(async (state, { event }) => {
       break
   }
 
-  console.log("A2", nextState)
   return nextState
 })
 
