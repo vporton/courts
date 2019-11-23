@@ -51,7 +51,7 @@ contract TemplateBase is APMNamehash {
 }
 
 
-contract Template is TemplateBase {
+contract RewardTemplate is TemplateBase {
     MiniMeTokenFactory tokenFactory;
 
     uint64 constant PCT = 10 ** 16;
