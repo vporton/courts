@@ -36,7 +36,8 @@
     "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
     "restart": "RESTART_KIT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
 
-    "prepublishOnly": "aragon contracts compile",
+    "compile": "aragon contracts compile",
+    "deploy": "aragon deploy",
     "start:ipfs": "aragon run --files dist",
     "start:template": "aragon run --files dist --template Template --template-init @ARAGON_ENS --template-new-instance newInstance --template-args 0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     "start:judge": "cd apps/judge && npm start",
