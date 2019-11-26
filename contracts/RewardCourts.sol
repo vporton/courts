@@ -526,4 +526,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // TODO: Should we also make trust with converting one intercourt token to another intercourt token?
     // If yes, then we could deal without intercourt tokens at all, but just define trust for a pair
     // of different tokens.
+
+    // TODO: Courts should be able to receive tokens to act like an exchange.
 }
