@@ -528,4 +528,5 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // of different tokens.
 
     // TODO: Courts should be able to receive tokens to act like an exchange.
+    // TODO: A court that does exchange should be also able to burn tokens.
 }
