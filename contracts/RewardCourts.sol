@@ -276,7 +276,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         courtTotalSpents[_court][_intercourtToken] = _amount.add(courtTotalSpents[_court][_intercourtToken]);
 
-        emit TransferSingle(msg.sender, address(0x0), _to, token, _amount);
+        emit TransferSingle(msg.sender, address(0x0), _to, token, _amount); // FIXME: 0x0?
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
