@@ -280,7 +280,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
         if (_to.isContract()) {
-            _doSafeTransferAcceptanceCheck(msg.sender, address(0x0), _to, token, _amount, _data);
+            _doSafeTransferAcceptanceCheck(msg.sender, address(0x0), _to, token, _amount, _data); // FIXME: 0x0?
         }
     }
 
