@@ -255,7 +255,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     /// Court Minting ///
-    
+
+    // FIXME: We can instead use the safeTransferFrom()!!
     /**
         @notice Mint money for somebody.
         @param _court     Court ID
