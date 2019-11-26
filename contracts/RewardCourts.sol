@@ -522,4 +522,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //     }
     //     return true;
     // }
+    
+    // TODO: Should we also make trust with converting one intercourt token to another intercourt token?
+    // If yes, then we could deal without intercourt tokens at all, but just define trust for a pair
+    // of different tokens.
 }
