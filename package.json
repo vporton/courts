@@ -35,11 +35,10 @@
     "publish:apps": "lerna run publish",
     "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
     "restart": "RESTART_KIT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
-
     "compile": "aragon contracts compile",
     "deploy": "aragon deploy",
     "start:ipfs": "aragon run --files dist",
-    "start:template": "aragon run --files dist --template Template --template-init @ARAGON_ENS --template-new-instance newInstance --template-args 0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    "start:template": "aragon run --files dist --template RewardTemplate --template-init @ARAGON_ENS --template-new-instance newInstance --template-args 0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     "start:judge": "cd apps/judge && npm start",
     "start:dev": "DEV=true node_modules/@aragon/test-helpers/ganache-cli.sh",
     "start:no:client": "NO_CLIENT=true node_modules/@aragon/test-helpers/ganache-cli.sh",
@@ -47,14 +46,13 @@
     "start:staging": "lerna run --scope='@porton/apps-*' start:staging --stream",
     "start:rinkeby": "lerna run --scope='@porton/apps-*' start:rinkeby --stream",
     "start": "npm run start:rpc",
-
     "test:judge": "cd packages/judge && npm test",
     "test": "lerna run test --no-bail"
   },
   "dependencies": {
-    "@aragon/os": "^4.3.0",
-    "@aragon/apps-voting": "^2.1.0",
     "@aragon/apps-token-manager": "^2.1.0",
+    "@aragon/apps-voting": "^2.1.0",
+    "@aragon/os": "^4.3.0",
     "@aragon/test-helpers": "^2.1.0",
     "ipfs": "^0.39.0",
     "ipfs-http-client": "29.1.0",
