@@ -78,7 +78,7 @@ contract RewardTemplate is TemplateBase {
         MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "App token", 0, "APP", true);
         token.changeController(tokenManager);
 
-        uint256 courtId = 0; //ownedContract.createCourt(); // FIXME
+        uint256 courtId = ownedContract.createCourt();
         
         // Initialize apps
         app.initialize(ownedContract, courtId);
