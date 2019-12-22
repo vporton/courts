@@ -107,10 +107,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
-        // SafeMath will throw with insufficient funds _from
-        // or if _id is not valid (balance will be 0)
-        balances[_id][_from] = balances[_id][_from].sub(_value);
-        balances[_id][_to]   = _value.add(balances[_id][_to]);
+        doSafeTransferFrom(_from, _to, _id, _value);
 
         // MUST emit event
         emit TransferSingle(msg.sender, _from, _to, _id, _value);
@@ -119,6 +116,26 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // call onERC1155Received if the destination is a contract.
         if (_to.isContract()) {
             _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+        }
+    }
+
+    function doSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value) private {
+
+        TokenDecomposition decomposition = tokenDecomposition[_id];
+        require((decomposition.court != 0 && courtOwners[decomposition.court] == msg.sender) || balances[_id][_from] >= _value,
+                "insufficient funds.");
+
+        if (decomposition.court != 0) {
+            balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+
+            // TODO: Can safe by token value to safe memory.
+            courtTotalSpents[decomposition.court][decomposition.intercourtToken] =
+                _value.add(courtTotalSpents[decomposition.court][decomposition.intercourtToken]);
+        } else {
+            // SafeMath will throw with insufficient funds _from
+            // or if _id is not valid (balance will be 0)
+            balances[_id][_from] = balances[_id][_from].sub(_value);
+            balances[_id][_to]   = _value.add(balances[_id][_to]);
         }
     }
 
@@ -146,13 +163,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
         for (uint256 i = 0; i < _ids.length; ++i) {
-            uint256 id = _ids[i];
-            uint256 value = _values[i];
+            uint256 _id = _ids[i];
+            uint256 _value = _values[i];
 
-            // SafeMath will throw with insuficient funds _from
-            // or if _id is not valid (balance will be 0)
-            balances[id][_from] = balances[id][_from].sub(value);
-            balances[id][_to]   = value.add(balances[id][_to]);
+            doSafeTransferFrom(_from, _to, _id, _value);
         }
 
         // Note: instead of the below batch versions of event and acceptance check you MAY have emitted a TransferSingle
@@ -253,40 +267,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function generateTokenId(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
         return _generateTokenId(_court, _intercourtToken);
     }
-
-    /// Court Minting ///
-
-    // FIXME: We can instead use the safeTransferFrom()!!
-    // FIXME: By the way we can also allow a court to store tokens of other courts.
-    /**
-        @notice Mint money for somebody.
-        @param _court     Court ID
-        @param _intercourtToken Intercourt token
-        @param _amount    Transfer amount
-        @param _to      Target address
-        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
-    */
-    function mint(uint256 _court, uint256 _intercourtToken, uint256 _amount, address _to, bytes _data) external {
-        require(courtOwners[_court] == msg.sender, "Only _court owner can mint.");
-        require(_to != address(0x0), "destination address must be non-zero.");
-        require(_intercourtToken != 0, "Token cannot be zero.");
-
-        uint256 token = _generateTokenId(_court, _intercourtToken);
-        balances[token][_to] = _amount.add(balances[token][_to]);
-
-        courtTotalSpents[_court][_intercourtToken] = _amount.add(courtTotalSpents[_court][_intercourtToken]);
-
-        emit TransferSingle(msg.sender, address(0x0), _to, token, _amount); // FIXME: 0x0?
-
-        // Now that the balance is updated and the event was emitted,
-        // call onERC1155Received if the destination is a contract.
-        if (_to.isContract()) {
-            _doSafeTransferAcceptanceCheck(msg.sender, address(0x0), _to, token, _amount, _data); // FIXME: 0x0?
-        }
-    }
-
-    // No batch mint, because minting multiple tokens operation seems uncommon.
-    // Having multiple recepients would be very useful, but what should we do it transfer acceptance fails only for a part of them?
 
     /// Transfer through Multiple Courts ///
 
@@ -476,6 +456,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
     
     function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
+        require (_court != 0 && _intercourtToken != 0);
+
         _token = uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
         tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
     }
