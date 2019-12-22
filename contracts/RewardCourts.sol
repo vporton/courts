@@ -246,8 +246,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         _values[0] = _value;
         _doIntercourtTransferBatch(_from, _to, _ids, _values, _courtsPath);
 
-        emit TransferSingle(msg.sender, _from, 0x0, _doGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
-        emit TransferSingle(msg.sender, 0x0, _to, _doGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
+        // Using _uncheckedGenerateTokenId because already checked in _doIntercourtTransferBatch().
+        emit TransferSingle(msg.sender, _from, 0x0, _uncheckedGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
+        emit TransferSingle(msg.sender, 0x0, _to, _uncheckedGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
@@ -571,10 +572,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         require (_court != 0 && _intercourtToken != 0);
 
-        _token = _doGenerateTokenId(_court, _intercourtToken);
+        _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
     }
 
-    function _doGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
+    function _uncheckedGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         // without any checks
 
         return (_court << 128) + _intercourtToken;
