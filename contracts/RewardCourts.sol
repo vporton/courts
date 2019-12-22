@@ -6,10 +6,6 @@ import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
-// Incompatibilities with ERC-1155 standard:
-// We allow setting _to to 0x0 for burning.
-// We don't set _from to 0x0 when minting, because a single batch transfer may be both minting and regular.
-
 contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
@@ -108,7 +104,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
 
-        //require(_to != address(0x0), "_to must be non-zero.");
+        require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
         _doSafeTransferFrom(_from, _to, _id, _value);
@@ -142,7 +138,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function safeBatchTransferFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
 
         // MUST Throw on errors
-        //require(_to != address(0x0), "destination address must be non-zero.");
+        require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
@@ -270,8 +266,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         _values[0] = _value;
         _doIntercourtTransferBatch(_from, _to, _ids, _values, _courtsPath);
 
-        // _intercourtToken does not make sense in this context.
-        //emit TransferSingle(msg.sender, _from, _to, _intercourtToken, _value);
+        emit TransferSingle(msg.sender, _from, 0x0, _doGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
+        emit TransferSingle(msg.sender, 0x0, _to, _doGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
@@ -296,12 +292,90 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         // _intercourtTokens do not make sense in this context.
         //emit TransferBatch(msg.sender, _from, _to, _intercourtTokens, _values);
+        emit TransferBatch(msg.sender, _from, 0x0, _intercourtTokens, _values);
+        emit TransferBatch(msg.sender, 0x0, _to, _intercourtTokens, _values);
 
         uint256 [] memory _ids = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _ids.length; ++i) {
             _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
         
+        // Now that the balances are updated and the events are emitted,
+        // call onERC1155BatchReceived if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
+        }
+    }
+
+/////////////////////////////////////////// Minting //////////////////////////////////////////////
+
+    /**
+        @notice Mints `_value` amount of an `_id` from the `_from` address to the `_to` address specified (with safety call).
+        @dev Caller must be approved to manage the tokens being transferred out of the `_from` account (see "Approval" section of the standard).
+        MUST revert if `_to` is the zero address.
+        MUST revert on any other error.
+        MUST emit the `TransferSingle` event to reflect the balance change.
+        After the above conditions are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call `onERC1155Received` on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
+        @param _from    Source address
+        @param _to      Target address
+        @param _id      ID of the token type
+        @param _value   Transfer amount
+        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+    */
+    function mintFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+
+        require(_to != address(0x0), "_to must be non-zero.");
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+
+        _doMintFrom(_from, _to, _id, _value);
+
+        // MUST emit event
+        emit TransferSingle(msg.sender, 0x0, _to, _id, _value);
+
+        // Now that the balance is updated and the event was emitted,
+        // call onERC1155Received if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+        }
+    }
+
+    /**
+        @notice Mints `_values` amount(s) of `_ids` from the `_from` address to the `_to` address specified (with safety call).
+        @dev Caller must be approved to manage the tokens being transferred out of the `_from` account (see "Approval" section of the standard).
+        MUST revert if `_to` is the zero address.
+        MUST revert if length of `_ids` is not the same as length of `_values`.
+        MUST revert on any other error.
+        MUST emit `TransferSingle` or `TransferBatch` event(s) such that all the balance changes are reflected.
+        Balance changes and events MUST follow the ordering of the arrays (_ids[0]/_values[0] before _ids[1]/_values[1], etc).
+        After the above conditions for the transfer(s) in the batch are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call the relevant `ERC1155TokenReceiver` hook(s) on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
+        @param _from    Source address
+        @param _to      Target address
+        @param _ids     IDs of each token type (order and length must match _values array)
+        @param _values  Transfer amounts per token type (order and length must match _ids array)
+        @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
+    */
+    function batchMintFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
+
+        // MUST Throw on errors
+        require(_to != address(0x0), "destination address must be non-zero.");
+        require(_ids.length == _values.length, "_ids and _values array length must match.");
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+
+        for (uint256 i = 0; i < _ids.length; ++i) {
+            uint256 _id = _ids[i];
+            uint256 _value = _values[i];
+
+            _doMintFrom(_from, _to, _id, _value);
+        }
+
+        // Note: instead of the below batch versions of event and acceptance check you MAY have emitted a TransferSingle
+        // event and a subsequent call to _doSafeTransferAcceptanceCheck in above loop for each balance change instead.
+        // Or emitted a TransferSingle event for each in the loop and then the single _doSafeBatchTransferAcceptanceCheck below.
+        // However it is implemented the balance changes and events MUST match when a check (i.e. calling an external contract) is done.
+
+        // MUST emit event
+        emit TransferBatch(msg.sender, 0x0, _to, _ids, _values);
+
         // Now that the balances are updated and the events are emitted,
         // call onERC1155BatchReceived if the destination is a contract.
         if (_to.isContract()) {
@@ -421,25 +495,21 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     function _doSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value) private {
 
+        // SafeMath will throw with insufficient funds _from
+        // or if _id is not valid (balance will be 0)
+        balances[_id][_from] = balances[_id][_from].sub(_value);
+        balances[_id][_to]   = _value.add(balances[_id][_to]);
+    }
+
+    function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value) private {
+
         TokenDecomposition decomposition = tokenDecomposition[_id];
         require((decomposition.court != 0 && courtOwners[decomposition.court] == msg.sender) || balances[_id][_from] >= _value,
                 "insufficient funds.");
+        require(decomposition.court != 0, "Invalid token.");
 
-        if (decomposition.court != 0) {
-            if (_to != 0) { // not burning
-                balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
-            }
-
-            // TODO: Can safe by token value to safe memory.
-            courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
-        } else {
-            // SafeMath will throw with insufficient funds _from
-            // or if _id is not valid (balance will be 0)
-            balances[_id][_from] = balances[_id][_from].sub(_value);
-            if (_to != 0) { // not burning
-                balances[_id][_to]   = _value.add(balances[_id][_to]);
-            }
-        }
+        balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+        courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
     }
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
