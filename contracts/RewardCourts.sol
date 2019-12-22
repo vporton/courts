@@ -104,7 +104,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
 
-        require(_to != address(0x0), "_to must be non-zero.");
+        //require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
         _doSafeTransferFrom(_from, _to, _id, _value);
@@ -138,7 +138,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function safeBatchTransferFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
 
         // MUST Throw on errors
-        require(_to != address(0x0), "destination address must be non-zero.");
+        //require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
@@ -422,7 +422,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                 "insufficient funds.");
 
         if (decomposition.court != 0) {
-            balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+            if (_to != 0) { // not burning
+                balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+            }
 
             // TODO: Can safe by token value to safe memory.
             courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
@@ -430,7 +432,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             // SafeMath will throw with insufficient funds _from
             // or if _id is not valid (balance will be 0)
             balances[_id][_from] = balances[_id][_from].sub(_value);
-            balances[_id][_to]   = _value.add(balances[_id][_to]);
+            if (_to != 0) { // not burning
+                balances[_id][_to]   = _value.add(balances[_id][_to]);
+            }
         }
     }
 
@@ -512,10 +516,5 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //     return true;
     // }
     
-    // TODO: Should we also make trust with converting one intercourt token to another intercourt token?
-    // If yes, then we could deal without intercourt tokens at all, but just define trust for a pair
-    // of different tokens.
-
     // TODO: Courts should be able to receive tokens to act like an exchange.
-    // TODO: A court that does exchange should be also able to burn tokens.
 }
