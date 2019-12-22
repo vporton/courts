@@ -107,7 +107,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
-        doSafeTransferFrom(_from, _to, _id, _value);
+        _doSafeTransferFrom(_from, _to, _id, _value);
 
         // MUST emit event
         emit TransferSingle(msg.sender, _from, _to, _id, _value);
@@ -116,26 +116,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // call onERC1155Received if the destination is a contract.
         if (_to.isContract()) {
             _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
-        }
-    }
-
-    function doSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value) private {
-
-        TokenDecomposition decomposition = tokenDecomposition[_id];
-        require((decomposition.court != 0 && courtOwners[decomposition.court] == msg.sender) || balances[_id][_from] >= _value,
-                "insufficient funds.");
-
-        if (decomposition.court != 0) {
-            balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
-
-            // TODO: Can safe by token value to safe memory.
-            courtTotalSpents[decomposition.court][decomposition.intercourtToken] =
-                _value.add(courtTotalSpents[decomposition.court][decomposition.intercourtToken]);
-        } else {
-            // SafeMath will throw with insufficient funds _from
-            // or if _id is not valid (balance will be 0)
-            balances[_id][_from] = balances[_id][_from].sub(_value);
-            balances[_id][_to]   = _value.add(balances[_id][_to]);
         }
     }
 
@@ -166,7 +146,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _id = _ids[i];
             uint256 _value = _values[i];
 
-            doSafeTransferFrom(_from, _to, _id, _value);
+            _doSafeTransferFrom(_from, _to, _id, _value);
         }
 
         // Note: instead of the below batch versions of event and acceptance check you MAY have emitted a TransferSingle
@@ -433,6 +413,26 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
+
+    function _doSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value) private {
+
+        TokenDecomposition decomposition = tokenDecomposition[_id];
+        require((decomposition.court != 0 && courtOwners[decomposition.court] == msg.sender) || balances[_id][_from] >= _value,
+                "insufficient funds.");
+
+        if (decomposition.court != 0) {
+            balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+
+            // TODO: Can safe by token value to safe memory.
+            courtTotalSpents[decomposition.court][decomposition.intercourtToken] =
+                _value.add(courtTotalSpents[decomposition.court][decomposition.intercourtToken]);
+        } else {
+            // SafeMath will throw with insufficient funds _from
+            // or if _id is not valid (balance will be 0)
+            balances[_id][_from] = balances[_id][_from].sub(_value);
+            balances[_id][_to]   = _value.add(balances[_id][_to]);
+        }
+    }
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
 
