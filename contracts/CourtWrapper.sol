@@ -14,9 +14,9 @@ contract CourtWrapper is AragonApp {
     RewardCourts public ownedContract;
     uint256 public courtId;
 
-    function initialize(RewardCourts _ownedContract, uint256 _courtId) public onlyInit {
-        ownedContract = _ownedContract;
-        courtId = _courtId;
+    function initialize(/*RewardCourts _ownedContract, uint256 _courtId*/) public onlyInit {
+        //ownedContract = _ownedContract;
+        //courtId = _courtId;
         initialized();
     }
 

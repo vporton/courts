@@ -61,7 +61,7 @@ contract RewardTemplate is TemplateBase {
         tokenFactory = new MiniMeTokenFactory();
     }
 
-    function newInstance(RewardCourts ownedContract) public {
+    function newInstance(/*RewardCourts ownedContract*/) public {
         Kernel dao = fac.newDAO(this);
         ACL acl = ACL(dao.acl());
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
@@ -72,35 +72,35 @@ contract RewardTemplate is TemplateBase {
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
 
         CourtWrapper app = CourtWrapper(dao.newAppInstance(appId, latestVersionAppBase(appId)));
-        Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
-        TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
-
-        MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "App token", 0, "APP", true);
-        token.changeController(tokenManager);
-
-        uint256 courtId = ownedContract.createCourt();
-        
-        // Initialize apps
-        app.initialize(ownedContract, courtId);
-        tokenManager.initialize(token, true, 0);
-        voting.initialize(token, 50 * PCT, 50 * PCT, 7 days);
-
-        acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
-        tokenManager.mint(root, 1); // Give one token to root
-
-        acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
-
-        acl.createPermission(voting, app, app.JUDGE_ROLE(), voting);
-        acl.grantPermission(voting, tokenManager, tokenManager.MINT_ROLE());
-
-        // Clean up permissions
-        acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
-        acl.revokePermission(this, dao, dao.APP_MANAGER_ROLE());
-        acl.setPermissionManager(root, dao, dao.APP_MANAGER_ROLE());
-
-        acl.grantPermission(root, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.revokePermission(this, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.setPermissionManager(root, acl, acl.CREATE_PERMISSIONS_ROLE());
+//         Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
+//         TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
+// 
+//         MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "App token", 0, "APP", true);
+//         token.changeController(tokenManager);
+// 
+//         //uint256 courtId = ownedContract.createCourt();
+//         
+//         // Initialize apps
+//         app.initialize(/*ownedContract, courtId*/);
+//         tokenManager.initialize(token, true, 0);
+//         voting.initialize(token, 50 * PCT, 50 * PCT, 7 days);
+// 
+//         acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
+//         tokenManager.mint(root, 1); // Give one token to root
+// 
+//         acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
+// 
+//         acl.createPermission(voting, app, app.JUDGE_ROLE(), voting);
+//         acl.grantPermission(voting, tokenManager, tokenManager.MINT_ROLE());
+// 
+//         // Clean up permissions
+//         acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
+//         acl.revokePermission(this, dao, dao.APP_MANAGER_ROLE());
+//         acl.setPermissionManager(root, dao, dao.APP_MANAGER_ROLE());
+// 
+//         acl.grantPermission(root, acl, acl.CREATE_PERMISSIONS_ROLE());
+//         acl.revokePermission(this, acl, acl.CREATE_PERMISSIONS_ROLE());
+//         acl.setPermissionManager(root, acl, acl.CREATE_PERMISSIONS_ROLE());
 
         emit DeployInstance(dao);
     }

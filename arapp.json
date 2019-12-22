@@ -30,5 +30,5 @@
       "network": "mainnet"
     }
   },
-  "path": "contracts/RewardCourts.sol"
+  "path": "contracts/CourtWrapper.sol"
 }
