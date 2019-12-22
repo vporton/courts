@@ -6,7 +6,7 @@ import "@aragon/templates-shared/contracts/BaseTemplate.sol";
 import "./CourtWrapper.sol";
 
 
-contract Template is BaseTemplate, TokenCache {
+contract RewardTemplate is BaseTemplate, TokenCache {
     string constant private ERROR_EMPTY_HOLDERS = "TEMPLATE_EMPTY_HOLDERS";
     string constant private ERROR_BAD_HOLDERS_STAKES_LEN = "TEMPLATE_BAD_HOLDERS_STAKES_LEN";
     string constant private ERROR_BAD_VOTE_SETTINGS = "TEMPLATE_BAD_VOTE_SETTINGS";
