@@ -6,8 +6,6 @@ import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
-// TODO: Use 128bit/128bit to represent court/intercourtToken.
-
 contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
@@ -45,16 +43,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     // court ID or limit ID => owner
     mapping (uint256 => address) internal courtOwners;
-
-    struct TokenDecomposition
-    {
-        uint256 court;
-        uint256 intercourtToken;
-    }
-
-    // token ID => TokenDecomposition
-    // This mapping is updated on address calculation and on intercourt transfers.
-    mapping (uint256 => TokenDecomposition) public tokenDecomposition;
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -238,16 +226,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function getFinalCourt(uint256 _court) external view returns (uint256) {
         return _getFinalCourt(_court);
-    }
-
-    /**
-        @notice Generate a token ID for a court and an intercourt token. Updates tokenDecomposition.
-        @param _court     Court ID
-        @param _intercourtToken Intercourt token ID
-        @return           Token ID
-    */
-    function generateTokenId(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
-        return _generateTokenId(_court, _intercourtToken);
     }
 
     /// Transfer through Multiple Courts ///
@@ -559,10 +537,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value) private {
 
-        TokenDecomposition decomposition = tokenDecomposition[_id];
-        require((decomposition.court != 0 && courtOwners[decomposition.court] == msg.sender) || balances[_id][_from] >= _value,
-                "insufficient funds.");
-        require(decomposition.court != 0, "Invalid token.");
+        uint256 _court = _getCourt(_id);
+        uint256 _intercourtToken = _getToken(_id);
+    
+        require(_court != 0 && _intercourtToken != 0, "Invalid token.");
+        require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
 
         balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
         courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
@@ -593,16 +572,20 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require (_court != 0 && _intercourtToken != 0);
 
         _token = _doGenerateTokenId(_court, _intercourtToken);
-        if (tokenDecomposition[_token].court == 0) {
-            tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
-            emit TransferSingle(msg.sender, 0x0, 0x0, _token, 0); // broadcast existence of the token
-        }
     }
 
     function _doGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         // without any checks
 
-        return uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
+        return (_court << 128) + _intercourtToken;
+    }
+    
+    function _getCourt(uint256 _id) public returns (uint256) {
+        return _id >> 128;
+    }
+    
+    function _getToken(uint256 _id) public returns (uint256) {
+        return _id & ((1 << 128) - 1);
     }
     
     function _getFinalCourt(uint256 _court) public view returns (uint256) {
