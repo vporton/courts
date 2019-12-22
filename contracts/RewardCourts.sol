@@ -6,6 +6,8 @@ import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
+// TODO: Use 128bit/128bit to represent court/intercourtToken.
+
 contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
