@@ -596,7 +596,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             emit TransferSingle(msg.sender, 0x0, 0x0, _token, 0); // broadcast existence of the token
         }
     }
-    
+
     function _doGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         // without any checks
 
