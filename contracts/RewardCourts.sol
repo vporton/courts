@@ -32,8 +32,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // limitId => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
     
-    // court => (intercourt token => amount)
-    mapping (uint256 => mapping (uint256 => uint256)) public courtTotalSpents;
+    // token => amount
+    mapping (uint256 => uint256) public courtTotalSpents;
     
     // token => court
     //mapping (address => uint256) internal tokenControllingCourts;
@@ -372,7 +372,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(!isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 newValue = courtTotalSpents[i][_intercourtTokens[i]].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
+            uint256 _id = _doGenerateTokenId(i, _intercourtTokens[i]);
+            uint256 newValue = courtTotalSpents[_id].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
             if (newValue != 0) {
                 trustedCourts[_truster][_trustees[i]] = true;
                 courtLimits[_truster][_intercourtTokens[i]] = newValue;
@@ -424,8 +425,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
 
             // TODO: Can safe by token value to safe memory.
-            courtTotalSpents[decomposition.court][decomposition.intercourtToken] =
-                _value.add(courtTotalSpents[decomposition.court][decomposition.intercourtToken]);
+            courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
         } else {
             // SafeMath will throw with insufficient funds _from
             // or if _id is not valid (balance will be 0)
@@ -458,8 +458,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         require (_court != 0 && _intercourtToken != 0);
 
-        _token = uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
+        _token = _doGenerateTokenId(_court, _intercourtToken);
         tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
+    }
+    
+    function _doGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
+        // without any checks
+
+        return uint256(keccak256(abi.encodePacked(_court, _intercourtToken)));
     }
     
     function _getFinalCourt(uint256 _court) public view returns (uint256) {
@@ -491,7 +497,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             balances[_toToken][_to] = _values[k].add(balances[_toToken][_to]);
             for (i = 0; i < _courtsPath.length; ++i) {
                 for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
-                    require(courtTotalSpents[_court][_intercourtToken] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
+                    uint256 _id = _doGenerateTokenId(_court, _intercourtToken);
+                    require(courtTotalSpents[_id] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
                 }
             }
         }
