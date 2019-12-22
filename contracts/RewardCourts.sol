@@ -6,6 +6,10 @@ import "./Common.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
+// Incompatibilities with ERC-1155 standard:
+// We allow setting _to to 0x0 for burning.
+// We don't set _from to 0x0 when minting, because a single batch transfer may be both minting and regular.
+
 contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
