@@ -290,12 +290,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
 
-        // _intercourtTokens do not make sense in this context.
-        //emit TransferBatch(msg.sender, _from, _to, _intercourtTokens, _values);
         emit TransferBatch(msg.sender, _from, 0x0, _intercourtTokens, _values);
         emit TransferBatch(msg.sender, 0x0, _to, _intercourtTokens, _values);
 
-        uint256 [] memory _ids = new uint256[](_intercourtTokens.length);
+        uint256[] memory _ids = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _ids.length; ++i) {
             _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
@@ -386,12 +384,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Burning //////////////////////////////////////////////
 
     /**
-        @notice Burns `_value` amount of an `_id` from the `_from` address to the `_to` address specified (with safety call).
+        @notice Burns `_value` amount of an `_id` from the `_from` address specified (with safety call).
         @dev Caller must be approved to manage the tokens being transferred out of the `_from` account (see "Approval" section of the standard).
-        MUST revert if `_to` is the zero address.
         MUST revert on any other error.
         MUST emit the `TransferSingle` event to reflect the balance change.
-        After the above conditions are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call `onERC1155Received` on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
         @param _from    Source address
         @param _id      ID of the token type
         @param _value   Transfer amount
@@ -408,23 +404,20 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     /**
-        @notice Burns `_values` amount(s) of `_ids` from the `_from` address to the `_to` address specified (with safety call).
+        @notice Burns `_values` amount(s) of `_ids` from the `_from` address specified (with safety call).
         @dev Caller must be approved to manage the tokens being transferred out of the `_from` account (see "Approval" section of the standard).
-        MUST revert if `_to` is the zero address.
         MUST revert if length of `_ids` is not the same as length of `_values`.
         MUST revert on any other error.
         MUST emit `TransferSingle` or `TransferBatch` event(s) such that all the balance changes are reflected.
         Balance changes and events MUST follow the ordering of the arrays (_ids[0]/_values[0] before _ids[1]/_values[1], etc).
-        After the above conditions for the transfer(s) in the batch are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call the relevant `ERC1155TokenReceiver` hook(s) on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
         @param _from    Source address
         @param _ids     IDs of each token type (order and length must match _values array)
         @param _values  Transfer amounts per token type (order and length must match _ids array)
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
     */
-    function batchBurnFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
+    function batchBurnFrom(address _from, uint256[] _ids, uint256[] _values, bytes _data) external {
 
         // MUST Throw on errors
-        require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
