@@ -539,7 +539,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value) private {
 
         uint256 _court = _getCourt(_id);
-        uint256 _intercourtToken = _getToken(_id);
+        uint256 _intercourtToken = _getIntercourtToken(_id);
     
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
         require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
@@ -585,7 +585,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return _id >> 128;
     }
     
-    function _getToken(uint256 _id) public returns (uint256) {
+    function _getIntercourtToken(uint256 _id) public returns (uint256) {
         return _id & ((1 << 128) - 1);
     }
     
