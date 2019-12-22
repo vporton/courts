@@ -591,7 +591,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require (_court != 0 && _intercourtToken != 0);
 
         _token = _doGenerateTokenId(_court, _intercourtToken);
-        tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
+        if (tokenDecomposition[_token].court == 0) {
+            tokenDecomposition[_token] = TokenDecomposition({court: _court, intercourtToken: _intercourtToken});
+            emit TransferSingle(msg.sender, 0x0, 0x0, _token, 0); // broadcast existence of the token
+        }
     }
     
     function _doGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
