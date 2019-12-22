@@ -484,7 +484,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(!isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 _id = _doGenerateTokenId(i, _intercourtTokens[i]);
+            uint256 _id = _generateTokenId(i, _intercourtTokens[i]);
             uint256 newValue = courtTotalSpents[_id].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
             if (newValue != 0) {
                 trustedCourts[_truster][_trustees[i]] = true;
@@ -617,7 +617,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             balances[_toToken][_to] = _values[k].add(balances[_toToken][_to]);
             for (i = 0; i < _courtsPath.length; ++i) {
                 for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
-                    uint256 _id = _doGenerateTokenId(_court, _intercourtToken);
+                    uint256 _id = _generateTokenId(_court, _intercourtToken);
                     require(courtTotalSpents[_id] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
                 }
             }
