@@ -54,7 +54,11 @@
     "@aragon/apps-token-manager": "^2.1.0",
     "@aragon/apps-voting": "^2.1.0",
     "@aragon/os": "^4.3.0",
+<<<<<<< HEAD
     "@aragon/templates-shared": "",
+=======
+    "@aragon/apps-shared-minime": "",
+>>>>>>> parent of 386b949... new version of templates
     "@aragon/test-helpers": "^2.1.0",
     "@aragon/ui": "^1.2.1",
     "ipfs": "^0.39.0",
