@@ -50,12 +50,13 @@
     "test": "lerna run test --no-bail"
   },
   "dependencies": {
+    "@aragon/apps-shared-minime": "",
     "@aragon/apps-token-manager": "^2.1.0",
     "@aragon/apps-voting": "^2.1.0",
     "@aragon/os": "^4.3.0",
     "@aragon/templates-shared": "",
-    "@aragon/apps-shared-minime": "",
     "@aragon/test-helpers": "^2.1.0",
+    "@aragon/ui": "^1.2.1",
     "ipfs": "^0.39.0",
     "ipfs-http-client": "29.1.0",
     "npm": "^6.13.4",
