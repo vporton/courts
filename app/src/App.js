@@ -14,7 +14,7 @@ function App() {
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MainWidget ownedContract={appState.ownedContract} courtId={appState.courtId}/>
+        <MainWidget ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
     </Main>
   )
@@ -34,7 +34,6 @@ class MyForm extends React.Component {
 
   onICTokenChange(e) {
     const ict = this.ICTokenInput.current.value
-    console.log('ict:', ict)
     const valid = /^[0-9]+$/.test(ict)
     this.setState({token: calculateTokenId(this.props.courtId, ict), intercourtTokenValid: valid})
   }
@@ -57,10 +56,18 @@ class MyForm extends React.Component {
     return this.state.intercourtTokenValid && this.state.recepientValid  && this.state.amountValid
   }
   
+  mint() {
+    return this.props.api.mintFrom(this.props.ownedContract,
+                                   this.recepientInput.current.value,
+                                   this.state.token,
+                                   this.amountInput.current.value,
+                                   []).toPromise()
+  }
+  
   render() {
     const style = {width: '50em'} // prevent the widget to "jump" after the token address is shown
     return (
-      <div style={style}>
+      <div style={style} ownedContract={this.props.ownedContract}>
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
@@ -85,7 +92,8 @@ class MyForm extends React.Component {
                        class={this.state.amountValid ? "" : "error"}/></td>
           </tr>
         </table>
-        <button disabled={this.valid() ? "" : "disabled"}>Mint!</button>
+        <button disabled={this.valid() ? "" : "disabled"}
+                onClick={this.mint.bind(this)}>Mint!</button>
       </div>
     )
   }
@@ -103,7 +111,7 @@ class MainWidget extends React.Component {
       <div>
         <p>Owned contract: {this.props.ownedContract}</p>
         <p>Controlled court: {this.props.courtId}</p>
-        <MyForm courtId={this.props.courtId}/>
+        <MyForm ownedContract={this.props.ownedContract} courtId={this.props.courtId} api={this.props.api}/>
       </div>
     )
   }
