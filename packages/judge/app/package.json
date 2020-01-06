@@ -1,5 +1,5 @@
 {
-  "name": "reward-frontend",
+  "name": "@porton/apps-judge",
   "version": "1.0.0",
   "main": "src/index.js",
   "dependencies": {
