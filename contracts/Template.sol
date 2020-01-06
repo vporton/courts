@@ -3,7 +3,7 @@ pragma solidity 0.4.24;
 import "@aragon/templates-shared/contracts/TokenCache.sol";
 import "@aragon/templates-shared/contracts/BaseTemplate.sol";
 
-import "./CounterApp.sol";
+import "./CourtWrapper.sol";
 
 
 contract Template is BaseTemplate, TokenCache {
@@ -124,23 +124,23 @@ contract Template is BaseTemplate, TokenCache {
     )
         internal
     {
-        CounterApp app = _installCounterApp(_dao);
-        _createCounterAppPermissions(_acl, app, _voting, _voting);
+        CourtWrapper app = _installCourtWrapper(_dao);
+        _createCourtWrapperPermissions(_acl, app, _voting, _voting);
     }
 
-    function _installCounterApp(
+    function _installCourtWrapper(
         Kernel _dao
     )
-        internal returns (CounterApp)
+        internal returns (CourtWrapper)
     {
         bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
-        bytes memory initializeData = abi.encodeWithSelector(CounterApp(0).initialize.selector);
-        return CounterApp(_installDefaultApp(_dao, _appId, initializeData));
+        bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
+        return CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
     }
 
-    function _createCounterAppPermissions(
+    function _createCourtWrapperPermissions(
         ACL _acl,
-        CounterApp _app,
+        CourtWrapper _app,
         address _grantee,
         address _manager
     )
