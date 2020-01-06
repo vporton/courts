@@ -42,12 +42,14 @@ contract Template is BaseTemplate, TokenCache {
         string _tokenSymbol,
         address[] _holders,
         uint256[] _stakes,
-        uint64[3] _votingSettings
+        uint64[3] _votingSettings,
+        address _courtContract,
+        uint256 _courtId
     )
         external
     {
         newToken(_tokenName, _tokenSymbol);
-        newInstance(_holders, _stakes, _votingSettings);
+        newInstance(_holders, _stakes, _votingSettings, RewardCourts(_courtContract), _courtId);
     }
 
     /**
@@ -70,7 +72,9 @@ contract Template is BaseTemplate, TokenCache {
     function newInstance(
         address[] memory _holders,
         uint256[] memory _stakes,
-        uint64[3] memory _votingSettings
+        uint64[3] memory _votingSettings,
+        address _courtContract,
+        uint256 _courtId
     )
         public
     {
@@ -79,7 +83,7 @@ contract Template is BaseTemplate, TokenCache {
         (Kernel dao, ACL acl) = _createDAO();
         (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
         // Setup placeholder-app-name app
-        _setupCustomApp(dao, acl, voting);
+        _setupCustomApp(dao, acl, voting, RewardCourts(_courtContract), _courtId);
         _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
     }
 
@@ -120,26 +124,34 @@ contract Template is BaseTemplate, TokenCache {
     function _setupCustomApp(
         Kernel _dao,
         ACL _acl,
-        Voting _voting
+        Voting _voting,
+        RewardCourts _courtContract,
+        uint256 _courtId
     )
         internal
     {
-        CourtWrapper app = _installCourtWrapper(_dao);
+        CourtWrapper app = _installCourtWrapper(_dao, _courtContract, _courtId);
         _createCourtWrapperPermissions(_acl, app, _voting, _voting);
     }
 
     function _installCourtWrapper(
-        Kernel _dao
+        Kernel _dao,
+        RewardCourts _courtContract,
+        uint256 _courtId
     )
         internal returns (CourtWrapper)
     {
         bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
         bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
-        CourtWrapper wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
-        RewardCourts courtContract = new RewardCourts();
-        uint256 courtId = courtContract.createCourt();
-        wrapper.postInitialize(courtContract, courtId);
-        return wrapper;
+        CourtWrapper _wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
+        if (_courtContract == RewardCourts(0)) {
+            _courtContract = new RewardCourts();
+            if (_courtId == 0) {
+                _courtId = _courtContract.createCourt();
+            }
+            _wrapper.postInitialize(_courtContract, _courtId);
+        }
+        return _wrapper;
     }
 
     function _createCourtWrapperPermissions(
