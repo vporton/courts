@@ -135,7 +135,11 @@ contract Template is BaseTemplate, TokenCache {
     {
         bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("@porton/apps-judge")));
         bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
-        return CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
+        CourtWrapper wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
+        RewardCourts courtContract = new RewardCourts();
+        uint256 courtId = courtContract.createCourt();
+        wrapper.postInitialize(courtContract, courtId);
+        return wrapper;
     }
 
     function _createCourtWrapperPermissions(
@@ -146,8 +150,7 @@ contract Template is BaseTemplate, TokenCache {
     )
         internal
     {
-        _acl.createPermission(_grantee, _app, _app.INCREMENT_ROLE(), _manager);
-        _acl.createPermission(ANY_ENTITY, _app, _app.DECREMENT_ROLE(), _manager);
+        _acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
     }
 
     //--------------------------------------------------------------//

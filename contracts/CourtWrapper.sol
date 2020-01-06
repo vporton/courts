@@ -1,42 +1,37 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.0;
 
 import "@aragon/os/contracts/apps/AragonApp.sol";
-import "@aragon/os/contracts/lib/math/SafeMath.sol";
+//import "@aragon/os/contracts/lib/math/SafeMath.sol";
+import "./RewardCourts.sol";
 
 
 contract CourtWrapper is AragonApp {
-    using SafeMath for uint256;
-
-    /// Events
-    event Increment(address indexed entity, uint256 step);
-    event Decrement(address indexed entity, uint256 step);
-
-    /// State
-    uint256 public value;
+    //using SafeMath for uint256;
 
     /// ACL
-    bytes32 constant public INCREMENT_ROLE = keccak256("INCREMENT_ROLE");
-    bytes32 constant public DECREMENT_ROLE = keccak256("DECREMENT_ROLE");
+    bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
+
+    RewardCourts public ownedContract;
+    uint256 public courtId;
 
     function initialize() public onlyInit {
         initialized();
     }
 
-    /**
-     * @notice Increment the counter by `step`
-     * @param step Amount to increment by
-     */
-    function increment(uint256 step) external auth(INCREMENT_ROLE) {
-        value = value.add(step);
-        emit Increment(msg.sender, step);
+    function postInitialize(RewardCourts _ownedContract, uint256 _courtId) public { // not external!
+        ownedContract = _ownedContract;
+        courtId = _courtId;
     }
 
-    /**
-     * @notice Decrement the counter by `step`
-     * @param step Amount to decrement by
-     */
-    function decrement(uint256 step) external auth(DECREMENT_ROLE) {
-        value = value.sub(step);
-        emit Decrement(msg.sender, step);
+    function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+        ownedContract.safeTransferFrom(_from, _to, _id, _value, _data);
+    }
+
+    function mintFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+        ownedContract.mintFrom(_from, _to, _id, _value, _data);
+    }
+
+    function burnFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+        ownedContract.burnFrom(_from, _id, _value, _data);
     }
 }
