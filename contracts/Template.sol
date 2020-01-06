@@ -43,13 +43,13 @@ contract Template is BaseTemplate, TokenCache {
         address[] _holders,
         uint256[] _stakes,
         uint64[3] _votingSettings,
-        address _courtContract,
+        RewardCourts _courtContract,
         uint256 _courtId
     )
         external
     {
         newToken(_tokenName, _tokenSymbol);
-        newInstance(_holders, _stakes, _votingSettings, RewardCourts(_courtContract), _courtId);
+        newInstance(_holders, _stakes, _votingSettings, _courtContract, _courtId);
     }
 
     /**
@@ -73,7 +73,7 @@ contract Template is BaseTemplate, TokenCache {
         address[] memory _holders,
         uint256[] memory _stakes,
         uint64[3] memory _votingSettings,
-        address _courtContract,
+        RewardCourts _courtContract,
         uint256 _courtId
     )
         public
@@ -83,7 +83,7 @@ contract Template is BaseTemplate, TokenCache {
         (Kernel dao, ACL acl) = _createDAO();
         (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
         // Setup placeholder-app-name app
-        _setupCustomApp(dao, acl, voting, RewardCourts(_courtContract), _courtId);
+        _setupCustomApp(dao, acl, voting, _courtContract, _courtId);
         _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
     }
 
