@@ -96,7 +96,7 @@ class MainWidget extends React.Component {
     return (
       <div>
         <p>Owned contract: {this.props.ownedContract}</p>
-        <p>Controlled court: this.props.courtId</p>
+        <p>Controlled court: {this.props.courtId}</p>
         <MyForm/>
       </div>
     )
