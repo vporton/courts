@@ -44,6 +44,22 @@
     "truffle": "^5.1.4"
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "build:apps": "npm run build:app:judge",
+    "build:app:judge": "lerna run build:app --scope=@porton/apps-judge",
+    "build:script:judge": "lerna run build:script --scope=@porton/apps-judge",
+    "deploy:apps:rinkeby": "lerna run --scope='@porton/apps-*' deploy:rinkeby --stream",
+    "deploy:apps:rpc": "lerna run --scope='@porton/apps-*' deploy:rpc --stream",
+    "deploy:apps:staging": "lerna run --scope='@porton/apps-*' deploy:staging --stream",
+    "deploy:rinkeby": "npm run deploy:apps:rinkeby",
+    "deploy:rpc": "npm run deploy:apps:rpc",
+    "deploy:staging": "npm run deploy:apps:staging",
+    "devchain": "lerna run devchain --stream",
+    "frontend": "lerna run frontend --stream --parallel",
+    "lint": "npm run lint:contracts && lerna exec --scope=@porton/apps-* --stream -- eslint app",
+    "publish:apps": "lerna run publish",
+    "publish:http": "lerna run --scope='@porton/apps-*' publish:http --stream",
+    "coverage": "lerna run coverage --no-bail",
     "prepare": "cd app && npm install && cd ..",
     "start": "npm run start:ipfs",
     "start:ipfs": "aragon run --files dist",
@@ -61,6 +77,10 @@
     "publish:patch": "aragon apm publish patch",
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
-    "versions": "aragon apm versions"
+    "versions": "aragon apm versions",
+    "start:staging": "lerna run --scope='@porton/apps-*' start:staging --stream",
+    "start:rinkeby": "lerna run --scope='@porton/apps-*' start:rinkeby --stream",
+    "test:judge": "cd packages/judge && npm test",
+    "test": "lerna run test --no-bail"
   }
 }
