@@ -27,17 +27,21 @@ class MyForm extends React.Component {
       token: null,
       intercourtTokenValid: false, recepientValid: false, amountValid: false
     }
+    this.ICTokenInput = React.createRef()
+    this.recepientInput = React.createRef()
+    this.amountInput = React.createRef()
   }
 
-  onICTokenChange() {
-    const ict = document.getElementById('intercourtToken').value
+  onICTokenChange(e) {
+    const ict = this.ICTokenInput.current.value
+    console.log('ict:', ict)
     const valid = /^[0-9]+$/.test(ict)
-    this.setState({token: calculateTokenId(this.state.controlledCourt, ict), intercourtTokenValid: valid})
+    this.setState({token: calculateTokenId(this.props.courtId, ict), intercourtTokenValid: valid})
   }
 
   onRecepientTokenChange() {
     try {
-      const address = toChecksumAddress(document.getElementById('recepient').value)
+      const address = toChecksumAddress(this.recepientInput.current.value)
       this.setState({recepientValid: true})
     } catch(e) { 
       console.error('invalid Ethereum address', e.message)
@@ -46,7 +50,7 @@ class MyForm extends React.Component {
   }
 
   onAmountChange() {
-    this.setState({amountValid: /^[0-9]+$/.test(document.getElementById('amount').value)})
+    this.setState({amountValid: /^[0-9]+$/.test(this.amountInput.current.value)})
   }
 
   valid() {
@@ -60,7 +64,7 @@ class MyForm extends React.Component {
         <table>
           <tr>
             <TH><label>Intercourt token:</label></TH>
-            <td><input id="intercourtToken"
+            <td><input ref={this.ICTokenInput}
                        type="number"
                        onChange={this.onICTokenChange.bind(this)}
                        class={this.state.intercourtTokenValid ? "" : "error"}/></td>
@@ -68,13 +72,15 @@ class MyForm extends React.Component {
           <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
           <tr>
             <TH><label>Recepient:</label></TH>
-            <td><input id="recepient" size="42" maxlength="42"
+            <td><input ref={this.recepientInput}
+                       size="42" maxlength="42"
                        onChange={this.onRecepientTokenChange.bind(this)}
                        class={this.state.recepientValid ? "" : "error"}/></td>
           </tr>
           <tr>
             <TH><label>Amount:</label></TH>
-            <td><input id="amount" type="number" class="error"
+            <td><input ref={this.amountInput}
+                       id="amount" type="number"
                        onChange={this.onAmountChange.bind(this)}
                        class={this.state.amountValid ? "" : "error"}/></td>
           </tr>
@@ -97,7 +103,7 @@ class MainWidget extends React.Component {
       <div>
         <p>Owned contract: {this.props.ownedContract}</p>
         <p>Controlled court: {this.props.courtId}</p>
-        <MyForm/>
+        <MyForm courtId={this.props.courtId}/>
       </div>
     )
   }
