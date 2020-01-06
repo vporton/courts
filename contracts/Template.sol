@@ -136,9 +136,9 @@ contract Template is BaseTemplate, TokenCache {
         bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
         bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
         CourtWrapper wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
-        //RewardCourts courtContract = new RewardCourts();
-        //uint256 courtId = courtContract.createCourt();
-        //wrapper.postInitialize(RewardCourts(10)/*courtContract*/, courtId); // FIXME
+        RewardCourts courtContract = new RewardCourts();
+        uint256 courtId = courtContract.createCourt();
+        wrapper.postInitialize(courtContract, courtId);
         return wrapper;
     }
 
