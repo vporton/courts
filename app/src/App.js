@@ -59,7 +59,7 @@ class MyForm extends React.Component {
   mint() {
     return this.props.api.mintFrom(this.props.ownedContract,
                                    this.recepientInput.current.value,
-                                   this.state.token,
+                                   this.ICTokenInput.current.value,
                                    this.amountInput.current.value,
                                    []).toPromise()
   }
@@ -145,7 +145,7 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
 `
 
 function calculateTokenId(court, intercourtToken) {
-  return soliditySha3(court, intercourtToken)
+  return String(BigInt(soliditySha3(court, intercourtToken)))
 }
 
 export default App
