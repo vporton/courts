@@ -31,7 +31,7 @@ contract CourtWrapper is AragonApp {
     }
 
     /**
-      * @notice Mints `_value` intercourt tokens `_intercourtToken` from the `_from` address to the `_to` address specified (with safety call).
+      * @notice Mints `_value` intercourt tokens #`_intercourtToken` from the `_from` address to the `_to` address specified (with safety call).
       */
     function mintFrom(address _from, address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
