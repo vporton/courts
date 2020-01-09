@@ -44,12 +44,13 @@ contract Template is BaseTemplate, TokenCache {
         uint256[] _stakes,
         uint64[3] _votingSettings,
         RewardCourts _courtContract,
-        uint256 _courtId
+        uint256 _courtId,
+        address _soleController // mainly for debugging, 0x0 means nobody
     )
         external
     {
         newToken(_tokenName, _tokenSymbol);
-        newInstance(_holders, _stakes, _votingSettings, _courtContract, _courtId);
+        newInstance(_holders, _stakes, _votingSettings, _courtContract, _courtId, _soleController);
     }
 
     /**
@@ -74,7 +75,8 @@ contract Template is BaseTemplate, TokenCache {
         uint256[] memory _stakes,
         uint64[3] memory _votingSettings,
         RewardCourts _courtContract,
-        uint256 _courtId
+        uint256 _courtId,
+        address _soleController
     )
         public
     {
@@ -83,7 +85,7 @@ contract Template is BaseTemplate, TokenCache {
         (Kernel dao, ACL acl) = _createDAO();
         (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
         // Setup placeholder-app-name app
-        _setupCustomApp(dao, acl, voting, _courtContract, _courtId);
+        _setupCustomApp(dao, acl, voting, _courtContract, _courtId, _soleController);
         _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
     }
 
@@ -126,12 +128,13 @@ contract Template is BaseTemplate, TokenCache {
         ACL _acl,
         Voting _voting,
         RewardCourts _courtContract,
-        uint256 _courtId
+        uint256 _courtId,
+        address _soleController
     )
         internal
     {
         CourtWrapper app = _installCourtWrapper(_dao, _courtContract, _courtId);
-        _createCourtWrapperPermissions(_acl, app, _voting, _voting);
+        _createCourtWrapperPermissions(_acl, app, _voting, _voting/*, _soleController*/); // uncomment
     }
 
     function _installCourtWrapper(
@@ -158,11 +161,15 @@ contract Template is BaseTemplate, TokenCache {
         ACL _acl,
         CourtWrapper _app,
         address _grantee,
-        address _manager
+        address _manager/*,
+        address _soleController*/ // uncomment
     )
         internal
     {
         _acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
+//        if (_soleController != 0x0) {
+//            _acl.createPermission(_soleController, _app, _app.JUDGE_ROLE(), _manager);
+//        }
     }
 
     //--------------------------------------------------------------//
