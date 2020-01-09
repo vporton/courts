@@ -134,7 +134,7 @@ contract Template is BaseTemplate, TokenCache {
         internal
     {
         CourtWrapper app = _installCourtWrapper(_dao, _courtContract, _courtId);
-        _createCourtWrapperPermissions(_acl, app, _voting, _voting/*, _soleController*/); // uncomment
+        _createCourtWrapperPermissions(_acl, app, _voting, _voting, _soleController); // uncomment
     }
 
     function _installCourtWrapper(
@@ -161,8 +161,8 @@ contract Template is BaseTemplate, TokenCache {
         ACL _acl,
         CourtWrapper _app,
         address _grantee,
-        address _manager/*,
-        address _soleController*/ // uncomment
+        address _manager,
+        address _soleController // uncomment
     )
         internal
     {
