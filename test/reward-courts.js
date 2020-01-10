@@ -24,16 +24,26 @@ contract("RewardCourts", accounts => {
         let token = generateTokenId(courtId, ICTokenId)
         await instance.mintFrom(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
-        try {
-          await instance.mintFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
-          assert.fail("Minting from another's wallet")
+        {
+          let error = true;
+          try {
+            await instance.mintFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "Minting from another's wallet")
         }
-        catch(e) { }
-        try {
-          await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], {from: accounts[0]})
-          assert.fail("Minting a foreign token")
+        {
+          let error = true;
+          try {
+            await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "Minting a foreign token")
         }
-        catch(e) { }
         return [instance, courtId, ICTokenId]
       })
       .then(async args => {
@@ -42,16 +52,26 @@ contract("RewardCourts", accounts => {
         await instance.safeTransferFrom(accounts[1], accounts[2], token, 2, [], {from: accounts[1]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 10, "Wrong value after transfer")
         assert.equal(await instance.balanceOf.call(accounts[2], token), 2, "Wrong value after transfer")
-        try {
-          await instance.safeTransferFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
-          assert.fail("Transferring from another's wallet")
+        {
+          let error = true;
+          try {
+            await instance.safeTransferFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "Transferring from another's wallet")
         }
-        catch(e) { }
-        try {
-          await instance.safeTransferFrom(accounts[1], accounts[2], token, 100, [], {from: accounts[0]})
-          assert.fail("Exceeding transfer limit")
+        {
+          let error = true;
+          try {
+            await instance.safeTransferFrom(accounts[1], accounts[2], token, 100, [], {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "Exceeding transfer limit")
         }
-        catch(e) { }
       })
   })
 
@@ -99,12 +119,17 @@ contract("RewardCourts", accounts => {
         // The first transfer shall succeed, the second one overflow (because 300 + 300 > 500).
         await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2, courtId3], [],
                                           {from: accounts[1]})
-        try {
-          await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2], [],
-                                            {from: accounts[1]})
-          assert.fail("This intercourt transfer must fail")
+        {
+          let error = true;
+          try {
+            await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2], [],
+                                              {from: accounts[1]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "This intercourt transfer must fail")
         }
-        catch(e) { }
         
         return [instance, courtId1, courtId2, courtId3, ICTokenId]
       })

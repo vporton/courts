@@ -559,6 +559,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256 _court = _getCourt(_id);
         uint256 _intercourtToken = _getIntercourtToken(_id);
     
+        // FIXME: Seems not to decrease balances of foreign tokens.
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
         require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
 
