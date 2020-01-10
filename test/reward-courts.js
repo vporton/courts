@@ -37,7 +37,7 @@ contract("RewardCourts", accounts => {
         return [instance, courtId, ICTokenId]
       })
       .then(async args => {
-        let [instance, courtId, ICTokenId] = args;
+        let [instance, courtId, ICTokenId] = args
         let token = generateTokenId(courtId, ICTokenId)
         await instance.safeTransferFrom(accounts[1], accounts[2], token, 2, [], {from: accounts[1]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 10, "Wrong value after transfer")
@@ -52,6 +52,33 @@ contract("RewardCourts", accounts => {
           assert.fail("Exceeding transfer limit")
         }
         catch(e) { }
-      });
+      })
   })
+
+contract("RewardCourts", accounts => {
+  it("limit courts", () => {
+    return RewardCourts.deployed()
+      .then(instance => Promise.all([Promise.resolve(instance),
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createIntercourtToken()]))
+      .then(async args => {
+        let [instance, courtId, ICTokenId] = args
+        courtId = courtId.logs[0].args[1]
+        ICTokenId = ICTokenId.logs[0].args[0]
+        return [instance, courtId, ICTokenId]
+      })
+      .then(async args => {
+        let [instance, courtId, ICTokenId] = args
+        // Create a chain of two limit courts
+        let limitCourt1 = (await instance.createLimitCourt(courtId, {from: accounts[0]})).logs[0].args[1]
+        assert.equal(await instance.courtOwners.call(limitCourt1), accounts[0], "Wrong limit court owner")
+        assert.equal(String(await instance.limitCourts.call(limitCourt1)), String(courtId), "Wrong limit court base") // why String() needed?
+        let limitCourt2 = (await instance.createLimitCourt(limitCourt1, {from: accounts[0]})).logs[0].args[1]
+        assert.equal(await instance.courtOwners.call(limitCourt2), accounts[0], "Wrong limit court owner")
+        assert.equal(String(await instance.limitCourts.call(limitCourt2)), String(limitCourt1), "Wrong limit court base")
+        return [instance, courtId, ICTokenId]
+      })
+    })
+  })
+
 });

@@ -20,14 +20,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     mapping (address => mapping(address => bool)) internal operatorApproval;
     
     // token => (owner => spentLimit)
-    //mapping (address => mapping (address => uint256)) internal spentLimit; // It is better done in the wrapper (voting) contract.
+    //mapping (address => mapping (address => uint256)) public spentLimit; // It is better done in the wrapper (voting) contract.
     
     // Trustee can be either a court ID or limit ID.
     // truster => (trustee => bool)
     mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
     
     // limitId => court
-    mapping (uint256 => uint256) limitCourts;
+    mapping (uint256 => uint256) public limitCourts;
     
     // limitId => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
@@ -36,13 +36,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     mapping (uint256 => uint256) public courtTotalSpents;
     
     // token => court
-    //mapping (address => uint256) internal tokenControllingCourts;
+    //mapping (address => uint256) public tokenControllingCourts;
 
     // token => intercourt token
-    //mapping (address => uint256) internal interCourtTokens;
+    //mapping (address => uint256) public interCourtTokens;
     
     // court ID or limit ID => owner
-    mapping (uint256 => address) public courtOwners; // FIXME: internal
+    mapping (uint256 => address) public courtOwners;
 
     event CourtCreated(address owner, uint256 _id);
     event LimitCourtCreated(uint256 _base, uint256 _id);
