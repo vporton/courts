@@ -6,14 +6,14 @@ function generateTokenId(_court, _intercourtToken) {
 
 contract("RewardCourts", accounts => {
   it("can mint", () => {
-    RewardCourts.deployed()
+    return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
                                      instance.createCourt.call(),
                                      instance.createIntercourtToken.call()]))
       .then(args => {
         // dsfdsf() // FIXME: not reached
         let [instance, courtId, ICTokenId] = args
-        assert.equal(courtId, 2, "Wrong court ID") // FIXME
+        assert.equal(courtId, 1, "Wrong court ID")
         assert.equal(ICTokenId, 1, "Wrong intercourt token ID")
         return [instance, courtId, ICTokenId]
       })
