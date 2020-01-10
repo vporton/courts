@@ -42,7 +42,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //mapping (address => uint256) internal interCourtTokens;
     
     // court ID or limit ID => owner
-    mapping (uint256 => address) internal courtOwners;
+    mapping (uint256 => address) public courtOwners; // FIXME: internal
+
+    event CourtCreated(address owner, uint256 _id);
+    event LimitCourtCreated(uint256 _base, uint256 _id);
+    event IntercourtTokenCreated(uint256 _ictoken);
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -428,16 +432,17 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function setOwner(uint256 _court, address _owner) external {
         require(courtOwners[_court] == msg.sender);
         courtOwners[_court] = _owner;
+
     }
 
     /**
         @notice Create a regular court.
         @return           Court ID
     */
-    function createCourt() external returns (uint256) {
-        uint256 _id = ++nonce;
+    function createCourt() external returns (uint256 _id) {
+        _id = ++nonce;
         courtOwners[_id] = msg.sender;
-        return _id;
+        emit CourtCreated(msg.sender, _id);
     }
 
 
@@ -450,6 +455,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
         limitCourts[_id] = _court;
+        emit LimitCourtCreated(_court, _id);
         return _id;
     }
 
@@ -462,6 +468,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // _id is Intercourt token, not a token
         // if (bytes(_uri).length > 0)
         //     emit URI(_uri, _id);
+        emit IntercourtTokenCreated(_id);
         return _id;
     }
 

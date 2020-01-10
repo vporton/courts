@@ -1,26 +1,29 @@
 const RewardCourts = artifacts.require("RewardCourts")
 
 function generateTokenId(_court, _intercourtToken) {
-    return (_court << 128) + _intercourtToken;
+    return String((BigInt(_court) << 128n) + BigInt(_intercourtToken));
 }
 
 contract("RewardCourts", accounts => {
   it("can mint", () => {
     return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
-                                     instance.createCourt.call(),
-                                     instance.createIntercourtToken.call()]))
-      .then(args => {
-        // dsfdsf() // FIXME: not reached
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createIntercourtToken()]))
+      .then(async args => {
         let [instance, courtId, ICTokenId] = args
+        courtId = courtId.logs[0].args[1]
+        ICTokenId = ICTokenId.logs[0].args[0]
         assert.equal(courtId, 1, "Wrong court ID")
-        assert.equal(ICTokenId, 1, "Wrong intercourt token ID")
+        assert.equal(ICTokenId, 2, "Wrong intercourt token ID")
+        assert.equal(await instance.courtOwners.call(courtId), accounts[0], "Wrong court owner")
         return [instance, courtId, ICTokenId]
       })
-//       .then(([instance, courtId, ICTokenId]) => {
-//         //console.log("instance, courtId, ICTokenId", instance, courtId, ICTokenId)
-//         instance.mintFrom.send(accounts[0], accounts[1], generateTokenId(courtId, ICTokenId), 12, [])
-//         assert.equal(instance.getBalance.call(accounts[1]), 12.1, "Wrong minted amount")
+//       .then(async args => {
+//         let [instance, courtId, ICTokenId] = args;
+//         let token = generateTokenId(courtId, ICTokenId)
+//         await instance.mintFrom.call(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
+//         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
 //       });
   })
 });
