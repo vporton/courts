@@ -24,6 +24,16 @@ contract("RewardCourts", accounts => {
         let token = generateTokenId(courtId, ICTokenId)
         await instance.mintFrom(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
+        try {
+          await instance.mintFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
+          assert.fail("Minting from another's wallet")
+        }
+        catch(e) { }
+        try {
+          await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], {from: accounts[0]})
+          assert.fail("Minting a foreign token")
+        }
+        catch(e) { }
         return [instance, courtId, ICTokenId]
       })
       .then(async args => {
@@ -32,6 +42,16 @@ contract("RewardCourts", accounts => {
         await instance.safeTransferFrom(accounts[1], accounts[2], token, 2, [], {from: accounts[1]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 10, "Wrong value after transfer")
         assert.equal(await instance.balanceOf.call(accounts[2], token), 2, "Wrong value after transfer")
+        try {
+          await instance.safeTransferFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
+          assert.fail("Transferring from another's wallet")
+        }
+        catch(e) { }
+        try {
+          await instance.safeTransferFrom(accounts[1], accounts[2], token, 100, [], {from: accounts[0]})
+          assert.fail("Exceeding transfer limit")
+        }
+        catch(e) { }
       });
   })
 });
