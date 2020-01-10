@@ -37,4 +37,13 @@ contract CourtWrapper is AragonApp {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
         ownedContract.mintFrom(_from, _to, _id, _value, _data);
     }
+
+    /**
+     * @notice Transfer money through several courts with automatic currency conversion between court tokens.
+     *
+     * Allowed to everybody.
+     */
+    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
+        ownedContract.intercourtTransfer(_from, _to, _intercourtToken, _value, _courtsPath, _data);
+    }
 }

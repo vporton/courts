@@ -45,7 +45,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     mapping (uint256 => address) public courtOwners;
 
     event CourtCreated(address owner, uint256 _id);
-    event LimitCourtCreated(uint256 _base, uint256 _id);
+    event LimitCourtCreated(address owner, uint256 _base, uint256 _id);
     event IntercourtTokenCreated(uint256 _ictoken);
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
@@ -455,7 +455,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
         limitCourts[_id] = _court;
-        emit LimitCourtCreated(_court, _id);
+        emit LimitCourtCreated(msg.sender, _court, _id);
         return _id;
     }
 
@@ -487,15 +487,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _limits  New limits (order and length must match _intercourtTokens array)
     */
     function setCourtLimits(uint256 _truster, uint256[] _trustees, uint256[] _intercourtTokens, uint256[] _limits) external {
-        require(courtOwners[_truster] == msg.sender);
+        require(courtOwners[_truster] == msg.sender, "We are not trusteer owner");
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
         require(!isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 _id = _generateTokenId(i, _intercourtTokens[i]);
+            uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
             uint256 newValue = courtTotalSpents[_id].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
             if (newValue != 0) {
-                trustedCourts[_truster][_trustees[i]] = true;
                 courtLimits[_truster][_intercourtTokens[i]] = newValue;
             }
         }
@@ -509,25 +508,37 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _limits  Limit values to add (order and length must match _intercourtTokens array)
     */
     function addToCourtLimits(uint256 _truster, uint256[] _trustees, uint256[] _intercourtTokens, uint256[] _limits) external {
-        require(courtOwners[_truster] == msg.sender);
+        require(courtOwners[_truster] == msg.sender, "We are not trusteer owner");
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
         require(!isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
             uint256 newValue = _limits[i].add(courtLimits[_truster][_intercourtTokens[i]]);
             if (newValue != 0) {
-                trustedCourts[_truster][_trustees[i]] = true;
                 courtLimits[_truster][_intercourtTokens[i]] = newValue;
             }
         }
     }
     
     /**
+        @notice Trust these courts.
+        @param _truster The truster court
+        @param _trustees The trustee courts to add
+    */
+    function trustCourts(uint256 _truster, uint256[] _trustees) external {
+        require(!isLimitCourt(_truster));
+        for (uint i = 0; i < _trustees.length; ++i) {
+            trustedCourts[_truster][_trustees[i]] = true;
+        }
+    }
+
+    /**
         @notice Do not trust these courts anymore.
         @param _truster The truster court
         @param _trustees The trustee courts to remove
     */
     function untrustCourts(uint256 _truster, uint256[] _trustees) external {
+        require(!isLimitCourt(_truster));
         for (uint i = 0; i < _trustees.length; ++i) {
             trustedCourts[_truster][_trustees[i]] = false;
         }
@@ -600,7 +611,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _getFinalCourt(uint256 _court) public view returns (uint256) {
         for (;;) {
             uint256 _court2 = limitCourts[_court];
-            if (!isLimitCourt(_court2)) return _court2;
+            if (_court2 == 0x0) return _court;
             _court = _court2;
         }
     }
@@ -613,7 +624,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         //require(checkNoDuplicates(_courtsPath), "Duplicate courts.");
 
         for (uint i = 0; i < _courtsPath.length - 1; ++i) {
-            require(trustedCourts[_courtsPath[i]][_courtsPath[i+1]], "A court in the path is not in a trusted list.");
+            require(trustedCourts[_getFinalCourt(_courtsPath[i+1])][_courtsPath[i]], "A court in the path is not in a trusted list.");
         }
 
         for (uint k = 0; k < _ids.length; ++k) {

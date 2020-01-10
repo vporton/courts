@@ -57,26 +57,58 @@ contract("RewardCourts", accounts => {
 
 contract("RewardCourts", accounts => {
   it("limit courts", () => {
+    // make trust court3 -> limitCourt2 -> limitCourt3
     return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
                                      instance.createCourt({from: accounts[0]}),
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createCourt({from: accounts[0]}),
                                      instance.createIntercourtToken()]))
       .then(async args => {
-        let [instance, courtId, ICTokenId] = args
-        courtId = courtId.logs[0].args[1]
+        let [instance, courtId1, courtId2, courtId3, ICTokenId] = args
+        courtId1 = courtId1.logs[0].args[1]
+        courtId2 = courtId2.logs[0].args[1]
+        courtId3 = courtId3.logs[0].args[1]
         ICTokenId = ICTokenId.logs[0].args[0]
-        return [instance, courtId, ICTokenId]
+        return [instance, courtId1, courtId2, courtId3, ICTokenId]
       })
       .then(async args => {
-        let [instance, courtId, ICTokenId] = args
-        // Create a chain of two limit courts
-        let limitCourt1 = (await instance.createLimitCourt(courtId, {from: accounts[0]})).logs[0].args[1]
+        let [instance, courtId1, courtId2, courtId3, ICTokenId] = args
+        // TODO: Testing chains of limit courts.
+        let limitCourt1 = (await instance.createLimitCourt(courtId1, {from: accounts[0]})).logs[0].args[2]
         assert.equal(await instance.courtOwners.call(limitCourt1), accounts[0], "Wrong limit court owner")
-        assert.equal(String(await instance.limitCourts.call(limitCourt1)), String(courtId), "Wrong limit court base") // why String() needed?
-        let limitCourt2 = (await instance.createLimitCourt(limitCourt1, {from: accounts[0]})).logs[0].args[1]
+        assert.equal(String(await instance.limitCourts.call(limitCourt1)), String(courtId1), "Wrong limit court base") // why String() needed?
+        let limitCourt2 = (await instance.createLimitCourt(courtId2, {from: accounts[0]})).logs[0].args[2]
         assert.equal(await instance.courtOwners.call(limitCourt2), accounts[0], "Wrong limit court owner")
-        assert.equal(String(await instance.limitCourts.call(limitCourt2)), String(limitCourt1), "Wrong limit court base")
-        return [instance, courtId, ICTokenId]
+        assert.equal(String(await instance.limitCourts.call(limitCourt2)), String(courtId2), "Wrong limit court base")
+        let limitCourt3 = (await instance.createLimitCourt(courtId3, {from: accounts[0]})).logs[0].args[2]
+        assert.equal(await instance.courtOwners.call(limitCourt3), accounts[0], "Wrong limit court owner")
+        assert.equal(String(await instance.limitCourts.call(limitCourt3)), String(courtId3), "Wrong limit court base")
+        
+        await instance.setCourtLimits(courtId1, [limitCourt1], [ICTokenId], [10000], {from: accounts[0]})
+        await instance.setCourtLimits(courtId2, [limitCourt2], [ICTokenId], [200], {from: accounts[0]})
+        await instance.addToCourtLimits(courtId2, [limitCourt2], [ICTokenId], [300], {from: accounts[0]})
+        await instance.setCourtLimits(courtId3, [limitCourt3], [ICTokenId], [10000], {from: accounts[0]})
+        await instance.trustCourts(courtId2, [limitCourt1]);
+        await instance.trustCourts(courtId3, [limitCourt2]);
+        //assert.equal(await instance.courtLimits.call(limitCourt2, ICTokenId), 500, "Limits set wrongly"); // FIXME: uncomment
+
+        let token = generateTokenId(courtId1, ICTokenId)
+        await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], {from: accounts[0]})
+        
+        // The first transfer shall succeed, the second one overflow (because 300 + 300 > 500).
+//         await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, courtId2/*limitCourt2*/], [],
+//                                           {from: accounts[1]})
+        await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2, courtId3], [],
+                                          {from: accounts[1]})
+        try {
+          await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2], [],
+                                            {from: accounts[1]})
+          assert.fail("This intercourt transfer must fail")
+        }
+        catch(e) { }
+        
+        return [instance, courtId1, courtId2, courtId3, ICTokenId]
       })
     })
   })
