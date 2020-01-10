@@ -24,6 +24,14 @@ contract("RewardCourts", accounts => {
         let token = generateTokenId(courtId, ICTokenId)
         await instance.mintFrom(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
+        return [instance, courtId, ICTokenId]
+      })
+      .then(async args => {
+        let [instance, courtId, ICTokenId] = args;
+        let token = generateTokenId(courtId, ICTokenId)
+        await instance.safeTransferFrom(accounts[1], accounts[2], token, 2, [], {from: accounts[1]})
+        assert.equal(await instance.balanceOf.call(accounts[1], token), 10, "Wrong value after transfer")
+        assert.equal(await instance.balanceOf.call(accounts[2], token), 2, "Wrong value after transfer")
       });
   })
 });
