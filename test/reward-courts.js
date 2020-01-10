@@ -19,11 +19,11 @@ contract("RewardCourts", accounts => {
         assert.equal(await instance.courtOwners.call(courtId), accounts[0], "Wrong court owner")
         return [instance, courtId, ICTokenId]
       })
-//       .then(async args => {
-//         let [instance, courtId, ICTokenId] = args;
-//         let token = generateTokenId(courtId, ICTokenId)
-//         await instance.mintFrom.call(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
-//         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
-//       });
+      .then(async args => {
+        let [instance, courtId, ICTokenId] = args;
+        let token = generateTokenId(courtId, ICTokenId)
+        await instance.mintFrom(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
+        assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
+      });
   })
 });
