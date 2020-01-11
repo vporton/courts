@@ -105,10 +105,10 @@ contract("RewardCourts", accounts => {
         assert.equal(await instance.courtOwners.call(limitCourt3), accounts[0], "Wrong limit court owner")
         assert.equal(String(await instance.limitCourts.call(limitCourt3)), String(courtId3), "Wrong limit court base")
         
-        await instance.setCourtLimits(courtId1, [limitCourt1], [ICTokenId], [10000], {from: accounts[0]})
-        await instance.setCourtLimits(courtId2, [limitCourt2], [ICTokenId], [200], {from: accounts[0]})
-        await instance.addToCourtLimits(courtId2, [limitCourt2], [ICTokenId], [300], {from: accounts[0]})
-        await instance.setCourtLimits(courtId3, [limitCourt3], [ICTokenId], [10000], {from: accounts[0]})
+        await instance.setCourtLimits(limitCourt1, [courtId1], [ICTokenId], [10000], {from: accounts[0]})
+        await instance.setCourtLimits(limitCourt2, [courtId2], [ICTokenId], [200], {from: accounts[0]})
+        await instance.addToCourtLimits(limitCourt2, [courtId2], [ICTokenId], [300], {from: accounts[0]})
+        await instance.setCourtLimits(limitCourt3, [courtId3], [ICTokenId], [10000], {from: accounts[0]})
         await instance.trustCourts(courtId2, [limitCourt1]);
         await instance.trustCourts(courtId3, [limitCourt2]);
         assert.equal(await instance.getCourtLimits.call(limitCourt2, ICTokenId), 500, "Limits set wrongly");

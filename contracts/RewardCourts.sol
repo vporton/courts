@@ -498,14 +498,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function setCourtLimits(uint256 _truster, uint256[] _trustees, uint256[] _intercourtTokens, uint256[] _limits) external {
         require(courtOwners[_truster] == msg.sender, "We are not trusteer owner");
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
-        require(!isLimitCourt(_truster));
+        require(isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
             uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
-            uint256 newValue = courtTotalSpents[_id].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
-            if (newValue != 0) {
-                courtLimits[_truster][_intercourtTokens[i]] = newValue;
-            }
+            courtLimits[_truster][_intercourtTokens[i]] = _limits[i];
         }
     }
 
@@ -519,7 +516,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function addToCourtLimits(uint256 _truster, uint256[] _trustees, uint256[] _intercourtTokens, uint256[] _limits) external {
         require(courtOwners[_truster] == msg.sender, "We are not trusteer owner");
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
-        require(!isLimitCourt(_truster));
+        require(isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
             uint256 newValue = _limits[i].add(courtLimits[_truster][_intercourtTokens[i]]);
