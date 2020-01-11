@@ -9,8 +9,8 @@
     "@aragon/toolkit": "0.0.2",
     "@aragon/ui": "^1.2.1",
     "copyfiles": "^2.1.1",
-    "core-js": "^3.6.1",
-    "npm": "^6.13.4",
+    "core-js": "^3.6.3",
+    "npm": "^6.13.6",
     "parcel": "^1.12.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -38,10 +38,10 @@
     "eslint-plugin-standard": "^4.0.0",
     "ethlint": "^1.2.4",
     "fs-extra": "^8.1.0",
-    "ganache-cli": "^6.0.0",
+    "ganache-cli": "^6.8.1",
     "prettier": "^1.18.2",
     "solidity-coverage": "^0.6.2",
-    "truffle": "^5.1.4"
+    "truffle": "^5.1.8"
   },
   "scripts": {
     "prepare": "cd app && npm install && cd ..",

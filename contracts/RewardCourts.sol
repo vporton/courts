@@ -20,37 +20,29 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     mapping (address => mapping(address => bool)) internal operatorApproval;
     
     // token => (owner => spentLimit)
-    //mapping (address => mapping (address => uint256)) public spentLimit; // It is better done in the wrapper (voting) contract.
+    //mapping (address => mapping (address => uint256)) internal spentLimit; // It is better done in the wrapper (voting) contract.
     
     // Trustee can be either a court ID or limit ID.
     // truster => (trustee => bool)
     mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
     
-    // truster => trustees[]
-    mapping (uint256 => uint256[]) public trustedCourtsList;
-    
     // limitId => court
-    mapping (uint256 => uint256) public limitCourts;
+    mapping (uint256 => uint256) limitCourts;
     
     // limitId => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
     
-    // How much limit courts used
     // token => amount
     mapping (uint256 => uint256) public courtTotalSpents;
     
     // token => court
-    //mapping (address => uint256) public tokenControllingCourts;
+    //mapping (address => uint256) internal tokenControllingCourts;
 
     // token => intercourt token
-    //mapping (address => uint256) public interCourtTokens;
+    //mapping (address => uint256) internal interCourtTokens;
     
     // court ID or limit ID => owner
-    mapping (uint256 => address) public courtOwners;
-
-    event CourtCreated(address owner, uint256 _id);
-    event LimitCourtCreated(address owner, uint256 _base, uint256 _id);
-    event IntercourtTokenCreated(uint256 _ictoken);
+    mapping (uint256 => address) internal courtOwners;
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -429,15 +421,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
     /**
-        @notice Returns `courtLimits[_court][_intercourtToken]`.
-        @param _court   Court
-        @param _intercourtToken Intercourt token
-    */
-    function getCourtLimits(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
-        return courtLimits[_court][_intercourtToken];
-    }
-
-    /**
         @notice Set court owner.
         @param _court   Court
         @param _owner   New owner
@@ -452,10 +435,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @notice Create a regular court.
         @return           Court ID
     */
-    function createCourt() external returns (uint256 _id) {
-        _id = ++nonce;
+    function createCourt() external returns (uint256) {
+        uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
-        emit CourtCreated(msg.sender, _id);
+        return _id;
     }
 
 
@@ -468,7 +451,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256 _id = ++nonce;
         courtOwners[_id] = msg.sender;
         limitCourts[_id] = _court;
-        emit LimitCourtCreated(msg.sender, _court, _id);
+        //emit LimitCourtCreated(msg.sender, _court, _id);
         return _id;
     }
 
@@ -481,7 +464,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // _id is Intercourt token, not a token
         // if (bytes(_uri).length > 0)
         //     emit URI(_uri, _id);
-        emit IntercourtTokenCreated(_id);
+        //emit IntercourtTokenCreated(_id);
         return _id;
     }
 
@@ -500,13 +483,17 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _limits  New limits (order and length must match _intercourtTokens array)
     */
     function setCourtLimits(uint256 _truster, uint256[] _trustees, uint256[] _intercourtTokens, uint256[] _limits) external {
-        require(courtOwners[_truster] == msg.sender, "We are not trusteer owner");
+        require(courtOwners[_truster] == msg.sender);
         require(_limits.length == _intercourtTokens.length && _trustees.length == _intercourtTokens.length);
-        require(isLimitCourt(_truster));
+        require(!isLimitCourt(_truster));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
-            courtLimits[_truster][_intercourtTokens[i]] = _limits[i];
+            uint256 _id = _generateTokenId(i, _intercourtTokens[i]);
+            uint256 newValue = courtTotalSpents[_id].add(courtLimits[_trustees[i]][_intercourtTokens[i]]);
+            if (newValue != 0) {
+                trustedCourts[_truster][_trustees[i]] = true;
+                courtLimits[_truster][_intercourtTokens[i]] = newValue;
+            }
         }
     }
 
@@ -539,8 +526,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(!isLimitCourt(_truster));
         for (uint i = 0; i < _trustees.length; ++i) {
             if (!trustedCourts[_truster][_trustees[i]]) {
-                trustedCourtsList[_truster].length = trustedCourtsList[_truster].length + 1; // TODO: inefficient
-                trustedCourtsList[_truster][trustedCourtsList[_truster].length - 1] = _trustees[i];
                 trustedCourts[_truster][_trustees[i]] = true;
             }
         }
@@ -553,14 +538,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function untrustCourts(uint256 _truster, uint256[] _trustees) external {
         require(!isLimitCourt(_truster));
-        uint max = trustedCourtsList[_truster].length;
         for (uint i = 0; i < _trustees.length; ++i) {
             if (trustedCourts[_truster][_trustees[i]]) {
                 trustedCourts[_truster][_trustees[i]] = false;
-                trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
             }
         }
-        trustedCourtsList[_truster].length = max;
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
