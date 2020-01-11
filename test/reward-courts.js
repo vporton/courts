@@ -116,6 +116,17 @@ contract("RewardCourts", accounts => {
         let token = generateTokenId(courtId1, ICTokenId)
         await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], {from: accounts[0]})
         
+        {
+          let error = true;
+          try {
+            await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2, courtId3], [],
+                                              {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "Intercourt transfer from another's wallet")
+        }
         // The first transfer shall succeed, the second one overflow (because 300 + 300 > 500).
         await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [limitCourt1, limitCourt2, courtId3], [],
                                           {from: accounts[1]})
