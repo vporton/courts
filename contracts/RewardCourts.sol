@@ -26,6 +26,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // truster => (trustee => bool)
     mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
     
+    // truster => trustees[]
+    mapping (uint256 => uint256[]) public trustedCourtsList;
+    
     // limitId => court
     mapping (uint256 => uint256) public limitCourts;
     
@@ -535,7 +538,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function trustCourts(uint256 _truster, uint256[] _trustees) external {
         require(!isLimitCourt(_truster));
         for (uint i = 0; i < _trustees.length; ++i) {
-            trustedCourts[_truster][_trustees[i]] = true;
+            if (!trustedCourts[_truster][_trustees[i]]) {
+                trustedCourtsList[_truster].length = trustedCourtsList[_truster].length + 1; // TODO: inefficient
+                trustedCourtsList[_truster][trustedCourtsList[_truster].length - 1] = _trustees[i];
+                trustedCourts[_truster][_trustees[i]] = true;
+            }
         }
     }
 
@@ -546,9 +553,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function untrustCourts(uint256 _truster, uint256[] _trustees) external {
         require(!isLimitCourt(_truster));
+        uint max = trustedCourtsList[_truster].length;
         for (uint i = 0; i < _trustees.length; ++i) {
-            trustedCourts[_truster][_trustees[i]] = false;
+            if (trustedCourts[_truster][_trustees[i]]) {
+                trustedCourts[_truster][_trustees[i]] = false;
+                trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
+            }
         }
+        trustedCourtsList[_truster].length = max;
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////

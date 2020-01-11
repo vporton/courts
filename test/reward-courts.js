@@ -146,5 +146,6 @@ contract("RewardCourts", accounts => {
       })
     })
   })
+})
 
-});
+// TODO: More testing and security audit.
