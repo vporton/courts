@@ -32,6 +32,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // limitId => (intercourt token => amount)
     mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
     
+    // How much limit courts used
     // token => amount
     mapping (uint256 => uint256) public courtTotalSpents;
     
@@ -570,7 +571,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
 
         balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
-        courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
+        //courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
     }
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
@@ -645,6 +646,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             for (i = 0; i < _courtsPath.length; ++i) {
                 for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
                     uint256 _id = _generateTokenId(_court, _intercourtToken);
+                    courtTotalSpents[_id] = courtTotalSpents[_id].add(_values[k]);
+                    // TODO: courtLimits could be an one-level mapping like courtTotalSpents
                     require(courtTotalSpents[_id] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
                 }
             }
