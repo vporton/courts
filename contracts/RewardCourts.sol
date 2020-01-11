@@ -425,6 +425,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
     /**
+        @notice Returns `courtLimits[_court][_intercourtToken]`.
+        @param _court   Court
+        @param _intercourtToken Intercourt token
+    */
+    function getCourtLimits(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
+        return courtLimits[_court][_intercourtToken];
+    }
+
+    /**
         @notice Set court owner.
         @param _court   Court
         @param _owner   New owner

@@ -111,7 +111,7 @@ contract("RewardCourts", accounts => {
         await instance.setCourtLimits(courtId3, [limitCourt3], [ICTokenId], [10000], {from: accounts[0]})
         await instance.trustCourts(courtId2, [limitCourt1]);
         await instance.trustCourts(courtId3, [limitCourt2]);
-        //assert.equal(await instance.courtLimits.call(limitCourt2, ICTokenId), 500, "Limits set wrongly"); // FIXME: uncomment
+        assert.equal(await instance.getCourtLimits.call(limitCourt2, ICTokenId), 500, "Limits set wrongly");
 
         let token = generateTokenId(courtId1, ICTokenId)
         await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], {from: accounts[0]})
