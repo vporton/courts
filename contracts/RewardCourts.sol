@@ -571,7 +571,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
 
         balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
-        //courtTotalSpents[_id] = _value.add(courtTotalSpents[_id]);
     }
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
