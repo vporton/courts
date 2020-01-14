@@ -84,7 +84,7 @@ contract Template is BaseTemplate, TokenCache {
 
         (Kernel dao, ACL acl) = _createDAO();
         (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
-        // Setup placeholder-app-name app
+        // Setup reward app
         _setupCustomApp(dao, acl, voting, _courtContract, _courtId, _soleController);
         _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
     }
@@ -121,7 +121,7 @@ contract Template is BaseTemplate, TokenCache {
         _createTokenManagerPermissions(_acl, _tokenManager, _voting, _voting);
     }
 
-    // Next we install and create permissions for the placeholder-app-name app
+    // Next we install and create permissions for the reward app
     //--------------------------------------------------------------//
     function _setupCustomApp(
         Kernel _dao,
@@ -144,14 +144,14 @@ contract Template is BaseTemplate, TokenCache {
     )
         internal returns (CourtWrapper)
     {
-        bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
+        bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("reward")));
         bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
         CourtWrapper _wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
 //        _courtContract = new RewardCourts(); // takes too much bytecode
-        if (_courtContract != address(0) && _courtId == 0) {
-            _courtId = _courtContract.createCourt();
-        }
-        _wrapper.postInitialize(_courtContract, _courtId);
+//        if (_courtContract != address(0) && _courtId == 0) {
+//            _courtId = _courtContract.createCourt();
+//        }
+//        _wrapper.setCourt(_courtContract, _courtId);
         return _wrapper;
     }
 
@@ -165,9 +165,9 @@ contract Template is BaseTemplate, TokenCache {
         internal
     {
         //_acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
-        if (_soleController != 0x0) {
-            _acl.createPermission(_soleController, _app, _app.JUDGE_ROLE(), _manager);
-        }
+        //if (_soleController != 0x0) {
+            _acl.createPermission(msg.sender, _app, _app. JUDGE_ROLE(), msg.sender);
+        //}
     }
 
     //--------------------------------------------------------------//
