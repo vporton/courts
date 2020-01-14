@@ -13,14 +13,23 @@ function App() {
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
+        <p>Owned contract: {appState.ownedContract}</p>
+        <p>Controlled court: {appState.courtId}</p>
+        <H2>Manage</H2>
+        <table>
+          <tr><TH>Owned contract:</TH><td><input value={appState.ownedContract} size="42" maxlength="42"/></td></tr>
+          <tr><TH>Court ID:</TH><td><input value={appState.courtId} type="number"/> (enter 0 to create a new court)</td></tr>
+        </table>
+        <p><input type="button" value="Change"/></p>
+
         <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MainWidget ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
     </Main>
   )
 }
 
-class MyForm extends React.Component {
+class MintForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,24 +103,6 @@ class MyForm extends React.Component {
         </table>
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.mint.bind(this)}>Mint!</button>
-      </div>
-    )
-  }
-}
-
-class MainWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <p>Owned contract: {this.props.ownedContract}</p>
-        <p>Controlled court: {this.props.courtId}</p>
-        <MyForm ownedContract={this.props.ownedContract} courtId={this.props.courtId} api={this.props.api}/>
       </div>
     )
   }
