@@ -55,6 +55,8 @@ class ManageForm extends React.Component {
   }
   
   changeCourt() {
+    return this.props.api.setCourt(this.ownedInput.current.value,
+                                   this.courtInput.current.value).toPromise()
   }
   
   render() {
