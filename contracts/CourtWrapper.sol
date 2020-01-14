@@ -20,7 +20,10 @@ contract CourtWrapper is AragonApp {
 
     function setCourt(RewardCourts _ownedContract, uint256 _courtId) external auth(JUDGE_ROLE) {
         ownedContract = _ownedContract;
-        courtId = _courtId;
+        if (_courtId == 0)
+            courtId = _ownedContract.createCourt();
+        else
+            courtId = _courtId;
     }
 
     /**
