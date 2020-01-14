@@ -16,17 +16,36 @@ function App() {
         <p>Owned contract: {appState.ownedContract}</p>
         <p>Controlled court: {appState.courtId}</p>
         <H2>Manage</H2>
-        <table>
-          <tr><TH>Owned contract:</TH><td><input value={appState.ownedContract} size="42" maxlength="42"/></td></tr>
-          <tr><TH>Court ID:</TH><td><input value={appState.courtId} type="number"/> (enter 0 to create a new court)</td></tr>
-        </table>
-        <p><input type="button" value="Change"/></p>
-
+        <ManageForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
     </Main>
   )
+}
+
+class ManageForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ownedValid: true, courtValid: true
+    }
+//     this.ICTokenInput = React.createRef()
+//     this.recepientInput = React.createRef()
+//     this.amountInput = React.createRef()
+  }
+
+  render() {
+    return (
+      <div>
+        <table>
+          <tr><TH>Owned contract:</TH><td><input value={this.props.ownedContract} size="42" maxlength="42"/></td></tr>
+          <tr><TH>Court ID:</TH><td><input value={this.props.courtId} type="number"/> (enter 0 to create a new court)</td></tr>
+        </table>
+        <p><input type="button" value="Change"/></p>
+      </div>
+    )
+  }
 }
 
 class MintForm extends React.Component {
