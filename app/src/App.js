@@ -28,21 +28,55 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: true, courtValid: true
+      ownedValid: false, courtValid: false
     }
-//     this.ICTokenInput = React.createRef()
-//     this.recepientInput = React.createRef()
-//     this.amountInput = React.createRef()
+    this.ownedInput = React.createRef()
+    this.courtInput = React.createRef()
   }
 
+  onOwnedChange() {
+    try {
+      const address = toChecksumAddress(this.ownedInput.current.value)
+      this.setState({ownedValid: true})
+    } catch(e) { 
+      console.error('invalid Ethereum address', e.message)
+      this.setState({ownedValid: false})
+    }
+  }
+
+  onCourtChange(e) {
+    const ict = this.courtInput.current.value
+    const valid = /^[0-9]+$/.test(ict)
+    this.setState({courtValid: valid})
+  }
+
+  valid() {
+    return this.state.ownedValid && this.state.courtValid
+  }
+  
+  changeCourt() {
+  }
+  
   render() {
     return (
       <div>
         <table>
-          <tr><TH>Owned contract:</TH><td><input value={this.props.ownedContract} size="42" maxlength="42"/></td></tr>
-          <tr><TH>Court ID:</TH><td><input value={this.props.courtId} type="number"/> (enter 0 to create a new court)</td></tr>
+          <tr>
+            <TH>Owned contract:</TH>
+            <td><input size="42" maxlength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
+                       class={this.state.ownedValid ? "" : "error"}/></td>
+          </tr>
+          <tr>
+            <TH>Court ID:</TH>
+            <td>
+              <input type="number" ref={this.courtInput} onChange={this.onCourtChange.bind(this)}
+                     class={this.state.courtValid ? "" : "error"}/>
+              (enter 0 to create a new court)
+            </td>
+          </tr>
         </table>
-        <p><input type="button" value="Change"/></p>
+        <button disabled={this.valid() ? "" : "disabled"}
+                onClick={this.changeCourt.bind(this)}>Change</button>
       </div>
     )
   }
