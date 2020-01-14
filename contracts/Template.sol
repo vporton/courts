@@ -134,7 +134,7 @@ contract Template is BaseTemplate, TokenCache {
         internal
     {
         CourtWrapper app = _installCourtWrapper(_dao, _courtContract, _courtId);
-        _createCourtWrapperPermissions(_acl, app, _voting, _voting/*, _soleController*/); // uncomment
+        _createCourtWrapperPermissions(_acl, app, _voting, _voting, _soleController);
     }
 
     function _installCourtWrapper(
@@ -147,13 +147,11 @@ contract Template is BaseTemplate, TokenCache {
         bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
         bytes memory initializeData = abi.encodeWithSelector(CourtWrapper(0).initialize.selector);
         CourtWrapper _wrapper = CourtWrapper(_installDefaultApp(_dao, _appId, initializeData));
-        if (_courtContract == RewardCourts(0)) {
-            _courtContract = new RewardCourts();
-            if (_courtId == 0) {
-                _courtId = _courtContract.createCourt();
-            }
-            _wrapper.postInitialize(_courtContract, _courtId);
+//        _courtContract = new RewardCourts(); // takes too much bytecode
+        if (_courtContract != address(0) && _courtId == 0) {
+            _courtId = _courtContract.createCourt();
         }
+        _wrapper.postInitialize(_courtContract, _courtId);
         return _wrapper;
     }
 
@@ -161,15 +159,15 @@ contract Template is BaseTemplate, TokenCache {
         ACL _acl,
         CourtWrapper _app,
         address _grantee,
-        address _manager/*,
-        address _soleController*/ // uncomment
+        address _manager,
+        address _soleController
     )
         internal
     {
-        _acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
-//        if (_soleController != 0x0) {
-//            _acl.createPermission(_soleController, _app, _app.JUDGE_ROLE(), _manager);
-//        }
+        //_acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
+        if (_soleController != 0x0) {
+            _acl.createPermission(_soleController, _app, _app.JUDGE_ROLE(), _manager);
+        }
     }
 
     //--------------------------------------------------------------//
