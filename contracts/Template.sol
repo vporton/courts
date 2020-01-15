@@ -43,14 +43,12 @@ contract Template is BaseTemplate, TokenCache {
         address[] _holders,
         uint256[] _stakes,
         uint64[3] _votingSettings,
-        RewardCourts _courtContract,
-        uint256 _courtId,
         bool _soleController // mainly for debugging
     )
         external
     {
         newToken(_tokenName, _tokenSymbol);
-        newInstance(_holders, _stakes, _votingSettings, _courtContract, _courtId, _soleController);
+        newInstance(_holders, _stakes, _votingSettings, _soleController);
     }
 
     /**
@@ -74,8 +72,6 @@ contract Template is BaseTemplate, TokenCache {
         address[] memory _holders,
         uint256[] memory _stakes,
         uint64[3] memory _votingSettings,
-        RewardCourts _courtContract,
-        uint256 _courtId,
         bool _soleController
     )
         public
@@ -85,7 +81,7 @@ contract Template is BaseTemplate, TokenCache {
         (Kernel dao, ACL acl) = _createDAO();
         (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
         // Setup reward app
-        _setupCustomApp(dao, acl, voting, _courtContract, _courtId, _soleController);
+        _setupCustomApp(dao, acl, voting, _soleController);
         _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
     }
 
@@ -127,20 +123,16 @@ contract Template is BaseTemplate, TokenCache {
         Kernel _dao,
         ACL _acl,
         Voting _voting,
-        RewardCourts _courtContract,
-        uint256 _courtId,
         bool _soleController
     )
         internal
     {
-        CourtWrapper app = _installCourtWrapper(_dao, _courtContract, _courtId);
+        CourtWrapper app = _installCourtWrapper(_dao);
         _createCourtWrapperPermissions(_acl, app, _voting, _voting, _soleController);
     }
 
     function _installCourtWrapper(
-        Kernel _dao,
-        RewardCourts _courtContract,
-        uint256 _courtId
+        Kernel _dao
     )
         internal returns (CourtWrapper)
     {
