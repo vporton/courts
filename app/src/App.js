@@ -14,9 +14,10 @@ function App() {
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
         <p>Owned contract: {appState.ownedContract}</p>
+        <p>Court names contract: {appState.courtNamesContract}</p>
         <p>Controlled court: {appState.courtId}</p>
         <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
@@ -28,9 +29,10 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, courtValid: false
+      ownedValid: false, courtNamesValid: false, courtValid: false
     }
     this.ownedInput = React.createRef()
+    this.courtNamesInput = React.createRef()
     this.courtInput = React.createRef()
   }
 
@@ -44,6 +46,16 @@ class ManageForm extends React.Component {
     }
   }
 
+  onCourtNamesChange() {
+    try {
+      const address = toChecksumAddress(this.courtNamesInput.current.value)
+      this.setState({courtNamesValid: true})
+    } catch(e) { 
+      console.error('invalid Ethereum address', e.message)
+      this.setState({courtNamesValid: false})
+    }
+  }
+
   onCourtChange(e) {
     const ict = this.courtInput.current.value
     const valid = /^[0-9]+$/.test(ict)
@@ -51,11 +63,12 @@ class ManageForm extends React.Component {
   }
 
   valid() {
-    return this.state.ownedValid && this.state.courtValid
+    return this.state.ownedValid && this.state.courtNamesValid && this.state.courtValid
   }
   
   changeCourt() {
     return this.props.api.setCourt(this.ownedInput.current.value,
+                                   this.courtNamesInput.current.value,
                                    this.courtInput.current.value).toPromise()
   }
   
@@ -67,6 +80,11 @@ class ManageForm extends React.Component {
             <TH>Owned contract:</TH>
             <td><input size="42" maxlength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
                        class={this.state.ownedValid ? "" : "error"}/></td>
+          </tr>
+          <tr>
+            <TH>Court names contract:</TH>
+            <td><input size="42" maxlength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
+                       class={this.state.courtNamesValid ? "" : "error"}/></td>
           </tr>
           <tr>
             <TH>Court ID:</TH>

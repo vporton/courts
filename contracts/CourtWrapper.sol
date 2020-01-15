@@ -3,6 +3,7 @@ pragma solidity ^0.4.0;
 import "@aragon/os/contracts/apps/AragonApp.sol";
 //import "@aragon/os/contracts/lib/math/SafeMath.sol";
 import "./RewardCourts.sol";
+import "./RewardCourtNames.sol";
 
 
 contract CourtWrapper is AragonApp {
@@ -12,6 +13,7 @@ contract CourtWrapper is AragonApp {
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
     RewardCourts public ownedContract;
+    RewardCourtNames public courtNamesContract;
     uint256 public courtId;
 
     function initialize() public onlyInit {
@@ -21,8 +23,9 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Set us to own the contract `_ownedContract` with court `_courtId`.
       */
-    function setCourt(RewardCourts _ownedContract, uint256 _courtId) external auth(JUDGE_ROLE) {
+    function setCourt(RewardCourts _ownedContract, RewardCourtNames _courtNamesContract, uint256 _courtId) external auth(JUDGE_ROLE) {
         ownedContract = _ownedContract;
+        courtNamesContract = _courtNamesContract;
         if (_courtId == 0)
             courtId = _ownedContract.createCourt();
         else
