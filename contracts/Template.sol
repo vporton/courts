@@ -164,10 +164,11 @@ contract Template is BaseTemplate, TokenCache {
     )
         internal
     {
-        //_acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
-        //if (_soleController != 0x0) {
+        if (_soleController != 0x0) {
             _acl.createPermission(msg.sender, _app, _app. JUDGE_ROLE(), msg.sender);
-        //}
+        } else {
+            _acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
+        }
     }
 
     //--------------------------------------------------------------//
