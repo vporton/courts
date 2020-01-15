@@ -1,0 +1,11 @@
+- Dealing with court trust.
+
+- Dealing with limit courts.
+
+- Names and URLs of courts and intercourt tokens.
+  to implement need a separate contract storing names and URLs.
+  How to deal with localization?
+
+- Tabbed UI (split into multiple apps?)
+
+- More roles.
