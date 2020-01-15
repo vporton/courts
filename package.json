@@ -1,6 +1,6 @@
 {
   "name": "@porton/apps-judge",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "dependencies": {
     "@aragon/api": "^2.0.0-beta.9",
