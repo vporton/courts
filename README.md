@@ -5,7 +5,8 @@ The idea is simple: Courts mint money to them who in any reason have too little 
 There is much too much injustice and poverty in this world, and we should do something
 to solve this problem.
 
-This first idea (mint money out of nothings) is not new, but it has the drawback that money
+This first idea (mint money out of nothing, to distribute the burden of helping somebody to the entire society)
+is not new, but it has the drawback that money
 are decided by a centralized entity. That entity may lose reputation or fail badly.
 Consider the Australian jurisdiction where the wheel is patented. The same could happen
 with our crypto courts.
