@@ -18,6 +18,8 @@ function App() {
         <p>Controlled court: {appState.courtId}</p>
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <H2>Court names</H2>
+        <CourtNamesForm courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
@@ -98,6 +100,44 @@ class ManageForm extends React.Component {
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.changeCourt.bind(this)}>Change</button>
       </div>
+    )
+  }
+}
+
+class CourtNamesForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+    }
+    this.listWidget = React.createRef()
+  }
+
+  load() {
+    var fs = require('fs')
+    var jsonFile = "RewardCourts.json"
+    var parsed = JSON.parse(fs.readFileSync(jsonFile))
+    var abi = parsed.abi
+
+    let namesContract = new web3.eth.Contract(abi, this.props.ownedContract)
+    
+    namesContract.events.CourtCreated({owner: api.options.address}, function(error, event) {
+      if(error) {
+        alert('error')
+        return
+      }
+      let item = "<option value='"+event.returnValues.courtId+"'>" + event.returnValues.name + "</option>"
+      this.state.items.append(item)
+      this.setState({items: this.state.items})
+    })
+  }
+  
+  render() {
+    return (
+      <select ref={this.listWidget}>
+        {this.state.items}
+      </select>
+      <script>{this.load()}</script>
     )
   }
 }
