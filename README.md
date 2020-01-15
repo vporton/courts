@@ -11,7 +11,7 @@ are decided by a centralized entity. That entity may lose reputation or fail bad
 Consider the Australian jurisdiction where the wheel is patented. The same could happen
 with our crypto courts.
 
-To solve this big drawback, it is proposed to convert money from a currency of one court
+To solve this big drawback, it is proposed to be able to convert money from a currency of one court
 to a currency of another court. Every token in our system consist of a court ID and
 an _intercourt token_.
 
