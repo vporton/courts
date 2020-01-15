@@ -45,7 +45,7 @@ contract Template is BaseTemplate, TokenCache {
         uint64[3] _votingSettings,
         RewardCourts _courtContract,
         uint256 _courtId,
-        address _soleController // mainly for debugging, 0x0 means nobody
+        bool _soleController // mainly for debugging
     )
         external
     {
@@ -76,7 +76,7 @@ contract Template is BaseTemplate, TokenCache {
         uint64[3] memory _votingSettings,
         RewardCourts _courtContract,
         uint256 _courtId,
-        address _soleController
+        bool _soleController
     )
         public
     {
@@ -129,7 +129,7 @@ contract Template is BaseTemplate, TokenCache {
         Voting _voting,
         RewardCourts _courtContract,
         uint256 _courtId,
-        address _soleController
+        bool _soleController
     )
         internal
     {
@@ -160,11 +160,11 @@ contract Template is BaseTemplate, TokenCache {
         CourtWrapper _app,
         address _grantee,
         address _manager,
-        address _soleController
+        bool _soleController
     )
         internal
     {
-        if (_soleController != 0x0) {
+        if (_soleController) {
             _acl.createPermission(msg.sender, _app, _app. JUDGE_ROLE(), msg.sender);
         } else {
             _acl.createPermission(_grantee, _app, _app.JUDGE_ROLE(), _manager);
