@@ -104,6 +104,9 @@ class ManageForm extends React.Component {
   }
 }
 
+let rewardCourtsJSON =
+  fetch("public/RewardCourts.json") // TODO: Don't load unnecessary data
+
 class CourtNamesForm extends React.Component {
   constructor(props) {
     super(props);
@@ -114,30 +117,41 @@ class CourtNamesForm extends React.Component {
   }
 
   load() {
-    var fs = require('fs')
-    var jsonFile = "RewardCourts.json"
-    var parsed = JSON.parse(fs.readFileSync(jsonFile))
-    var abi = parsed.abi
-
-    let namesContract = new web3.eth.Contract(abi, this.props.ownedContract)
+    let web3 = require("web3")
     
-    namesContract.events.CourtCreated({owner: api.options.address}, function(error, event) {
-      if(error) {
-        alert('error')
-        return
-      }
-      let item = "<option value='"+event.returnValues.courtId+"'>" + event.returnValues.name + "</option>"
-      this.state.items.append(item)
-      this.setState({items: this.state.items})
+    rewardCourtsJSON
+    .then((response) => {
+      return response.json().abi
     })
+    .then(json => {
+      let abi = json
+    
+//       let ownedContract = new web3.eth.Contract(abi, this.props.ownedContract)
+      let ownedContract = this.props.api.external(this.props.ownedContract, abi)
+      
+      function addItem(error, event) {
+        if(error) {
+          alert('error')
+          return
+        }
+        let item = "<option value='"+event.returnValues.courtId+"'>" + event.returnValues.courtId + " " + event.returnValues.name + "</option>"
+        this.state.items.append(item)
+        this.setState({items: this.state.items})
+      }
+      
+      ownedContract.events.CourtCreated({owner: this.props.api.options.address}, addItem)
+      ownedContract.events.LimitCourtCreated({owner: this.props.api.options.address}, addItem)
+    });
   }
   
   render() {
     return (
-      <select ref={this.listWidget}>
-        {this.state.items}
-      </select>
-      <script>{this.load()}</script>
+      <div>
+        <select ref={this.listWidget}>
+          {this.state.items}
+        </select>
+        <script>{this.load()}</script>
+      </div>
     )
   }
 }
