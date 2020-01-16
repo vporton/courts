@@ -117,21 +117,22 @@ class CourtNamesForm extends React.Component {
   }
 
   load() {
-    let web3 = require("web3")
+    //let web3 = require("web3")
     
     rewardCourtsJSON
     .then((response) => {
       return response.json().abi
     })
-    .then(json => {
-      let abi = json
+    .then(abi => {
+      console.log("Z")
     
 //       let ownedContract = new web3.eth.Contract(abi, this.props.ownedContract)
       let ownedContract = this.props.api.external(this.props.ownedContract, abi)
+      console.log("ownedContract: ", ownedContract)
       
       function addItem(error, event) {
         if(error) {
-          alert('error')
+          console.log('error reading events')
           return
         }
         let item = "<option value='"+event.returnValues.courtId+"'>" + event.returnValues.courtId + " " + event.returnValues.name + "</option>"
