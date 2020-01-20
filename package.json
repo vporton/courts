@@ -8,13 +8,14 @@
     "@aragon/os": "^4.3.0",
     "@aragon/toolkit": "0.0.2",
     "@aragon/ui": "^1.2.1",
-    "copyfiles": "^2.1.1",
-    "core-js": "^3.6.1",
+    "copyfiles": "^2.2.0",
+    "core-js": "^3.6.4",
     "npm": "^6.13.4",
     "parcel": "^1.12.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "web3-utils": "^1.2.5-rc.0"
   },
   "devDependencies": {
     "@aragon/apps-shared-minime": "^1.0.2",
@@ -30,18 +31,18 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^13.0.1",
     "eslint-config-standard-react": "^8.0.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react": "^7.18.0",
     "eslint-plugin-standard": "^4.0.0",
     "ethlint": "^1.2.4",
     "fs-extra": "^8.1.0",
-    "ganache-cli": "^6.0.0",
+    "ganache-cli": "^6.8.2",
     "prettier": "^1.18.2",
     "solidity-coverage": "^0.6.2",
-    "truffle": "^5.1.4"
+    "truffle": "^5.1.9"
   },
   "scripts": {
     "prepare": "cd app && npm install && cd ..",
