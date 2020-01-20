@@ -104,8 +104,20 @@ class ManageForm extends React.Component {
   }
 }
 
-let rewardCourtsJSON =
-  fetch("public/RewardCourts.json") // TODO: Don't load unnecessary data
+let rewardCourtsJSON = null;
+
+function fetchRewardCourtsJSON() {
+  if(rewardCourtsJSON !== null)
+    return rewardCourtsJSON;
+  let f = fetch("public/RewardCourts.json") // TODO: Don't load unnecessary data
+  rewardCourtsJSON = f.then((response) => {
+    return response.json()
+  })
+  .then((json) => {
+    return json.abi
+  })
+  return rewardCourtsJSON
+}
 
 class CourtNamesForm extends React.Component {
   constructor(props) {
@@ -119,12 +131,9 @@ class CourtNamesForm extends React.Component {
   load() {
     //let web3 = require("web3")
     
-    rewardCourtsJSON
-    .then((response) => {
-      return response.json().abi
-    })
+    fetchRewardCourtsJSON()
     .then(abi => {
-      console.log("Z")
+      console.log("Z", abi)
     
 //       let ownedContract = new web3.eth.Contract(abi, this.props.ownedContract)
       let ownedContract = this.props.api.external(this.props.ownedContract, abi)
