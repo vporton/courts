@@ -2,7 +2,7 @@ import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
-const { soliditySha3, toChecksumAddress } = require("web3-utils");
+const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
 function App() {
   const { api, appState } = useAragonApi()
@@ -19,7 +19,7 @@ function App() {
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Court names</H2>
-        <CourtNamesForm courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
@@ -129,14 +129,19 @@ class CourtNamesForm extends React.Component {
   }
 
   load() {
-    //let web3 = require("web3")
+//     let web3js = require("web3") // FIXME
+//     let web3 = new web3js(new web3js.providers.HttpProvider('http://localhost:8545')) // FIXME
     
     fetchRewardCourtsJSON()
     .then(abi => {
-      console.log("Z", abi)
-    
+      console.log("V", this.props.api)
+      
+      if(!this.props.ownedContract) return
+
+      console.log("AA", this.props.ownedContract)
 //       let ownedContract = new web3.eth.Contract(abi, this.props.ownedContract)
-      let ownedContract = this.props.api.external(this.props.ownedContract, abi)
+      let ownedContract = this.props.api.external(String(this.props.ownedContract), abi)
+      //ownedContract.options.address = String(this.props.ownedContract) // Why is this needed?
       console.log("ownedContract: ", ownedContract)
       
       function addItem(error, event) {
@@ -149,8 +154,26 @@ class CourtNamesForm extends React.Component {
         this.setState({items: this.state.items})
       }
       
-      ownedContract.events.CourtCreated({owner: this.props.api.options.address}, addItem)
-      ownedContract.events.LimitCourtCreated({owner: this.props.api.options.address}, addItem)
+//       const state$ = this.props.api.store(
+//         (state, event) => {
+//           console.log('EEE', event)
+//         },
+//         {
+//           externals: {
+//             contract: ownedContract,
+//             initializationBlock: 0 // By default this uses the current AragonApp's initialization block
+//           },
+// //           init: initStore,
+//         }
+//       )
+      
+       ownedContract.pastEvents({fromBlock: 0})
+        .subscribe(console.log)
+//       ownedContract.pastEvents({topics: 'CourtCreated', owner: this.props.api.options.address}, addItem).toPromise()
+//         .then(events => console.log("EV", events))
+//       ownedContract.events({topics: ['CourtCreated'], owner: this.props.api.options.address}, addItem)
+//       ownedContract.events.CourtCreated({owner: this.props.api.options.address}, addItem)
+//       ownedContract.events.LimitCourtCreated({owner: this.props.api.options.address}, addItem)
     });
   }
   
