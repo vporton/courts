@@ -196,15 +196,14 @@ class CourtNamesForm extends React.Component {
                     const event = events[i]
                     if(event.event == 'SetCourtName') {
                       courtNames[courtID] = event.returnValues.name
+                      updateState2(this, limitCourtIDs, courtNames)
                     }
                   }
                   updateState(this, courtIDs, courtNames)
-                  updateState2(this, limitCourtIDs, courtNames)
                 })
             }
             if(event.event == 'LimitCourtCreated') {
               const courtID = event.returnValues.createdCourt
-              console.log("lci", courtID)
               limitCourtIDs.push(courtID);
               updateState2(this, limitCourtIDs, courtNames)
             }
