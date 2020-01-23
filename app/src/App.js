@@ -173,7 +173,6 @@ class CourtNamesForm extends React.Component {
       
       ownedContract.pastEvents({fromBlock: 0})
         .subscribe(events => {
-          let items = []
           for(let i in events) {
             const event = events[i]
             if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
