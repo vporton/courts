@@ -105,7 +105,7 @@ class ManageForm extends React.Component {
   }
 }
 
-let rewardCourtsJSON = null;
+let rewardCourtsJSON = null, courtNamesJSON = null;
 
 function fetchRewardCourtsJSON() {
   if(rewardCourtsJSON !== null)
@@ -120,6 +120,19 @@ function fetchRewardCourtsJSON() {
   return rewardCourtsJSON
 }
 
+function fetchCourtNamesJSON() {
+  if(courtNamesJSON !== null)
+    return courtNamesJSON;
+  let f = fetch("public/RewardCourtNames.json") // TODO: Don't load unnecessary data
+  courtNamesJSON = f.then((response) => {
+    return response.json()
+  })
+  .then((json) => {
+    return json.abi
+  })
+  return courtNamesJSON
+}
+
 class CourtNamesForm extends React.Component {
   constructor(props) {
     super(props);
@@ -128,37 +141,71 @@ class CourtNamesForm extends React.Component {
     }
     this.listWidget = React.createRef()
     this.newNameWidget = React.createRef()
+    this.loaded = false
   }
   
   // FIXME: Needed also componentDidMount()?
   componentDidUpdate() {
-    this.load() // FIXME: Don't load multiple times.
+    if(this.loaded) return
+    if(!this.props.ownedContract || !this.props.courtNamesContract)
+      return
+    this.load()
+    this.loaded = true
   }
 
   load() {
-    fetchRewardCourtsJSON()
-    .then(abi => {
-      if(!this.props.ownedContract) return
+    let courtIDs = []
+    let courtNames = {}
 
-      let ownedContract = this.props.api.external(String(this.props.ownedContract), abi)
+    function updateState(widget) {
+      const items = courtIDs.map(id =>
+        "<option value='"+id+"'>" + id + " " + ('id' in courtNames ? courtNames[id] : "") + "</option>"
+      )
+      console.log("items", items)
+      widget.setState({items: items.join('')})
+    }
+
+    Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
+    .then(abi => {
+      let [abi1, abi2] = abi
+//       if(!this.props.ownedContract) return
+        
+      let ownedContract = this.props.api.external(this.props.ownedContract, abi1)
       
       ownedContract.pastEvents({fromBlock: 0})
         .subscribe(events => {
+          console.log("qq", events)
           let items = []
           for(let i in events) {
             const event = events[i]
             if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
-              let item = "<option value='"+event.returnValues.createdCourt+"'>" + event.returnValues.createdCourt /*+ " " + event.returnValues.name*/ + "</option>"
-              items.push(item)
+              courtIDs.push(event.returnValues.createdCourt)
             }
           }
-          this.setState({items: items.join('')})
+          updateState(this)
         })
+
+//       if(!this.props.courtNamesContract) return
+
+      let courtNamesContract = this.props.api.external(this.props.courtNamesContract, abi2)
+
+      for(let courtID in courtIDs) {
+        courtNamesContract.pastEvents({fromBlock: 0, courtId: courtID})
+          .subscribe(events => {
+            let items = []
+            for(let i in events) {
+              const event = events[i]
+              if(event.event == 'SetCourtName') {
+                courtNames[courtID] = event.returnValues.name
+              }
+            }
+            updateState(this)
+          })
+      }
     });
   }
   
   rename() {
-    console.log('www')
     this.props.api.setCourtName(this.listWidget.current.value, this.newNameWidget.current.value).toPromise()
   }
   
