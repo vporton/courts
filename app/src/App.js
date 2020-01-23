@@ -143,6 +143,7 @@ class CourtNamesForm extends React.Component {
     this.limitWidget = React.createRef()
     this.limitCourtNameWidget = React.createRef()
     this.baseCourtWidget = React.createRef()
+    this.tokensWidget = React.createRef()
     this.loaded = false
   }
   
@@ -236,14 +237,22 @@ class CourtNamesForm extends React.Component {
         </div>
         <H2>Limit courts</H2>
         <div>
-          <select ref={this.limitWidget}>
-            {Parser(this.state.limitCourtItems)}
-          </select>
-          /
-          Base court: <input type="text" ref={this.baseCourtWidget}/>
-          /
-          Name: <input type="text" ref={this.limitCourtNameWidget}/>
-          <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
+          <div>
+            <select ref={this.limitWidget}>
+              {Parser(this.state.limitCourtItems)}
+            </select>
+            /
+            Base court: <input type="text" ref={this.baseCourtWidget}/>
+            /
+            Name: <input type="text" ref={this.limitCourtNameWidget}/>
+            <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
+          </div>
+          <div>
+            Tokens:
+            <select ref={this.tokensWidget}>
+              {Parser(this.state.tokensItems)}
+            </select>
+          </div>
         </div>
       </div>
     )
