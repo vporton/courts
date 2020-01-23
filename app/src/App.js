@@ -18,7 +18,6 @@ function App() {
         <p>Controlled court: {appState.courtId}</p>
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        <H2>Court names</H2>
         <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
@@ -137,9 +136,13 @@ class CourtNamesForm extends React.Component {
     super(props);
     this.state = {
       items: '',
+      limitCourtItems: '',
     }
     this.listWidget = React.createRef()
     this.newNameWidget = React.createRef()
+    this.limitWidget = React.createRef()
+    this.limitCourtNameWidget = React.createRef()
+    this.baseCourtWidget = React.createRef()
     this.loaded = false
   }
   
@@ -154,6 +157,7 @@ class CourtNamesForm extends React.Component {
 
   load() {
     let courtIDs = []
+    let limitCourtIDs = []
     let courtNames = {}
 
     function updateState(widget, courtIDs, courtNames) {
@@ -161,6 +165,13 @@ class CourtNamesForm extends React.Component {
         "<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + "</option>"
       )
       widget.setState({items: items.join('')})
+    }
+
+    function updateState2(widget, limitCourtIDs, courtNames) {
+      const items = limitCourtIDs.map(id =>
+        "<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + "</option>"
+      )
+      widget.setState({limitCourtItems: items.join('')})
     }
 
     Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
@@ -188,7 +199,14 @@ class CourtNamesForm extends React.Component {
                     }
                   }
                   updateState(this, courtIDs, courtNames)
+                  updateState2(this, limitCourtIDs, courtNames)
                 })
+            }
+            if(event.event == 'LimitCourtCreated') {
+              const courtID = event.returnValues.createdCourt
+              console.log("lci", courtID)
+              limitCourtIDs.push(courtID);
+              updateState2(this, limitCourtIDs, courtNames)
             }
           }
           updateState(this, courtIDs, courtNames)
@@ -202,14 +220,32 @@ class CourtNamesForm extends React.Component {
     this.props.api.setCourtName(this.listWidget.current.value, this.newNameWidget.current.value).toPromise()
   }
   
+  createLimitCourt() {
+    let result = this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
+  }
+  
   render() {
     return (
       <div>
-        <select ref={this.listWidget}>
-          {Parser(this.state.items)}
-        </select>
-        <input type="text" ref={this.newNameWidget}/>
-        <button type="button" onClick={this.rename.bind(this)}>Rename</button>
+        <H2>Court names</H2>
+        <div>
+          <select ref={this.listWidget}>
+            {Parser(this.state.items)}
+          </select>
+          <input type="text" ref={this.newNameWidget}/>
+          <button type="button" onClick={this.rename.bind(this)}>Rename</button>
+        </div>
+        <H2>Limit courts</H2>
+        <div>
+          <select ref={this.limitWidget}>
+            {Parser(this.state.limitCourtItems)}
+          </select>
+          /
+          Base court: <input type="text" ref={this.baseCourtWidget}/>
+          /
+          Name: <input type="text" ref={this.limitCourtNameWidget}/>
+          <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
+        </div>
       </div>
     )
   }

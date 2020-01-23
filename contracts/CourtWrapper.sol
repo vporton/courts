@@ -62,4 +62,13 @@ contract CourtWrapper is AragonApp {
     function setCourtName(uint256 _courtId, string _name) {
         courtNamesContract.setCourtName(_courtId, _name);
     }
+
+    /**
+     * @notice Create limit court over court `_baseCourt` with name "`_name`".
+     */
+    function createLimitCourt(uint256 _baseCourt, string _name) returns (uint256 _newCourt) {
+      _newCourt = ownedContract.createLimitCourt(_baseCourt);
+      courtNamesContract.setCourtName(_newCourt, _name);
+      return _newCourt;
+    }
 }
