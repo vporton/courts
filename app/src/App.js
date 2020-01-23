@@ -127,6 +127,11 @@ class CourtNamesForm extends React.Component {
     }
     this.listWidget = React.createRef()
   }
+  
+  componentDidMount() {
+    console.log("OC", this.props.ownedContract)
+    this.load()
+  }
 
   load() {
     fetchRewardCourtsJSON()
@@ -136,18 +141,20 @@ class CourtNamesForm extends React.Component {
       console.log("AA", this.props.ownedContract)
       let ownedContract = this.props.api.external(String(this.props.ownedContract), abi)
       
-      function addItem(error, event) {
-        if(error) {
-          console.log('error reading events')
-          return
-        }
-        let item = "<option value='"+event.returnValues.courtId+"'>" + event.returnValues.courtId + " " + event.returnValues.name + "</option>"
-        this.state.items.append(item)
-        this.setState({items: this.state.items})
-      }
-      
-       ownedContract.pastEvents({fromBlock: 0})
-        .subscribe(console.log)
+      ownedContract.pastEvents({fromBlock: 0})
+        .subscribe(events => {
+          let items = []
+          for(let i in events) {
+            const event = events[i]
+            if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
+              let item = "<option value='"+event.returnValues.createdCourt+"'>" + event.returnValues.createdCourt /*+ " " + event.returnValues.name*/ + "</option>"
+              items.push(item)
+            }
+          }
+          console.log("XX", items)
+          console.log("YY", this)
+          this.setState({items: items.join('')})
+        })
     });
   }
   
@@ -157,7 +164,6 @@ class CourtNamesForm extends React.Component {
         <select ref={this.listWidget}>
           {this.state.items}
         </select>
-        <script>{this.load()}</script>
       </div>
     )
   }

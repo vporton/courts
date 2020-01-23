@@ -48,9 +48,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // court ID or limit ID => owner
     mapping (uint256 => address) public courtOwners;
 
-    event CourtCreated(address owner, uint256 _id);
-    event LimitCourtCreated(address owner, uint256 _base, uint256 _id);
-    event IntercourtTokenCreated(uint256 _ictoken);
+    event CourtCreated(address owner, uint256 createdCourt);
+    event LimitCourtCreated(address owner, uint256 baseCourt, uint256 createdCourt);
+    event IntercourtTokenCreated(uint256 ictoken);
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
