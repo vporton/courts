@@ -8,7 +8,6 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils")
 function App() {
   const { api, appState } = useAragonApi()
   const { isSyncing } = appState
-  console.log(isSyncing)
   return (
     <Main>
       <BaseLayout>
@@ -157,11 +156,10 @@ class CourtNamesForm extends React.Component {
     let courtIDs = []
     let courtNames = {}
 
-    function updateState(widget) {
+    function updateState(widget, courtIDs, courtNames) {
       const items = courtIDs.map(id =>
-        "<option value='"+id+"'>" + id + " " + ('id' in courtNames ? courtNames[id] : "") + "</option>"
+        "<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + "</option>"
       )
-      console.log("items", items)
       widget.setState({items: items.join('')})
     }
 
@@ -171,37 +169,33 @@ class CourtNamesForm extends React.Component {
 //       if(!this.props.ownedContract) return
         
       let ownedContract = this.props.api.external(this.props.ownedContract, abi1)
+      let courtNamesContract = this.props.api.external(this.props.courtNamesContract, abi2)
       
       ownedContract.pastEvents({fromBlock: 0})
         .subscribe(events => {
-          console.log("qq", events)
           let items = []
           for(let i in events) {
             const event = events[i]
             if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
-              courtIDs.push(event.returnValues.createdCourt)
+              const courtID = event.returnValues.createdCourt
+              courtIDs.push(courtID)
+              courtNamesContract.pastEvents({fromBlock: 0, courtId: courtID})
+                .subscribe(events => {
+                  let items = []
+                  for(let i in events) {
+                    const event = events[i]
+                    if(event.event == 'SetCourtName') {
+                      courtNames[courtID] = event.returnValues.name
+                    }
+                  }
+                  updateState(this, courtIDs, courtNames)
+                })
             }
           }
-          updateState(this)
+          updateState(this, courtIDs, courtNames)
         })
 
 //       if(!this.props.courtNamesContract) return
-
-      let courtNamesContract = this.props.api.external(this.props.courtNamesContract, abi2)
-
-      for(let courtID in courtIDs) {
-        courtNamesContract.pastEvents({fromBlock: 0, courtId: courtID})
-          .subscribe(events => {
-            let items = []
-            for(let i in events) {
-              const event = events[i]
-              if(event.event == 'SetCourtName') {
-                courtNames[courtID] = event.returnValues.name
-              }
-            }
-            updateState(this)
-          })
-      }
     });
   }
   
