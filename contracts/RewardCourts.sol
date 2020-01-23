@@ -10,7 +10,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
-    
+
     uint256 internal nonce; // to save memory use it for both courts and intercourt tokens
 
     // token => (owner => balance)
@@ -51,6 +51,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     event CourtCreated(address owner, uint256 createdCourt);
     event LimitCourtCreated(address owner, uint256 baseCourt, uint256 createdCourt);
     event IntercourtTokenCreated(uint256 ictoken);
+    event SetOwner(uint256 court, address owner);
+    event SetCourtLimits(uint256 truster, uint256[] trustees, uint256[] intercourtTokens, uint256[] limits);
+    event AddToCourtLimits(uint256 truster, uint256[] trustees, uint256[] intercourtTokens, uint256[] limits);
+    event TrustCourts(uint256 truster, uint256[] trustees);
+    event UntrustCourts(uint256 truster, uint256[] trustees);
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -445,7 +450,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function setOwner(uint256 _court, address _owner) external {
         require(courtOwners[_court] == msg.sender);
         courtOwners[_court] = _owner;
-
+        emit SetOwner(_court, _owner);
     }
 
     /**
@@ -508,6 +513,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
             courtLimits[_truster][_intercourtTokens[i]] = _limits[i];
         }
+
+        emit SetCourtLimits(_truster, _trustees, _intercourtTokens, _limits);
     }
 
     /**
@@ -528,8 +535,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                 courtLimits[_truster][_intercourtTokens[i]] = newValue;
             }
         }
+        emit AddToCourtLimits(_truster, _trustees, _intercourtTokens, _limits);
     }
-    
+
     /**
         @notice Trust these courts.
         @param _truster The truster court
@@ -544,6 +552,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                 trustedCourts[_truster][_trustees[i]] = true;
             }
         }
+        emit TrustCourts(_truster, _trustees);
     }
 
     /**
@@ -561,6 +570,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             }
         }
         trustedCourtsList[_truster].length = max;
+        emit UntrustCourts(_truster, _trustees);
     }
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
