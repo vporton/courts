@@ -2,6 +2,7 @@ import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
+import Parser from 'html-react-parser';
 const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
 function App() {
@@ -123,14 +124,16 @@ class CourtNamesForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      items: '',
     }
     this.listWidget = React.createRef()
   }
   
-  componentDidMount() {
-    console.log("OC", this.props.ownedContract)
-    this.load()
+  componentDidUpdate() {
+    console.log("OC", this.props)
+//     return React.Component.componentDidUpdate.bind(this)
+//     return super.componentDidUpdate()
+    this.load() // FIXME: Don't load multiple times.
   }
 
   load() {
@@ -162,7 +165,7 @@ class CourtNamesForm extends React.Component {
     return (
       <div>
         <select ref={this.listWidget}>
-          {this.state.items}
+          {Parser(this.state.items)}
         </select>
       </div>
     )

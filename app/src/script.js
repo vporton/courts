@@ -33,13 +33,13 @@ app.store(async (state, { event }) => {
 // 
 
 async function getOwnedContract() {
-  return app.call('ownedContract')//.toPromise()
+  return app.call('ownedContract').toPromise()
 }
 
 async function getCourtNamesContract() {
-  return app.call('courtNamesContract')//.toPromise()
+  return app.call('courtNamesContract').toPromise()
 }
 
 async function getCourtId() {
-  return app.call('courtId')//.toPromise()
+  return app.call('courtId').toPromise()
 }
