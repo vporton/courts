@@ -55,4 +55,11 @@ contract CourtWrapper is AragonApp {
     function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
         ownedContract.intercourtTransfer(_from, _to, _intercourtToken, _value, _courtsPath, _data);
     }
+
+    /**
+     * @notice Rename court #`_courtId` to "`_name`".
+     */
+    function setCourtName(uint256 _courtId, string _name) {
+        courtNamesContract.setCourtName(_courtId, _name);
+    }
 }

@@ -127,12 +127,11 @@ class CourtNamesForm extends React.Component {
       items: '',
     }
     this.listWidget = React.createRef()
+    this.newNameWidget = React.createRef()
   }
   
+  // FIXME: Needed also componentDidMount()?
   componentDidUpdate() {
-    console.log("OC", this.props)
-//     return React.Component.componentDidUpdate.bind(this)
-//     return super.componentDidUpdate()
     this.load() // FIXME: Don't load multiple times.
   }
 
@@ -141,7 +140,6 @@ class CourtNamesForm extends React.Component {
     .then(abi => {
       if(!this.props.ownedContract) return
 
-      console.log("AA", this.props.ownedContract)
       let ownedContract = this.props.api.external(String(this.props.ownedContract), abi)
       
       ownedContract.pastEvents({fromBlock: 0})
@@ -154,11 +152,14 @@ class CourtNamesForm extends React.Component {
               items.push(item)
             }
           }
-          console.log("XX", items)
-          console.log("YY", this)
           this.setState({items: items.join('')})
         })
     });
+  }
+  
+  rename() {
+    console.log('www')
+    this.props.api.setCourtName(this.listWidget.current.value, this.newNameWidget.current.value).toPromise()
   }
   
   render() {
@@ -167,6 +168,8 @@ class CourtNamesForm extends React.Component {
         <select ref={this.listWidget}>
           {Parser(this.state.items)}
         </select>
+        <input type="text" ref={this.newNameWidget}/>
+        <button type="button" onClick={this.rename.bind(this)}>Rename</button>
       </div>
     )
   }
