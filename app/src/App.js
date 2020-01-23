@@ -129,20 +129,12 @@ class CourtNamesForm extends React.Component {
   }
 
   load() {
-//     let web3js = require("web3") // FIXME
-//     let web3 = new web3js(new web3js.providers.HttpProvider('http://localhost:8545')) // FIXME
-    
     fetchRewardCourtsJSON()
     .then(abi => {
-      console.log("V", this.props.api)
-      
       if(!this.props.ownedContract) return
 
       console.log("AA", this.props.ownedContract)
-//       let ownedContract = new web3.eth.Contract(abi, this.props.ownedContract)
       let ownedContract = this.props.api.external(String(this.props.ownedContract), abi)
-      //ownedContract.options.address = String(this.props.ownedContract) // Why is this needed?
-      console.log("ownedContract: ", ownedContract)
       
       function addItem(error, event) {
         if(error) {
@@ -154,26 +146,8 @@ class CourtNamesForm extends React.Component {
         this.setState({items: this.state.items})
       }
       
-//       const state$ = this.props.api.store(
-//         (state, event) => {
-//           console.log('EEE', event)
-//         },
-//         {
-//           externals: {
-//             contract: ownedContract,
-//             initializationBlock: 0 // By default this uses the current AragonApp's initialization block
-//           },
-// //           init: initStore,
-//         }
-//       )
-      
        ownedContract.pastEvents({fromBlock: 0})
         .subscribe(console.log)
-//       ownedContract.pastEvents({topics: 'CourtCreated', owner: this.props.api.options.address}, addItem).toPromise()
-//         .then(events => console.log("EV", events))
-//       ownedContract.events({topics: ['CourtCreated'], owner: this.props.api.options.address}, addItem)
-//       ownedContract.events.CourtCreated({owner: this.props.api.options.address}, addItem)
-//       ownedContract.events.LimitCourtCreated({owner: this.props.api.options.address}, addItem)
     });
   }
   
