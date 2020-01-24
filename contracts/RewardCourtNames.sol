@@ -26,6 +26,7 @@ contract RewardCourtNames
         courtNameChanges[_courtId] = block.number;
     }
 
+    // FIXME: Should be by controlled court ID rather than msg.sender?
     function setIntercourtTokenName(uint256 _icToken, string _name) {
         require(owner == msg.sender, "You don't control this court.");
         emit SetIntercourtTokenName(msg.sender, _icToken, _name, icTokenNameChanges[_courtId]);

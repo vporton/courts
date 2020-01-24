@@ -264,10 +264,11 @@ class CourtNamesForm extends React.Component {
   }
   
   createLimitCourt() {
-    let result = this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
+    this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
   renameICToken() {
+    this.props.api.(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
   newICToken() {
