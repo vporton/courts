@@ -139,10 +139,11 @@ class CourtNamesForm extends React.Component {
       courtItems: '',
       limitCourtItems: '',
       tokensItems: '',
+      icTokensItems: '',
     }
 
     this.courtsListWidget = React.createRef()
-    this.newNameWidget = React.createRef()
+    this.courtNameEntryWidget = React.createRef()
     this.limitWidget = React.createRef()
     this.limitCourtNameWidget = React.createRef()
     this.baseCourtWidget = React.createRef()
@@ -150,6 +151,8 @@ class CourtNamesForm extends React.Component {
     this.limitCourtEntry = React.createRef()
     this.icTokenEntry = React.createRef()
     this.amountEntry = React.createRef()
+    this.icTokensListWidget = React.createRef()
+    this.icTokenEntryWidget = React.createRef()
 
     this.loaded = false
   }
@@ -257,11 +260,17 @@ class CourtNamesForm extends React.Component {
   }
   
   rename() {
-    this.props.api.setCourtName(this.courtsListWidget.current.value, this.newNameWidget.current.value).toPromise()
+    this.props.api.setCourtName(this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
   }
   
   createLimitCourt() {
     let result = this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
+  }
+  
+  renameICToken() {
+  }
+  
+  newICToken() {
   }
   
   onTokensWidgetChange() {
@@ -285,8 +294,17 @@ class CourtNamesForm extends React.Component {
           <select ref={this.courtsListWidget}>
             {Parser(this.state.courtItems)}
           </select>
-          <input type="text" ref={this.newNameWidget}/>
+          <input type="text" ref={this.courtNameEntryWidget}/>
           <button type="button" onClick={this.rename.bind(this)}>Rename</button>
+        </div>
+        <H2>Intercourt tokens</H2>
+        <div>
+          <select ref={this.icTokensListWidget}>
+            {Parser(this.state.icTokensItems)}
+          </select>
+          <input type="text" ref={this.icTokenEntryWidget}/>
+          <button type="button" onClick={this.renameICToken.bind(this)}>Rename</button>
+          <button type="button" onClick={this.newICToken.bind(this)}>Create new</button>
         </div>
         <H2>Limit courts</H2>
         <div>
