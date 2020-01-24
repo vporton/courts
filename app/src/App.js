@@ -268,6 +268,10 @@ class CourtNamesForm extends React.Component {
     this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
+  onICTokenSelect() {
+    this.icTokenEntryWidget.current.value = this.icTokensListWidget.current.value
+  }
+  
   renameICToken() {
     this.props.api.renameICToken(this.icTokenEntryWidget.current.value, this.icTokenNameEntryWidget.current.value)
   }
@@ -302,7 +306,7 @@ class CourtNamesForm extends React.Component {
         </div>
         <H2>Intercourt tokens</H2>
         <div>
-          <select ref={this.icTokensListWidget}>
+          <select ref={this.icTokensListWidget} onChange={this.onICTokenSelect.bind(this)}>
             {Parser(this.state.icTokensItems)}
           </select>
           IC token: <input type="text" ref={this.icTokenEntryWidget}/>
