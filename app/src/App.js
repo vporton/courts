@@ -282,7 +282,7 @@ class CourtNamesForm extends React.Component {
             <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
           </div>
           <div>
-            Tokens:
+            Intercourt tokens:
             <select ref={this.tokensWidget}>
               {Parser(this.state.tokensItems)}
             </select>

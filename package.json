@@ -40,6 +40,7 @@
     "ethlint": "^1.2.4",
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.8.2",
+    "husky": "^4.2.1",
     "prettier": "^1.18.2",
     "solidity-coverage": "^0.6.2",
     "truffle": "^5.1.9"
