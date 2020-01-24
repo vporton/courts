@@ -5,6 +5,8 @@ import './RewardCourts.sol';
 contract RewardCourtNames
 {
     RewardCourts rewardCourts;
+    
+    // TODO: Should all names be local to the msg.sender?
 
     // See https://ethereum.stackexchange.com/a/78986/36438
     // court ID => prevChange
