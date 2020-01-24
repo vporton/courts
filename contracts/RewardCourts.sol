@@ -490,7 +490,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
     /**
         @notice Set remaining court trust limits.
-        @param _courtId The truster court
+        @param _courtId The court
         @param _intercourtTokens Intercourt tokens (order and length must match _limits array)
         @param _limits  New limits (order and length must match _intercourtTokens array)
     */
@@ -509,7 +509,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     /**
         @notice Add to remaining court trust limits.
-        @param _courtId The truster court
+        @param _courtId The court
         @param _intercourtTokens Intercourt tokens (order and length must match _limits array)
         @param _limits  Limit values to add (order and length must match _intercourtTokens array)
     */

@@ -147,6 +147,7 @@ class CourtNamesForm extends React.Component {
     this.limitCourtNameWidget = React.createRef()
     this.baseCourtWidget = React.createRef()
     this.tokensWidget = React.createRef()
+    this.limitCourtEntry = React.createRef()
     this.icTokenEntry = React.createRef()
     this.amountEntry = React.createRef()
 
@@ -268,9 +269,11 @@ class CourtNamesForm extends React.Component {
   }
   
   setCourtLimits() {
+    this.props.api.setCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
   }
 
   addToCourtLimits() {
+    this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
   }
 
   render() {
@@ -303,6 +306,7 @@ class CourtNamesForm extends React.Component {
               {Parser(this.state.tokensItems)}
             </select>
             /
+            Court: <input type="number" ref={this.limitCourtEntry}/>
             Intercourt token: <input type="number" ref={this.icTokenEntry}/>
             Amount: <input type="number" ref={this.amountEntry}/>
             <button onClick={this.setCourtLimits.bind(this)}>Replace</button>
