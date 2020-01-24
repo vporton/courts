@@ -134,17 +134,22 @@ function fetchCourtNamesJSON() {
 class CourtNamesForm extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       items: '',
       limitCourtItems: '',
       tokensItems: '',
     }
+
     this.listWidget = React.createRef()
     this.newNameWidget = React.createRef()
     this.limitWidget = React.createRef()
     this.limitCourtNameWidget = React.createRef()
     this.baseCourtWidget = React.createRef()
     this.tokensWidget = React.createRef()
+    this.icTokenEntry = React.createRef()
+    this.amountEntry = React.createRef()
+
     this.loaded = false
   }
   
@@ -258,7 +263,18 @@ class CourtNamesForm extends React.Component {
     let result = this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
+  onTokensWidgetChange() {
+    this.icTokenEntry.current.value = this.tokensWidget.current.value
+  }
+  
+  setCourtLimits() {
+  }
+
+  addToCourtLimits() {
+  }
+
   render() {
+    // TODO: Validate the amount.
     return (
       <div>
         <H2>Court names</H2>
@@ -283,9 +299,14 @@ class CourtNamesForm extends React.Component {
           </div>
           <div>
             Intercourt tokens:
-            <select ref={this.tokensWidget}>
+            <select ref={this.tokensWidget} onChange={this.onTokensWidgetChange.bind(this)}>
               {Parser(this.state.tokensItems)}
             </select>
+            /
+            Intercourt token: <input type="number" ref={this.icTokenEntry}/>
+            Amount: <input type="number" ref={this.amountEntry}/>
+            <button onClick={this.setCourtLimits.bind(this)}>Replace</button>
+            <button onClick={this.addToCourtLimits.bind(this)}>Add</button>
           </div>
         </div>
       </div>
