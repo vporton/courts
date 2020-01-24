@@ -137,6 +137,7 @@ class CourtNamesForm extends React.Component {
     this.state = {
       items: '',
       limitCourtItems: '',
+      tokensItems: '',
     }
     this.listWidget = React.createRef()
     this.newNameWidget = React.createRef()
@@ -160,6 +161,7 @@ class CourtNamesForm extends React.Component {
     let courtIDs = []
     let limitCourtIDs = []
     let courtNames = {}
+    let icDict = {}
 
     function updateState(widget, courtIDs, courtNames) {
       const items = courtIDs.map(id =>
@@ -183,6 +185,7 @@ class CourtNamesForm extends React.Component {
       let ownedContract = this.props.api.external(this.props.ownedContract, abi1)
       let courtNamesContract = this.props.api.external(this.props.courtNamesContract, abi2)
       
+      // TODO: Update only after reading all events to improve performance.
       ownedContract.pastEvents({fromBlock: 0})
         .subscribe(events => {
           for(let i in events) {
@@ -207,6 +210,15 @@ class CourtNamesForm extends React.Component {
               const courtID = event.returnValues.createdCourt
               limitCourtIDs.push(courtID);
               updateState2(this, limitCourtIDs, courtNames)
+            }
+            if(event.event == 'SetCourtLimits' || event.event == 'AddToCourtLimits') {
+              const courtID = event.returnValues.courtId
+              const intercourtTokens = event.returnValues.intercourtTokens
+              for(let i=0; i<courtIDs.length; ++i) {
+                if(!(courtID in limitsDict))
+                  icDict[courtID] = new Set()
+                icDict[courtID] = new Set([...icDict[courtID], ...intercourtTokens])
+              }
             }
           }
           updateState(this, courtIDs, courtNames)
