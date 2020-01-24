@@ -93,4 +93,13 @@ contract CourtWrapper is AragonApp {
         _limits[0] = _limit;
         ownedContract.addToCourtLimits(_courtId, _intercourtTokens, _limits);
     }
+
+    function renameICToken(uint256 _icToken, string _name) external auth(JUDGE_ROLE) {
+        courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
+    }
+
+    function createICToken(string _name) external auth(JUDGE_ROLE) {
+        uint256 _icToken = ownedContract.createIntercourtToken();
+        courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
+    }
 }

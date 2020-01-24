@@ -153,6 +153,7 @@ class CourtNamesForm extends React.Component {
     this.amountEntry = React.createRef()
     this.icTokensListWidget = React.createRef()
     this.icTokenEntryWidget = React.createRef()
+    this.icTokenNameEntryWidget = React.createRef()
 
     this.loaded = false
   }
@@ -268,9 +269,11 @@ class CourtNamesForm extends React.Component {
   }
   
   renameICToken() {
+    this.props.api.renameICToken(this.icTokenEntryWidget.current.value, this.icTokenNameEntryWidget.current.value)
   }
   
   newICToken() {
+    this.props.api.createICToken(this.icTokenNameEntryWidget.current.value)
   }
   
   onTokensWidgetChange() {
@@ -302,7 +305,8 @@ class CourtNamesForm extends React.Component {
           <select ref={this.icTokensListWidget}>
             {Parser(this.state.icTokensItems)}
           </select>
-          <input type="text" ref={this.icTokenEntryWidget}/>
+          IC token: <input type="text" ref={this.icTokenEntryWidget}/>
+          Name: <input type="text" ref={this.icTokenNameEntryWidget}/>
           <button type="button" onClick={this.renameICToken.bind(this)}>Rename</button>
           <button type="button" onClick={this.newICToken.bind(this)}>Create new</button>
         </div>

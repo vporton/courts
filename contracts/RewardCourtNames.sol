@@ -20,13 +20,13 @@ contract RewardCourtNames
         rewardCourts = _rewardCourts;
     }
 
-    function setCourtName(uint256 _courtId, string _name) {
+    function setCourtName(uint256 _courtId, string _name) external {
         require(rewardCourts.courtOwners(_courtId) == msg.sender, "You don't control this court.");
         emit SetCourtName(_courtId, _name, courtNameChanges[_courtId]);
         courtNameChanges[_courtId] = block.number;
     }
 
-    function setIntercourtTokenName(uint256 _courtId, uint256 _icToken, string _name) {
+    function setIntercourtTokenName(uint256 _courtId, uint256 _icToken, string _name) external {
         require(rewardCourts.courtOwners(_courtId) == msg.sender, "You don't control this court.");
         emit SetIntercourtTokenName(_courtId, _icToken, _name, icTokenNameChanges[_courtId]);
         icTokenNameChanges[_icToken] = block.number;
