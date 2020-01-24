@@ -14,7 +14,7 @@ contract RewardCourtNames
     mapping (uint256 => uint) public icTokenNameChanges;
 
     event SetCourtName(uint256 courtId, string name, uint previous);
-    event SetIntercourtTokenName(address owner, uint256 _icToken, string _name, uint previous);
+    event SetIntercourtTokenName(uint256 courtId, uint256 icToken, string name, uint previous);
     
     constructor(RewardCourts _rewardCourts) {
         rewardCourts = _rewardCourts;
@@ -26,10 +26,9 @@ contract RewardCourtNames
         courtNameChanges[_courtId] = block.number;
     }
 
-    // FIXME: Should be by controlled court ID rather than msg.sender?
-    function setIntercourtTokenName(uint256 _icToken, string _name) {
-        require(owner == msg.sender, "You don't control this court.");
-        emit SetIntercourtTokenName(msg.sender, _icToken, _name, icTokenNameChanges[_courtId]);
+    function setIntercourtTokenName(uint256 _courtId, uint256 _icToken, string _name) {
+        require(rewardCourts.courtOwners(_courtId) == msg.sender, "You don't control this court.");
+        emit SetIntercourtTokenName(_courtId, _icToken, _name, icTokenNameChanges[_courtId]);
         icTokenNameChanges[_icToken] = block.number;
     }
 }

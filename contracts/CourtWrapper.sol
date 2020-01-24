@@ -66,7 +66,7 @@ contract CourtWrapper is AragonApp {
     /**
      * @notice Create limit court over court `_baseCourt` with name "`_name`".
      */
-    function createLimitCourt(uint256 _baseCourt, string _name) returns (uint256 _newCourt) external auth(JUDGE_ROLE) {
+    function createLimitCourt(uint256 _baseCourt, string _name) external auth(JUDGE_ROLE) returns (uint256 _newCourt) {
         _newCourt = ownedContract.createLimitCourt(_baseCourt);
         courtNamesContract.setCourtName(_newCourt, _name);
         return _newCourt;
@@ -76,13 +76,21 @@ contract CourtWrapper is AragonApp {
      * @notice Set court #`_courtId` trust limits on intercourt token `_intercourtToken` to `_limit`.
      */
     function setCourtLimits(uint256 _courtId, uint256 _intercourtToken, uint256 _limit) external auth(JUDGE_ROLE) {
-        ownedContract.setCourtLimits(_courtId, [_intercourtToken], [_limit]);
+        uint256[] memory _intercourtTokens = new uint256[](1);
+        _intercourtTokens[0] = _intercourtToken;
+        uint256[] memory _limits = new uint256[](1);
+        _limits[0] = _limit;
+        ownedContract.setCourtLimits(_courtId, _intercourtTokens, _limits);
     }
 
     /**
      * @notice Add to court #`_courtId` trust limits on intercourt token `_intercourtToken` to `_limit`.
      */
     function addToCourtLimits(uint256 _courtId, uint256 _intercourtToken, uint256 _limit) external auth(JUDGE_ROLE) {
-        ownedContract.addToCourtLimits(_courtId, [_intercourtToken], [_limit]);
+        uint256[] memory _intercourtTokens = new uint256[](1);
+        _intercourtTokens[0] = _intercourtToken;
+        uint256[] memory _limits = new uint256[](1);
+        _limits[0] = _limit;
+        ownedContract.addToCourtLimits(_courtId, _intercourtTokens, _limits);
     }
 }

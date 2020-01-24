@@ -268,7 +268,6 @@ class CourtNamesForm extends React.Component {
   }
   
   renameICToken() {
-    this.props.api.(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
   newICToken() {
