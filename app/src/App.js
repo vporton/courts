@@ -233,7 +233,7 @@ class CourtNamesForm extends React.Component {
             allIntercourtTokens = new Set([...allIntercourtTokens, ...icDict[court]])
           }
           allIntercourtTokens = [...allIntercourtTokens] // ensure stable order
-          let tokenLimitsPromises = [], tokenSpentsPromises = []
+          let tokenValuesPromises = [], tokenSpentsPromises = []
           for(let icToken in allIntercourtTokens) {
             tokenValuesPromises.push(this.props.api.courtLimits(icToken))
             tokenSpentsPromises.push(this.props.api.courtTotalSpents(icToken))
