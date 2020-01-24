@@ -136,12 +136,12 @@ class CourtNamesForm extends React.Component {
     super(props);
 
     this.state = {
-      items: '',
+      courtItems: '',
       limitCourtItems: '',
       tokensItems: '',
     }
 
-    this.listWidget = React.createRef()
+    this.courtsListWidget = React.createRef()
     this.newNameWidget = React.createRef()
     this.limitWidget = React.createRef()
     this.limitCourtNameWidget = React.createRef()
@@ -173,7 +173,7 @@ class CourtNamesForm extends React.Component {
       const items = courtIDs.map(id =>
         "<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + "</option>"
       )
-      widget.setState({items: items.join('')})
+      widget.setState({courtItems: items.join('')})
     }
 
     function updateState2(widget, limitCourtIDs, courtNames) {
@@ -257,7 +257,7 @@ class CourtNamesForm extends React.Component {
   }
   
   rename() {
-    this.props.api.setCourtName(this.listWidget.current.value, this.newNameWidget.current.value).toPromise()
+    this.props.api.setCourtName(this.courtsListWidget.current.value, this.newNameWidget.current.value).toPromise()
   }
   
   createLimitCourt() {
@@ -282,8 +282,8 @@ class CourtNamesForm extends React.Component {
       <div>
         <H2>Court names</H2>
         <div>
-          <select ref={this.listWidget}>
-            {Parser(this.state.items)}
+          <select ref={this.courtsListWidget}>
+            {Parser(this.state.courtItems)}
           </select>
           <input type="text" ref={this.newNameWidget}/>
           <button type="button" onClick={this.rename.bind(this)}>Rename</button>
