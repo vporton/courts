@@ -32,8 +32,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // limitId => court
     mapping (uint256 => uint256) public limitCourts;
     
-    // limitId => (intercourt token => amount)
-    mapping (uint256 => mapping (uint256 => uint256)) public courtLimits;
+    // token => amount
+    mapping (uint256 => uint256) public courtLimits;
     
     // How much limit courts used
     // token => amount
@@ -434,15 +434,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
     /**
-        @notice Returns `courtLimits[_court][_intercourtToken]`.
-        @param _court   Court
-        @param _intercourtToken Intercourt token
-    */
-    function getCourtLimits(uint256 _court, uint256 _intercourtToken) external returns (uint256) {
-        return courtLimits[_court][_intercourtToken];
-    }
-
-    /**
         @notice Set court owner.
         @param _court   Court
         @param _owner   New owner
@@ -510,7 +501,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         for (uint i = 0; i < _limits.length; ++i) {
             uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
-            courtLimits[_courtId][_intercourtTokens[i]] = _limits[i];
+            courtLimits[_id] = _limits[i];
         }
 
         emit SetCourtLimits(_courtId, _intercourtTokens, _limits);
@@ -528,9 +519,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(isLimitCourt(_courtId));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 newValue = _limits[i].add(courtLimits[_courtId][_intercourtTokens[i]]);
+            uint256 _id = _generateTokenId(_courtId, _intercourtTokens[i]);
+            uint256 newValue = _limits[i].add(courtLimits[_id]);
             if (newValue != 0) {
-                courtLimits[_courtId][_intercourtTokens[i]] = newValue;
+                courtLimits[_id] = newValue;
             }
         }
         emit AddToCourtLimits(_courtId, _intercourtTokens, _limits);
@@ -666,8 +658,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                 for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
                     uint256 _id = _generateTokenId(_court, _intercourtToken);
                     courtTotalSpents[_id] = courtTotalSpents[_id].add(_values[k]);
-                    // TODO: courtLimits could be an one-level mapping like courtTotalSpents
-                    require(courtTotalSpents[_id] <= courtLimits[_court][_intercourtToken], "Court limit exceeded.");
+                    require(courtTotalSpents[_id] <= courtLimits[_id], "Court limit exceeded.");
                 }
             }
         }

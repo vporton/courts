@@ -221,6 +221,14 @@ class CourtNamesForm extends React.Component {
               }
             }
           }
+          let allIntercourtTokens = new Set()
+          for(let court in icDict) {
+            allIntercourtTokens = new Set([...allIntercourtTokens, ...icDict[court]])
+          }
+          let tokenValuesPromises = []
+          for(let icToken in allIntercourtTokens) {
+            //tokenValuesPromises.push([this.props.api.courtLimits
+          }
           updateState(this, courtIDs, courtNames)
         })
 
