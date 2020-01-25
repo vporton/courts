@@ -168,10 +168,12 @@ class CourtNamesForm extends React.Component {
   }
 
   load() {
+    // FIXME: Use `Map`
     let courtIDs = []
     let limitCourtIDs = []
     let courtNames = {}
-    let icDict = {}
+    let icDict = {} // courts to arrays of IC tokens mapping
+    let icTokenNames = new Map()
 
     function updateState(widget, courtIDs, courtNames) {
       const items = courtIDs.map(id =>
@@ -187,6 +189,8 @@ class CourtNamesForm extends React.Component {
       widget.setState({limitCourtItems: items.join('')})
     }
 
+    let widget = this
+    
     Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
     .then(abi => {
       let [abi1, abi2] = abi
@@ -231,6 +235,15 @@ class CourtNamesForm extends React.Component {
                 icDict[courtID] = new Set([...icDict[courtID], ...intercourtTokens])
               }
             }
+            if(event.event == 'SetCourtLimits' || event.event == 'AddToCourtLimits') {
+              const courtID = event.returnValues.courtId
+              const intercourtTokens = event.returnValues.intercourtTokens
+              for(let i=0; i<courtIDs.length; ++i) {
+                if(!(courtID in icDict))
+                  icDict[courtID] = new Set()
+                icDict[courtID] = new Set([...icDict[courtID], ...intercourtTokens])
+              }
+            }
           }
           updateState(this, courtIDs, courtNames)
           let allIntercourtTokens = new Set()
@@ -253,6 +266,25 @@ class CourtNamesForm extends React.Component {
               const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
               items.push("<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + v + "</option>")
             }
+            courtNamesContract.pastEvents({fromBlock: 0, courtId: widget.props.courtId}) // TODO: Should be called earlier
+              .subscribe(events => {
+                for(let i in events) {
+                  const event = events[i]
+                  if(event.event == 'SetIntercourtTokenName') {
+                    console.log('xxx')
+                    icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
+                  }
+                }
+                allIntercourtTokens = [...new Set([...allIntercourtTokens, ...icTokenNames.keys()])]
+                console.log('icTokenNames', icTokenNames)
+                let items = []
+                for(let i=0; i<allIntercourtTokens.length; ++i) {
+                  const id = allIntercourtTokens[i]
+                  items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
+                }
+                console.log('items', items);
+                widget.setState({icTokensItems: items.join('')})
+              })
           })
         })
 
