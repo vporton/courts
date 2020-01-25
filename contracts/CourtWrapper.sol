@@ -105,7 +105,5 @@ contract CourtWrapper is AragonApp {
      * @notice Create intercourt token named "`_name`".
      */
     function createICToken(string _name) external auth(JUDGE_ROLE) {
-        uint256 _icToken = ownedContract.createIntercourtToken();
-        courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
     }
 }
