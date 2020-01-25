@@ -140,6 +140,9 @@ class CourtNamesForm extends React.Component {
       limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
+      allIntercourtTokens: new Set(),
+      ownedContractHandle: null,
+      courtNamesContractHandle: null,
     }
 
     this.courtsListWidget = React.createRef()
@@ -196,19 +199,19 @@ class CourtNamesForm extends React.Component {
       let [abi1, abi2] = abi
 //       if(!this.props.ownedContract) return
         
-      let ownedContract = this.props.api.external(this.props.ownedContract, abi1)
-      let courtNamesContract = this.props.api.external(this.props.courtNamesContract, abi2)
-      
+      this.state.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
+      this.state.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
+
       // TODO: Refactor.
       // TODO: Update only after reading all events to improve performance.
-      ownedContract.pastEvents({fromBlock: 0})
+      this.state.ownedContractHandle.pastEvents({fromBlock: 0})
         .subscribe(events => {
           for(let i in events) {
             const event = events[i]
             if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
               const courtID = event.returnValues.createdCourt
               courtIDs.push(courtID)
-              courtNamesContract.pastEvents({fromBlock: 0, courtId: courtID})
+              this.state.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
                 .subscribe(events => {
                   let items = []
                   for(let i in events) {
@@ -246,53 +249,13 @@ class CourtNamesForm extends React.Component {
             }
           }
           updateState(this, courtIDs, courtNames)
-          let allIntercourtTokens = new Set()
           for(let court in icDict) {
-            allIntercourtTokens = new Set([...allIntercourtTokens, ...icDict[court]])
+            console.log('EEE', this.state.allIntercourtTokens)
+            this.state.allIntercourtTokens = new Set([...this.state.allIntercourtTokens, ...icDict[court]])
           }
-          allIntercourtTokens = [...allIntercourtTokens] // ensure stable order
-          let tokenValuesPromises = [], tokenSpentsPromises = []
-          for(let i in allIntercourtTokens) {
-            var token = (BigInt(this.props.courtId/*FIXME: wrong court*/) << BigInt(128)) + BigInt(allIntercourtTokens[i]) // TODO: Extract a function.
-            token = String(token)
-            tokenValuesPromises.push(ownedContract.courtLimits(token).toPromise()) // TODO: Efficient?
-            tokenSpentsPromises.push(ownedContract.courtTotalSpents(token).toPromise()) // TODO: Efficient?
-          }
-          let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
-          tokensPromise.then(function(values) {
-            const tokenValues = values[0]
-            const tokenSpents = values[1]
-            courtNamesContract.pastEvents({fromBlock: 0, courtId: widget.props.courtId}) // TODO: Should be called earlier
-              .subscribe(events => {
-                for(let i in events) {
-                  const event = events[i]
-                  if(event.event == 'SetIntercourtTokenName') {
-                    icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
-                  }
-                }
-                {
-                  let items = []
-                  for(let i=0; i<tokenValues.length; ++i) {
-                    const id = allIntercourtTokens[i]
-                    const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
-                    items.push("<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + v + "</option>")
-                  }
-                  widget.setState({tokensItems: items.join('')})
-                }
-                allIntercourtTokens = [...new Set([...allIntercourtTokens, ...icTokenNames.keys()])]
-                {
-                  let items = []
-                  for(let i=0; i<allIntercourtTokens.length; ++i) {
-                    const id = allIntercourtTokens[i]
-                    items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
-                  }
-                  widget.setState({icTokensItems: items.join('')})
-                }
-              })
-          })
         })
 
-//       if(!this.props.courtNamesContract) return
+//       if(!this.props.this.state.courtNamesContractHandle) return
     });
   }
   
@@ -328,6 +291,53 @@ class CourtNamesForm extends React.Component {
     this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
 
+  // FIXME: call also on initializeation
+  onLimitWidgetChange() {
+    let widget = this
+    
+    let icTokensList = [...this.state.allIntercourtTokens]
+    
+    let tokenValuesPromises = [], tokenSpentsPromises = []
+    for(let i in icTokensList) {
+      var token = (BigInt(this.limitCourtEntry.current.value) << BigInt(128)) + BigInt(icTokensList[i]) // TODO: Extract a function.
+      token = String(token)
+      tokenValuesPromises.push(this.state.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
+      tokenSpentsPromises.push(this.state.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
+    }
+    let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
+    tokensPromise.then(function(values) {
+      const tokenValues = values[0]
+      const tokenSpents = values[1]
+      courtNamesContract.pastEvents({fromBlock: 0, courtId: widget.props.courtId}) // TODO: Should be called earlier
+        .subscribe(events => {
+          for(let i in events) {
+            const event = events[i]
+            if(event.event == 'SetIntercourtTokenName') {
+              icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
+            }
+          }
+          {
+            let items = []
+            for(let i=0; i<tokenValues.length; ++i) {
+              const id = icTokensList[i]
+              const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
+              items.push("<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + v + "</option>")
+            }
+            widget.setState({tokensItems: items.join('')})
+          }
+          let absolutelyAllIntercourtTokens = [...new Set([...absolutelyAllIntercourtTokens, ...icTokenNames.keys()])]
+          {
+            let items = []
+            for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
+              const id = absolutelyAllIntercourtTokens[i]
+              items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
+            }
+            widget.setState({icTokensItems: items.join('')})
+          }
+        })
+    })
+  }
+  
   render() {
     // TODO: Validate the amount.
     return (
@@ -353,7 +363,7 @@ class CourtNamesForm extends React.Component {
         <H2>Limit courts</H2>
         <div>
           <div>
-            <select ref={this.limitWidget}>
+            <select ref={this.limitWidget} onChange={this.onLimitWidgetChange.bind(this)}>
               {Parser(this.state.limitCourtItems)}
             </select>
             /
