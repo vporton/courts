@@ -140,6 +140,7 @@ class CourtNamesForm extends React.Component {
       limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
+      // TODO: Below does not belong to `state`.
       allIntercourtTokens: new Set(),
       ownedContractHandle: null,
       courtNamesContractHandle: null,
@@ -195,6 +196,7 @@ class CourtNamesForm extends React.Component {
       const event = events[i]
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
+        console.log('this', this)
         this.courtIDs.push(courtID)
         this.state.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
           .subscribe(events => {
@@ -251,7 +253,7 @@ class CourtNamesForm extends React.Component {
       // TODO: Refactor.
       // TODO: Update only after reading all events to improve performance.
       this.state.ownedContractHandle.pastEvents({fromBlock: 0})
-        .subscribe(this.processEvents)
+        .subscribe(events => this.processEvents(events))
     });
   }
   
