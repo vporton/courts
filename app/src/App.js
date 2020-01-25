@@ -201,7 +201,8 @@ class CourtNamesForm extends React.Component {
     widget.setState({tokensItems: items.join('')})
   }
 
-  updateTokenNames(widget, absolutelyAllIntercourtTokens) {
+  updateTokenNames(widget) {
+    let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
     let items = []
     for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
       const id = absolutelyAllIntercourtTokens[i]
@@ -216,7 +217,7 @@ class CourtNamesForm extends React.Component {
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
         this.courtIDs.push(courtID)
-        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID}) // TODO: Should be not here.
+        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
           .subscribe(events => {
             let items = []
             for(let i in events) {
@@ -230,10 +231,8 @@ class CourtNamesForm extends React.Component {
                 this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
               }
             }
-            // FIXME: apparently buggy
             this.updateCourtItems(this.courtIDs, this.courtNames)
-            let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
-            this.updateTokenNames(this, absolutelyAllIntercourtTokens)
+            this.updateTokenNames(this)
           })
       }
       if(event.event == 'LimitCourtCreated') {
@@ -264,6 +263,7 @@ class CourtNamesForm extends React.Component {
     for(let court in this.icDict) {
       this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
     }
+    this.updateTokenNames(this)
   }
 
   load() {
