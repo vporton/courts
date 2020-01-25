@@ -191,6 +191,25 @@ class CourtNamesForm extends React.Component {
     this.setState({limitCourtItems: items.join('')})
   }
 
+  updateLimitValues(widget, tokenValues, tokenSpents, icTokensList) {
+    let items = []
+    for(let i=0; i<tokenValues.length; ++i) {
+      const id = icTokensList[i]
+      const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
+      items.push("<option value='"+id+"'>" + id + " " + (id in widget.courtNames ? widget.courtNames[id] : "") + v + "</option>")
+    }
+    widget.setState({tokensItems: items.join('')})
+  }
+
+  updateTokenNames(widget, absolutelyAllIntercourtTokens) {
+    let items = []
+    for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
+      const id = absolutelyAllIntercourtTokens[i]
+      items.push("<option value='"+id+"'>" + id + " " + (this.icTokenNames.has(id) ? this.icTokenNames.get(id) : "") + "</option>")
+    }
+    widget.setState({icTokensItems: items.join('')})
+  }
+
   processEvents(events) {
     for(let i in events) {
       const event = events[i]
@@ -310,24 +329,9 @@ class CourtNamesForm extends React.Component {
               this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
             }
           }
-          {
-            let items = []
-            for(let i=0; i<tokenValues.length; ++i) {
-              const id = icTokensList[i]
-              const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
-              items.push("<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + v + "</option>")
-            }
-            widget.setState({tokensItems: items.join('')})
-          }
+          updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
           let absolutelyAllIntercourtTokens = [...new Set([...absolutelyAllIntercourtTokens, ...this.icTokenNames.keys()])]
-          {
-            let items = []
-            for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
-              const id = absolutelyAllIntercourtTokens[i]
-              items.push("<option value='"+id+"'>" + id + " " + (this.icTokenNames.has(id) ? this.icTokenNames.get(id) : "") + "</option>")
-            }
-            widget.setState({icTokensItems: items.join('')})
-          }
+          updateTokenNames(widget, absolutelyAllIntercourtTokens)
         })
     })
   }
