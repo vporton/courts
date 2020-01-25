@@ -273,11 +273,11 @@ class CourtNamesForm extends React.Component {
   }
   
   renameICToken() {
-    this.props.api.renameICToken(this.icTokenEntryWidget.current.value, this.icTokenNameEntryWidget.current.value)
+    this.props.api.renameICToken(this.icTokenEntryWidget.current.value, this.icTokenNameEntryWidget.current.value).toPromise()
   }
   
   newICToken() {
-    this.props.api.createICToken(this.icTokenNameEntryWidget.current.value)
+    this.props.api.createICToken(this.icTokenNameEntryWidget.current.value).toPromise()
   }
   
   onTokensWidgetChange() {
