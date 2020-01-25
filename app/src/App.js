@@ -216,7 +216,7 @@ class CourtNamesForm extends React.Component {
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
         this.courtIDs.push(courtID)
-        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
+        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID}) // TODO: Should be not here.
           .subscribe(events => {
             let items = []
             for(let i in events) {
@@ -225,8 +225,15 @@ class CourtNamesForm extends React.Component {
                 this.courtNames[courtID] = event.returnValues.name
                 this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
               }
+              if(event.event == 'SetIntercourtTokenName') {
+                console.log('event.returnValues.icToken', event.returnValues.icToken)
+                this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
+              }
             }
+            // FIXME: apparently buggy
             this.updateCourtItems(this.courtIDs, this.courtNames)
+            let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
+            this.updateTokenNames(this, absolutelyAllIntercourtTokens)
           })
       }
       if(event.event == 'LimitCourtCreated') {
@@ -321,18 +328,7 @@ class CourtNamesForm extends React.Component {
     tokensPromise.then(function(values) {
       const tokenValues = values[0]
       const tokenSpents = values[1]
-      courtNamesContract.pastEvents({fromBlock: 0, courtId: widget.props.courtId}) // TODO: Should be called earlier
-        .subscribe(events => {
-          for(let i in events) {
-            const event = events[i]
-            if(event.event == 'SetIntercourtTokenName') {
-              this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
-            }
-          }
-          updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
-          let absolutelyAllIntercourtTokens = [...new Set([...absolutelyAllIntercourtTokens, ...this.icTokenNames.keys()])]
-          updateTokenNames(widget, absolutelyAllIntercourtTokens)
-        })
+      updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
     })
   }
   
