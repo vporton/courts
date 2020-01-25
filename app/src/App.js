@@ -260,12 +260,6 @@ class CourtNamesForm extends React.Component {
           tokensPromise.then(function(values) {
             const tokenValues = values[0]
             const tokenSpents = values[1]
-            let items = []
-            for(let i=0; i<tokenValues.length; ++i) {
-              const id = allIntercourtTokens[i]
-              const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
-              items.push("<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + v + "</option>")
-            }
             courtNamesContract.pastEvents({fromBlock: 0, courtId: widget.props.courtId}) // TODO: Should be called earlier
               .subscribe(events => {
                 for(let i in events) {
@@ -274,13 +268,24 @@ class CourtNamesForm extends React.Component {
                     icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
                   }
                 }
-                allIntercourtTokens = [...new Set([...allIntercourtTokens, ...icTokenNames.keys()])]
-                let items = []
-                for(let i=0; i<allIntercourtTokens.length; ++i) {
-                  const id = allIntercourtTokens[i]
-                  items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
+                {
+                  let items = []
+                  for(let i=0; i<tokenValues.length; ++i) {
+                    const id = allIntercourtTokens[i]
+                    const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
+                    items.push("<option value='"+id+"'>" + id + " " + (id in courtNames ? courtNames[id] : "") + v + "</option>")
+                  }
+                  widget.setState({tokensItems: items.join('')})
                 }
-                widget.setState({icTokensItems: items.join('')})
+                allIntercourtTokens = [...new Set([...allIntercourtTokens, ...icTokenNames.keys()])]
+                {
+                  let items = []
+                  for(let i=0; i<allIntercourtTokens.length; ++i) {
+                    const id = allIntercourtTokens[i]
+                    items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
+                  }
+                  widget.setState({icTokensItems: items.join('')})
+                }
               })
           })
         })
@@ -314,11 +319,11 @@ class CourtNamesForm extends React.Component {
   }
   
   setCourtLimits() {
-    this.props.api.setCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
+    this.props.api.setCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
 
   addToCourtLimits() {
-    this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
+    this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
 
   render() {
