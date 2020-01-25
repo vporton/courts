@@ -271,18 +271,15 @@ class CourtNamesForm extends React.Component {
                 for(let i in events) {
                   const event = events[i]
                   if(event.event == 'SetIntercourtTokenName') {
-                    console.log('xxx')
                     icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
                   }
                 }
                 allIntercourtTokens = [...new Set([...allIntercourtTokens, ...icTokenNames.keys()])]
-                console.log('icTokenNames', icTokenNames)
                 let items = []
                 for(let i=0; i<allIntercourtTokens.length; ++i) {
                   const id = allIntercourtTokens[i]
                   items.push("<option value='"+id+"'>" + id + " " + (icTokenNames.has(id) ? icTokenNames.get(id) : "") + "</option>")
                 }
-                console.log('items', items);
                 widget.setState({icTokensItems: items.join('')})
               })
           })
