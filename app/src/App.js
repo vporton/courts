@@ -230,7 +230,7 @@ class CourtNamesForm extends React.Component {
               const courtID = event.returnValues.courtId
               const intercourtTokens = event.returnValues.intercourtTokens
               for(let i=0; i<courtIDs.length; ++i) {
-                if(!(courtID in limitsDict))
+                if(!(courtID in icDict))
                   icDict[courtID] = new Set()
                 icDict[courtID] = new Set([...icDict[courtID], ...intercourtTokens])
               }
@@ -253,8 +253,9 @@ class CourtNamesForm extends React.Component {
           allIntercourtTokens = [...allIntercourtTokens] // ensure stable order
           let tokenValuesPromises = [], tokenSpentsPromises = []
           for(let icToken in allIntercourtTokens) {
-            tokenValuesPromises.push(this.props.api.courtLimits(icToken))
-            tokenSpentsPromises.push(this.props.api.courtTotalSpents(icToken))
+            // FIXME: Wrong token argument!
+            tokenValuesPromises.push(ownedContract.courtLimits(icToken).toPromise()) // TODO: Efficient?
+            tokenSpentsPromises.push(ownedContract.courtTotalSpents(icToken).toPromise()) // TODO: Efficient?
           }
           let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
           tokensPromise.then(function(values) {
