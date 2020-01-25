@@ -142,7 +142,7 @@ class CourtNamesForm extends React.Component {
       icTokensItems: '',
     }
 
-    this.allIntercourtTokens = new Set();
+    this.allIntercourtTokens = new Set(); // both named IC tokens and IC tokens participating in our limits
     this.ownedContractHandle = null;
     this.courtNamesContractHandle = null;
 
@@ -196,7 +196,6 @@ class CourtNamesForm extends React.Component {
       const event = events[i]
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
-        console.log('this', this)
         this.courtIDs.push(courtID)
         this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
           .subscribe(events => {
@@ -249,8 +248,6 @@ class CourtNamesForm extends React.Component {
       this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
       this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
-      // TODO: Refactor.
-      // TODO: Update only after reading all events to improve performance.
       this.ownedContractHandle.pastEvents({fromBlock: 0})
         .subscribe(events => this.processEvents(events))
     });
