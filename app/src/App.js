@@ -140,11 +140,11 @@ class CourtNamesForm extends React.Component {
       limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
-      // TODO: Below does not belong to `state`.
-      allIntercourtTokens: new Set(),
-      ownedContractHandle: null,
-      courtNamesContractHandle: null,
     }
+
+    this.allIntercourtTokens = new Set();
+    this.ownedContractHandle = null;
+    this.courtNamesContractHandle = null;
 
     this.courtsListWidget = React.createRef()
     this.courtNameEntryWidget = React.createRef()
@@ -198,7 +198,7 @@ class CourtNamesForm extends React.Component {
         const courtID = event.returnValues.createdCourt
         console.log('this', this)
         this.courtIDs.push(courtID)
-        this.state.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
+        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
           .subscribe(events => {
             let items = []
             for(let i in events) {
@@ -237,8 +237,7 @@ class CourtNamesForm extends React.Component {
     }
     this.updateCourtItems(this.courtIDs, this.courtNames)
     for(let court in this.icDict) {
-      console.log('EEE', this.state.allIntercourtTokens)
-      this.state.allIntercourtTokens = new Set([...this.state.allIntercourtTokens, ...this.icDict[court]])
+      this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
     }
   }
 
@@ -247,12 +246,12 @@ class CourtNamesForm extends React.Component {
     .then(abi => {
       let [abi1, abi2] = abi
         
-      this.state.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
-      this.state.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
+      this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
+      this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
       // TODO: Refactor.
       // TODO: Update only after reading all events to improve performance.
-      this.state.ownedContractHandle.pastEvents({fromBlock: 0})
+      this.ownedContractHandle.pastEvents({fromBlock: 0})
         .subscribe(events => this.processEvents(events))
     });
   }
@@ -293,14 +292,14 @@ class CourtNamesForm extends React.Component {
   onLimitWidgetChange() {
     let widget = this
     
-    let icTokensList = [...this.state.allIntercourtTokens]
+    let icTokensList = [...this.allIntercourtTokens]
     
     let tokenValuesPromises = [], tokenSpentsPromises = []
     for(let i in icTokensList) {
       var token = (BigInt(this.limitCourtEntry.current.value) << BigInt(128)) + BigInt(icTokensList[i]) // TODO: Extract a function.
       token = String(token)
-      tokenValuesPromises.push(this.state.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
-      tokenSpentsPromises.push(this.state.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
+      tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
+      tokenSpentsPromises.push(this.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
     }
     let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
     tokensPromise.then(function(values) {
