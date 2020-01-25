@@ -252,10 +252,11 @@ class CourtNamesForm extends React.Component {
           }
           allIntercourtTokens = [...allIntercourtTokens] // ensure stable order
           let tokenValuesPromises = [], tokenSpentsPromises = []
-          for(let icToken in allIntercourtTokens) {
-            // FIXME: Wrong token argument!
-            tokenValuesPromises.push(ownedContract.courtLimits(icToken).toPromise()) // TODO: Efficient?
-            tokenSpentsPromises.push(ownedContract.courtTotalSpents(icToken).toPromise()) // TODO: Efficient?
+          for(let i in allIntercourtTokens) {
+            var token = (BigInt(this.props.courtId/*FIXME: wrong court*/) << BigInt(128)) + BigInt(allIntercourtTokens[i]) // TODO: Extract a function.
+            token = String(token)
+            tokenValuesPromises.push(ownedContract.courtLimits(token).toPromise()) // TODO: Efficient?
+            tokenSpentsPromises.push(ownedContract.courtTotalSpents(token).toPromise()) // TODO: Efficient?
           }
           let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
           tokensPromise.then(function(values) {
