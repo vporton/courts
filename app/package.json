@@ -1,6 +1,6 @@
 {
   "name": "@porton/apps-judge-frontend",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "src/index.js",
   "dependencies": {
     "@aragon/api": "^2.0.0-beta.7",

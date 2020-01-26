@@ -13,3 +13,5 @@
 - Cutting too long strings in controls.
 
 - FIXME: What's about trusting a non-existing court?
+
+- App initialization function.
