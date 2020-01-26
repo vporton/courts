@@ -108,4 +108,16 @@ contract CourtWrapper is AragonApp {
         uint256 _icToken = ownedContract.createIntercourtToken();
         courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
     }
+
+    function trustCourt(uint256 _trustee) {
+        uint256[] _trustees = new uint256[](1);
+        _trustees[0] = _trustee;
+        ownedContract.trustCourts(courtId, _trustees);
+    }
+
+    function untrustCourt(uint256 _trustee) {
+        uint256[] _trustees = new uint256[](1);
+        _trustees[0] = _trustee;
+        ownedContract.untrustCourts(courtId, _trustees);
+    }
 }

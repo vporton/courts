@@ -163,7 +163,7 @@ class CourtNamesForm extends React.Component {
     this.icTokenEntryWidget = React.createRef()
     this.icTokenNameEntryWidget = React.createRef()
     this.trustedCourtsWidget = React.createRef()
-    this.courtIdEntry = React.createRef()
+    this.trustedCourtEntry = React.createRef()
 
     this.loaded = false
     this.courtIDs = []
@@ -321,9 +321,11 @@ class CourtNamesForm extends React.Component {
   }
   
   trust() {
+    this.props.api.trustCourt(this.trustedCourtEntry.current.value)
   }
 
   untrust() {
+    this.props.api.untrustCourt(this.trustedCourtsWidget.current.value)
   }
 
   onLimitWidgetChange() {
@@ -403,7 +405,7 @@ class CourtNamesForm extends React.Component {
             </select>
             <button onClick={this.untrust.bind(this)}>Untrust</button>
           </p>
-          <p>Court ID: <input type="text" ref={this.courtIdEntry}/>
+          <p>Court ID: <input type="text" ref={this.trustedCourtEntry}/>
             <button onClick={this.trust.bind(this)}>Trust</button>
           </p>
         </div>
