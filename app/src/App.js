@@ -291,7 +291,7 @@ class CourtNamesForm extends React.Component {
           for(let i in list) {
             items.push("<option id='"+list[i]+"'>" + list[i] + "</option>")
           }
-          this.trustedCourtsItems = items.join('')
+          this.setState({trustedCourtsItems: items.join('')})
         })
     });
   }
