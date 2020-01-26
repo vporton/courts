@@ -285,7 +285,7 @@ class CourtNamesForm extends React.Component {
 
       this.ownedContractHandle.pastEvents({fromBlock: 0})
         .subscribe(events => this.processEvents(events))
-      this.ownedContractHandle.trustedCourtsList(courtId).toPromise()
+      this.ownedContractHandle.trustedCourtsList(this.props.courtId).toPromise()
         .then(list => {
           let items = []
           for(let i in list) {
@@ -329,11 +329,11 @@ class CourtNamesForm extends React.Component {
   }
   
   trust() {
-    this.props.api.trustCourt(this.trustedCourtEntry.current.value)
+    this.props.api.trustCourt(this.trustedCourtEntry.current.value).toPromise()
   }
 
   untrust() {
-    this.props.api.untrustCourt(this.trustedCourtsWidget.current.value)
+    this.props.api.untrustCourt(this.trustedCourtsWidget.current.value).toPromise()
   }
 
   onLimitWidgetChange() {
