@@ -21,8 +21,6 @@ function App() {
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
         <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        <H2>Intercourt trust</H2>
-        <TrustForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
     </Main>
   )
@@ -144,6 +142,7 @@ class CourtNamesForm extends React.Component {
       limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
+      trustedCourtsItems: '',
       currentLimitCourt: null,
     }
 
@@ -163,6 +162,8 @@ class CourtNamesForm extends React.Component {
     this.icTokensListWidget = React.createRef()
     this.icTokenEntryWidget = React.createRef()
     this.icTokenNameEntryWidget = React.createRef()
+    this.trustedCourtsWidget = React.createRef()
+    this.courtIdEntry = React.createRef()
 
     this.loaded = false
     this.courtIDs = []
@@ -318,6 +319,12 @@ class CourtNamesForm extends React.Component {
   addToCourtLimits() {
     this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
+  
+  trust() {
+  }
+
+  untrust() {
+  }
 
   onLimitWidgetChange() {
     let widget = this
@@ -388,41 +395,18 @@ class CourtNamesForm extends React.Component {
             <button onClick={this.addToCourtLimits.bind(this)}>Add</button>
           </div>
         </div>
-      </div>
-    )
-  }
-}
-
-class TrustForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      trustedCourtsItems: '',
-    }
-
-    this.trustedCourtsWidget = React.createRef()
-    this.courtIdEntry = React.createRef()
-  }
-
-  untrust() {
-  }
-  
-  trust() {
-  }
-  
-  render() {
-    return (
-      <div>
-        <p>Trusted courts:
-          <select ref={this.trustedCourtsWidget}>
-            {Parser(this.state.trustedCourtsItems)}
-          </select>
-          <button onClick={this.untrust.bind(this)}>Untrust</button>
-        </p>
-        <p>Court ID: <input type="text" ref={this.courtIdEntry}/>
-          <button onClick={this.trust.bind(this)}>Trust</button>
-        </p>
+        <H2>Intercourt trust</H2>
+        <div>
+          <p>Trusted courts:
+            <select ref={this.trustedCourtsWidget}>
+              {Parser(this.state.trustedCourtsItems)}
+            </select>
+            <button onClick={this.untrust.bind(this)}>Untrust</button>
+          </p>
+          <p>Court ID: <input type="text" ref={this.courtIdEntry}/>
+            <button onClick={this.trust.bind(this)}>Trust</button>
+          </p>
+        </div>
       </div>
     )
   }
