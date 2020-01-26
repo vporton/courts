@@ -224,12 +224,10 @@ class CourtNamesForm extends React.Component {
               const event = events[i]
               if(event.returnValues.courtId != courtID) continue; // FIXME: Not needed if no bugs.
               if(event.event == 'SetCourtName') {
-                console.log(courtID, event.returnValues.courtId)
                 this.courtNames[courtID] = event.returnValues.name
                 this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
               }
               if(event.event == 'SetIntercourtTokenName') {
-                console.log('event.returnValues.icToken', event.returnValues.icToken)
                 this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
               }
             }
