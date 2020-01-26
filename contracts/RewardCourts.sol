@@ -11,7 +11,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     using SafeMath for uint256;
     using Address for address;
 
-    uint256 internal nonce; // to save memory use it for both courts and intercourt tokens
+    uint256 internal courtNonce;
+    uint256 internal icTokenNonce;
 
     // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
@@ -449,7 +450,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @return           Court ID
     */
     function createCourt() external returns (uint256 _id) {
-        _id = ++nonce;
+        _id = ++courtNonce;
         courtOwners[_id] = msg.sender;
         emit CourtCreated(msg.sender, _id);
     }
@@ -461,7 +462,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @return         Limit court ID
     */
     function createLimitCourt(uint256 _court) external returns (uint256) {
-        uint256 _id = ++nonce;
+        require(_court > 0 && _court <= courtNonce, "Court does not exist.");
+        uint256 _id = ++courtNonce;
         courtOwners[_id] = msg.sender;
         limitCourts[_id] = _court;
         emit LimitCourtCreated(msg.sender, _court, _id);
@@ -473,7 +475,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @return           Intercourt token
     */
     function createIntercourtToken(/*string _uri*/) external returns (uint256) {
-        uint256 _id = ++nonce;
+        uint256 _id = ++icTokenNonce;
         // _id is Intercourt token, not a token
         // if (bytes(_uri).length > 0)
         //     emit URI(_uri, _id);
