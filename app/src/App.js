@@ -328,7 +328,7 @@ class CourtNamesForm extends React.Component {
     tokensPromise.then(function(values) {
       const tokenValues = values[0]
       const tokenSpents = values[1]
-      updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
+      widget.updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
     })
   }
   
