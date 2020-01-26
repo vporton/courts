@@ -140,6 +140,7 @@ class CourtNamesForm extends React.Component {
       limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
+      currentLimitCourt: null,
     }
 
     this.allIntercourtTokens = new Set(); // both named IC tokens and IC tokens participating in our limits
@@ -188,8 +189,11 @@ class CourtNamesForm extends React.Component {
     const items = this.limitCourtIDs.map(id =>
       "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
     )
-    this.setState({limitCourtItems: items.join('')})
-    onLimitWidgetChange() // FIXME: The select widget is not yet updated
+    this.setState({
+      limitCourtItems: items.join(''),
+      currentLimitCourt: limitCourtIDs.length ? limitCourtIDs[0] : null,
+    })
+    this.onLimitWidgetChange()
   }
 
   updateLimitValues(widget, tokenValues, tokenSpents, icTokensList) {
@@ -315,11 +319,13 @@ class CourtNamesForm extends React.Component {
   onLimitWidgetChange() {
     let widget = this
     
+    this.state.currentLimitCourt = Number(this.limitWidget.current.value)
+    
     let icTokensList = [...this.allIntercourtTokens]
     
     let tokenValuesPromises = [], tokenSpentsPromises = []
     for(let i in icTokensList) {
-      var token = calculateTokenId(this.limitCourtEntry.current.value, icTokensList[i])
+      var token = calculateTokenId(this.state.currentLimitCourt, icTokensList[i]) // FIXME: currentLimitCourt may be null
       token = String(token)
       tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
       tokenSpentsPromises.push(this.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
