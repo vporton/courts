@@ -256,7 +256,7 @@ class CourtNamesForm extends React.Component {
           const event = events[i]
           if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
           if(event.event == 'SetCourtName') {
-            this.courtNames[courtID] = event.returnValues.name
+            this.courtNames[event.returnValues.courtId] = event.returnValues.name
             this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
           }
           if(event.event == 'SetIntercourtTokenName') {
