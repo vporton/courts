@@ -435,6 +435,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 /////////////////////////////////////////// Administrativia //////////////////////////////////////////////
 
     /**
+        @notice Get `trustedCourtsList` for a court.
+        @param _truster Court
+    */
+    function getTrustedCourtsList(uint256 _truster) public view returns (uint256[]) {
+        return trustedCourtsList[_truster];
+    }
+
+    /**
         @notice Set court owner.
         @param _court   Court
         @param _owner   New owner

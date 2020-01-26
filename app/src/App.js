@@ -285,7 +285,7 @@ class CourtNamesForm extends React.Component {
 
       this.ownedContractHandle.pastEvents({fromBlock: 0})
         .subscribe(events => this.processEvents(events))
-      this.ownedContractHandle.trustedCourtsList(this.props.courtId).toPromise()
+      this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
         .then(list => {
           let items = []
           for(let i in list) {
