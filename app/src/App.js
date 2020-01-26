@@ -254,7 +254,7 @@ class CourtNamesForm extends React.Component {
         let items = []
         for(let i in events) {
           const event = events[i]
-          if(this.courtIDs.includes(event.returnValues.courtId)) continue;
+          if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
           if(event.event == 'SetCourtName') {
             this.courtNames[courtID] = event.returnValues.name
             this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
