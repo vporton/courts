@@ -77,24 +77,26 @@ class ManageForm extends React.Component {
     return (
       <div>
         <table>
-          <tr>
-            <TH>Owned contract:</TH>
-            <td><input size="42" maxlength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
-                       class={this.state.ownedValid ? "" : "error"}/></td>
-          </tr>
-          <tr>
-            <TH>Court names contract:</TH>
-            <td><input size="42" maxlength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
-                       class={this.state.courtNamesValid ? "" : "error"}/></td>
-          </tr>
-          <tr>
-            <TH>Court ID:</TH>
-            <td>
-              <input type="number" ref={this.courtInput} onChange={this.onCourtChange.bind(this)}
-                     class={this.state.courtValid ? "" : "error"}/>
-              (enter 0 to create a new court)
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <TH>Owned contract:</TH>
+              <td><input size="42" maxlength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
+                        class={this.state.ownedValid ? "" : "error"}/></td>
+            </tr>
+            <tr>
+              <TH>Court names contract:</TH>
+              <td><input size="42" maxlength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
+                        class={this.state.courtNamesValid ? "" : "error"}/></td>
+            </tr>
+            <tr>
+              <TH>Court ID:</TH>
+              <td>
+                <input type="number" ref={this.courtInput} onChange={this.onCourtChange.bind(this)}
+                      class={this.state.courtValid ? "" : "error"}/>
+                (enter 0 to create a new court)
+              </td>
+            </tr>
+          </tbody>
         </table>
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.changeCourt.bind(this)}>Change</button>
