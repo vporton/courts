@@ -224,23 +224,6 @@ class CourtNamesForm extends React.Component {
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
         this.courtIDs.push(courtID)
-        this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {courtId: [courtID]}}) // TODO: Apply filter for all courts just once.
-          .subscribe(events => {
-            let items = []
-            for(let i in events) {
-              const event = events[i]
-              if(event.returnValues.courtId != courtID) continue; // FIXME: Not needed if no bugs.
-              if(event.event == 'SetCourtName') {
-                this.courtNames[courtID] = event.returnValues.name
-                this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
-              }
-              if(event.event == 'SetIntercourtTokenName') {
-                this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
-              }
-            }
-            this.updateCourtItems(this.courtIDs, this.courtNames)
-            this.updateTokenNames(this)
-          })
       }
       if(event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
@@ -266,6 +249,23 @@ class CourtNamesForm extends React.Component {
         }
       }
     }
+    this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
+      .subscribe(events => {
+        let items = []
+        for(let i in events) {
+          const event = events[i]
+          if(this.courtIDs.includes(event.returnValues.courtId)) continue;
+          if(event.event == 'SetCourtName') {
+            this.courtNames[courtID] = event.returnValues.name
+            this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
+          }
+          if(event.event == 'SetIntercourtTokenName') {
+            this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
+          }
+        }
+        this.updateCourtItems(this.courtIDs, this.courtNames)
+        this.updateTokenNames(this)
+      })
     this.updateCourtItems(this.courtIDs, this.courtNames)
     for(let court in this.icDict) {
       this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
