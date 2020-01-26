@@ -402,8 +402,15 @@ class TrustForm extends React.Component {
     }
 
     this.trustedCourtsWidget = React.createRef()
+    this.courtIdEntry = React.createRef()
   }
 
+  untrust() {
+  }
+  
+  trust() {
+  }
+  
   render() {
     return (
       <div>
@@ -411,6 +418,10 @@ class TrustForm extends React.Component {
           <select ref={this.trustedCourtsWidget}>
             {Parser(this.state.trustedCourtsItems)}
           </select>
+          <button onClick={this.untrust.bind(this)}>Untrust</button>
+        </p>
+        <p>Court ID: <input type="text" ref={this.courtIdEntry}/>
+          <button onClick={this.trust.bind(this)}>Trust</button>
         </p>
       </div>
     )
