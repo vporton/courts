@@ -260,17 +260,16 @@ class CourtNamesForm extends React.Component {
             this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
           }
           if(event.event == 'SetIntercourtTokenName') {
+            this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
             this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
           }
+        }
+        for(let court in this.icDict) {
+          this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
         }
         this.updateCourtItems(this.courtIDs, this.courtNames)
         this.updateTokenNames(this)
       })
-    this.updateCourtItems(this.courtIDs, this.courtNames)
-    for(let court in this.icDict) {
-      this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
-    }
-    this.updateTokenNames(this)
   }
 
   load() {
@@ -327,7 +326,6 @@ class CourtNamesForm extends React.Component {
     
     let tokenValuesPromises = [], tokenSpentsPromises = []
     for(let i in icTokensList) {
-      console.log('sss', this.state.currentLimitCourt, icTokensList[i])
       var token = calculateTokenId(this.state.currentLimitCourt, icTokensList[i]) // FIXME: currentLimitCourt may be null
       token = String(token)
       tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
