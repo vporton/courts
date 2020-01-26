@@ -21,6 +21,8 @@ function App() {
         <H2>Send any amount of tokens to recepients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
         <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <H2>Intercourt trust</H2>
+        <TrustForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </BaseLayout>
     </Main>
   )
@@ -386,6 +388,30 @@ class CourtNamesForm extends React.Component {
             <button onClick={this.addToCourtLimits.bind(this)}>Add</button>
           </div>
         </div>
+      </div>
+    )
+  }
+}
+
+class TrustForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      trustedCourtsItems: '',
+    }
+
+    this.trustedCourtsWidget = React.createRef()
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Trusted courts:
+          <select ref={this.trustedCourtsWidget}>
+            {Parser(this.state.trustedCourtsItems)}
+          </select>
+        </p>
       </div>
     )
   }
