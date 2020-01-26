@@ -189,6 +189,7 @@ class CourtNamesForm extends React.Component {
       "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
     )
     this.setState({limitCourtItems: items.join('')})
+    onLimitWidgetChange() // FIXME: The select widget is not yet updated
   }
 
   updateLimitValues(widget, tokenValues, tokenSpents, icTokensList) {
@@ -311,7 +312,6 @@ class CourtNamesForm extends React.Component {
     this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
 
-  // FIXME: call also on initializeation
   onLimitWidgetChange() {
     let widget = this
     
