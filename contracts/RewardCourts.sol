@@ -500,7 +500,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(isLimitCourt(_courtId));
 
         for (uint i = 0; i < _limits.length; ++i) {
-            uint256 _id = _generateTokenId(_limits[i], _intercourtTokens[i]);
+            uint256 _id = _generateTokenId(_courtId, _intercourtTokens[i]);
             courtLimits[_id] = _limits[i];
         }
 

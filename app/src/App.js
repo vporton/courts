@@ -325,6 +325,7 @@ class CourtNamesForm extends React.Component {
     
     let tokenValuesPromises = [], tokenSpentsPromises = []
     for(let i in icTokensList) {
+      console.log('sss', this.state.currentLimitCourt, icTokensList[i])
       var token = calculateTokenId(this.state.currentLimitCourt, icTokensList[i]) // FIXME: currentLimitCourt may be null
       token = String(token)
       tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
