@@ -217,12 +217,14 @@ class CourtNamesForm extends React.Component {
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
         const courtID = event.returnValues.createdCourt
         this.courtIDs.push(courtID)
-        this.courtNamesContractHandle.pastEvents({fromBlock: 0, courtId: courtID})
+        this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {courtId: [courtID]}}) // TODO: Apply filter for all courts just once.
           .subscribe(events => {
             let items = []
             for(let i in events) {
               const event = events[i]
+              if(event.returnValues.courtId != courtID) continue; // FIXME: Not needed if no bugs.
               if(event.event == 'SetCourtName') {
+                console.log(courtID, event.returnValues.courtId)
                 this.courtNames[courtID] = event.returnValues.name
                 this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
               }
