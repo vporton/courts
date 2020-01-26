@@ -110,13 +110,13 @@ contract CourtWrapper is AragonApp {
     }
 
     function trustCourt(uint256 _trustee) {
-        uint256[] _trustees = new uint256[](1);
+        uint256[] memory _trustees = new uint256[](1);
         _trustees[0] = _trustee;
         ownedContract.trustCourts(courtId, _trustees);
     }
 
     function untrustCourt(uint256 _trustee) {
-        uint256[] _trustees = new uint256[](1);
+        uint256[] memory _trustees = new uint256[](1);
         _trustees[0] = _trustee;
         ownedContract.untrustCourts(courtId, _trustees);
     }
