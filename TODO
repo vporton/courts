@@ -1,10 +1,8 @@
 - Dealing with court trust.
 
-- Dealing with limit courts.
+- The top part of the UI is hidden when the vertical window size is small.
 
-- Names and URLs of courts and intercourt tokens.
-  to implement need a separate contract storing names and URLs.
-  How to deal with localization?
+- How to deal with localization?
 
 - Tabbed UI (split into multiple apps?)
 
