@@ -202,8 +202,8 @@ class CourtNamesForm extends React.Component {
     let items = []
     for(let i=0; i<tokenValues.length; ++i) {
       const id = icTokensList[i]
-      const v = "/ remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
-      items.push("<option value='"+id+"'>" + id + " " + (id in widget.courtNames ? widget.courtNames[id] : "") + v + "</option>")
+      const v = " / remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
+      items.push("<option value='"+id+"'>" + id + " " + (widget.icTokenNames.has(id) ? widget.icTokenNames.get(id) : "") + v + "</option>")
     }
     widget.setState({tokensItems: items.join('')})
   }
