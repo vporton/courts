@@ -319,7 +319,7 @@ class CourtNamesForm extends React.Component {
     
     let tokenValuesPromises = [], tokenSpentsPromises = []
     for(let i in icTokensList) {
-      var token = (BigInt(this.limitCourtEntry.current.value) << BigInt(128)) + BigInt(icTokensList[i]) // TODO: Extract a function.
+      var token = calculateTokenId(this.limitCourtEntry.current.value, icTokensList[i])
       token = String(token)
       tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
       tokenSpentsPromises.push(this.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
@@ -491,7 +491,7 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
 `
 
 function calculateTokenId(court, intercourtToken) {
-  return String(BigInt(soliditySha3(court, intercourtToken)))
+  return (BigInt(court) << BigInt(128)) + BigInt(intercourtToken)
 }
 
 export default App
