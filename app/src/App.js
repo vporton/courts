@@ -80,19 +80,19 @@ class ManageForm extends React.Component {
           <tbody>
             <tr>
               <TH>Owned contract:</TH>
-              <td><input size="42" maxlength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
-                        class={this.state.ownedValid ? "" : "error"}/></td>
+              <td><input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
+                        className={this.state.ownedValid ? "" : "error"}/></td>
             </tr>
             <tr>
               <TH>Court names contract:</TH>
-              <td><input size="42" maxlength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
-                        class={this.state.courtNamesValid ? "" : "error"}/></td>
+              <td><input size="42" maxLength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
+                        className={this.state.courtNamesValid ? "" : "error"}/></td>
             </tr>
             <tr>
               <TH>Court ID:</TH>
               <td>
                 <input type="number" ref={this.courtInput} onChange={this.onCourtChange.bind(this)}
-                      class={this.state.courtValid ? "" : "error"}/>
+                      className={this.state.courtValid ? "" : "error"}/>
                 (enter 0 to create a new court)
               </td>
             </tr>
@@ -440,30 +440,32 @@ class MintForm extends React.Component {
   render() {
     const style = {width: '50em'} // prevent the widget to "jump" after the token address is shown
     return (
-      <div style={style} ownedContract={this.props.ownedContract}>
+      <div style={style}>
         <table>
-          <tr>
-            <TH><label>Intercourt token:</label></TH>
-            <td><input ref={this.ICTokenInput}
-                       type="number"
-                       onChange={this.onICTokenChange.bind(this)}
-                       class={this.state.intercourtTokenValid ? "" : "error"}/></td>
-          </tr>
-          <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
-          <tr>
-            <TH><label>Recepient:</label></TH>
-            <td><input ref={this.recepientInput}
-                       size="42" maxlength="42"
-                       onChange={this.onRecepientTokenChange.bind(this)}
-                       class={this.state.recepientValid ? "" : "error"}/></td>
-          </tr>
-          <tr>
-            <TH><label>Amount:</label></TH>
-            <td><input ref={this.amountInput}
-                       id="amount" type="number"
-                       onChange={this.onAmountChange.bind(this)}
-                       class={this.state.amountValid ? "" : "error"}/></td>
-          </tr>
+          <tbody>
+            <tr>
+              <TH><label>Intercourt token:</label></TH>
+              <td><input ref={this.ICTokenInput}
+                        type="number"
+                        onChange={this.onICTokenChange.bind(this)}
+                        className={this.state.intercourtTokenValid ? "" : "error"}/></td>
+            </tr>
+            <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
+            <tr>
+              <TH><label>Recepient:</label></TH>
+              <td><input ref={this.recepientInput}
+                        size="42" maxLength="42"
+                        onChange={this.onRecepientTokenChange.bind(this)}
+                        className={this.state.recepientValid ? "" : "error"}/></td>
+            </tr>
+            <tr>
+              <TH><label>Amount:</label></TH>
+              <td><input ref={this.amountInput}
+                        id="amount" type="number"
+                        onChange={this.onAmountChange.bind(this)}
+                        className={this.state.amountValid ? "" : "error"}/></td>
+            </tr>
+          </tbody>
         </table>
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.mint.bind(this)}>Mint!</button>
