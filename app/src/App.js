@@ -389,7 +389,7 @@ class CourtNamesForm extends React.Component {
           <select ref={this.icTokensListWidget} onChange={this.onICTokenSelect.bind(this)}>
             {Parser(this.state.icTokensItems)}
           </select>
-          IC token: <input type="text" ref={this.icTokenEntryWidget}/>
+          IC token: <input type="number" ref={this.icTokenEntryWidget}/>
           Name: <input type="text" ref={this.icTokenNameEntryWidget}/>
           <button type="button" onClick={this.renameICToken.bind(this)}>Rename</button>
           <button type="button" onClick={this.newICToken.bind(this)}>Create new</button>
@@ -401,7 +401,7 @@ class CourtNamesForm extends React.Component {
               {Parser(this.state.limitCourtItems)}
             </select>
             /
-            Base court: <input type="text" ref={this.baseCourtWidget}/>
+            Base court: <input type="number" ref={this.baseCourtWidget}/>
             /
             Name: <input type="text" ref={this.limitCourtNameWidget}/>
             <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
@@ -427,7 +427,7 @@ class CourtNamesForm extends React.Component {
             </select>
             <button onClick={this.untrust.bind(this)}>Untrust</button>
           </p>
-          <p>Court ID: <input type="text" ref={this.trustedCourtEntry}/>
+          <p>Court ID: <input type="number" ref={this.trustedCourtEntry}/>
             <button onClick={this.trust.bind(this)}>Trust</button>
           </p>
         </div>
