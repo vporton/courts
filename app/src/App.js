@@ -214,7 +214,6 @@ class CourtNamesForm extends React.Component {
   }
 
   updateTokenNames() {
-    console.log('ic', this.allIntercourtTokens)
     let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
     let items = []
     for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
@@ -270,14 +269,12 @@ class CourtNamesForm extends React.Component {
     let items = []
     for(let i in events) {
       const event = events[i]
-      console.log(event)
       //if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
       if(event.event == 'SetCourtName') {
         this.courtNames[event.returnValues.courtId] = event.returnValues.name
         this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
       }
       if(event.event == 'SetIntercourtTokenName') {
-        console.log("QQQ")
         this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
         this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
       }
@@ -337,6 +334,7 @@ class CourtNamesForm extends React.Component {
   }
   
   setCourtLimits() {
+    console.log(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
     this.props.api.setCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
   }
 
