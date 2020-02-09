@@ -221,7 +221,7 @@ class CourtNamesForm extends React.Component {
     widget.setState({icTokensItems: items.join('')})
   }
 
-  processEvents(events) {
+  processCourtEvents(events) {
     for(let i in events) {
       const event = events[i]
       if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
@@ -252,27 +252,27 @@ class CourtNamesForm extends React.Component {
         }
       }
     }
-    this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
-      .subscribe(events => {
-        let items = []
-        for(let i in events) {
-          const event = events[i]
-          if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
-          if(event.event == 'SetCourtName') {
-            this.courtNames[event.returnValues.courtId] = event.returnValues.name
-            this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
-          }
-          if(event.event == 'SetIntercourtTokenName') {
-            this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
-            this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
-          }
-        }
-        for(let court in this.icDict) {
-          this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
-        }
-        this.updateCourtItems(this.courtIDs, this.courtNames)
-        this.updateTokenNames(this)
-      })
+  }
+  
+  processNameEvents(events) {
+    let items = []
+    for(let i in events) {
+      const event = events[i]
+      if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
+      if(event.event == 'SetCourtName') {
+        this.courtNames[event.returnValues.courtId] = event.returnValues.name
+        this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
+      }
+      if(event.event == 'SetIntercourtTokenName') {
+        this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
+        this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
+      }
+    }
+    for(let court in this.icDict) {
+      this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
+    }
+    this.updateCourtItems(this.courtIDs, this.courtNames)
+    this.updateTokenNames(this)
   }
 
   load() {
@@ -283,8 +283,10 @@ class CourtNamesForm extends React.Component {
       this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
       this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
-      this.ownedContractHandle.pastEvents({fromBlock: 0})
-        .subscribe(events => this.processEvents(events))
+      this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs, ourCourtId: this.props.courtId}})
+        .subscribe(events => this.processCourtEvents(events))
+      this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+        .subscribe(events => this.processNameEvents(events))
       this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
         .then(list => {
           let items = []
@@ -297,7 +299,7 @@ class CourtNamesForm extends React.Component {
   }
   
   rename() {
-    this.props.api.setCourtName(this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
+    this.props.api.setCourtName(this.props.courtId, this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
   }
   
   createLimitCourt() {

@@ -6,29 +6,29 @@ contract RewardCourtNames
 {
     RewardCourts rewardCourts;
     
-    // TODO: Should all names be local to the msg.sender?
-
     // See https://ethereum.stackexchange.com/a/78986/36438
-    // court ID => prevChange
-    mapping (uint256 => uint) public courtNameChanges;
-    mapping (uint256 => uint) public icTokenNameChanges;
+    // ourCourtId => (courtID => prevChange)
+    mapping (uint256 => mapping (uint256 => uint)) public courtNameChanges;
 
-    event SetCourtName(uint256 courtId, string name, uint previous);
-    event SetIntercourtTokenName(uint256 courtId, uint256 icToken, string name, uint previous);
+      // ourCourtId => (icToken => prevChange)
+    mapping (uint256 => mapping (uint256 => uint)) public icTokenNameChanges;
+
+    event SetCourtName(uint256 ourCourtId, uint256 courtId, string name, uint previous);
+    event SetIntercourtTokenName(uint256 ourCourtId, uint256 icToken, string name, uint previous);
     
     constructor(RewardCourts _rewardCourts) {
         rewardCourts = _rewardCourts;
     }
 
-    function setCourtName(uint256 _courtId, string _name) external {
-        require(rewardCourts.courtOwners(_courtId) == msg.sender, "You don't control this court.");
-        emit SetCourtName(_courtId, _name, courtNameChanges[_courtId]);
-        courtNameChanges[_courtId] = block.number;
+    function setCourtName(uint256 _courtId, uint256 _ourCourtId, string _name) external {
+        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, "You don't control this court.");
+        emit SetCourtName(_ourCourtId, _courtId, _name, courtNameChanges[_ourCourtId][_courtId]);
+        courtNameChanges[_ourCourtId][_courtId] = block.number;
     }
 
-    function setIntercourtTokenName(uint256 _courtId, uint256 _icToken, string _name) external {
-        require(rewardCourts.courtOwners(_courtId) == msg.sender, "You don't control this court.");
-        emit SetIntercourtTokenName(_courtId, _icToken, _name, icTokenNameChanges[_courtId]);
-        icTokenNameChanges[_icToken] = block.number;
+    function setIntercourtTokenName(uint256 _ourCourtId, uint256 _icToken, string _name) external {
+        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, "You don't control this court.");
+        emit SetIntercourtTokenName(_ourCourtId, _icToken, _name, icTokenNameChanges[_ourCourtId][_icToken]);
+        icTokenNameChanges[_ourCourtId][_icToken] = block.number;
     }
 }
