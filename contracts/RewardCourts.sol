@@ -449,6 +449,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function setOwner(uint256 _court, address _owner) external {
         require(courtOwners[_court] == msg.sender);
+
         courtOwners[_court] = _owner;
         emit SetOwner(_court, _owner);
     }
@@ -471,6 +472,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function createLimitCourt(uint256 _court) external returns (uint256) {
         require(_court > 0 && _court <= courtNonce, "Court does not exist.");
+
         uint256 _id = ++courtNonce;
         courtOwners[_id] = msg.sender;
         limitCourts[_id] = _court;
@@ -544,8 +546,11 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _trustees The trustee courts to add
     */
     function trustCourts(uint256 _truster, uint256[] _trustees) external {
+        require(courtOwners[_truster] == msg.sender, "We are not court owner");
         require(!isLimitCourt(_truster));
+
         for (uint i = 0; i < _trustees.length; ++i) {
+            require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
             if (!trustedCourts[_truster][_trustees[i]]) {
                 trustedCourtsList[_truster].length = trustedCourtsList[_truster].length + 1; // TODO: inefficient
                 trustedCourtsList[_truster][trustedCourtsList[_truster].length - 1] = _trustees[i];
@@ -561,9 +566,12 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _trustees The trustee courts to remove
     */
     function untrustCourts(uint256 _truster, uint256[] _trustees) external {
+        require(courtOwners[_truster] == msg.sender, "We are not court owner");
         require(!isLimitCourt(_truster));
+
         uint max = trustedCourtsList[_truster].length;
         for (uint i = 0; i < _trustees.length; ++i) {
+            require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
             if (trustedCourts[_truster][_trustees[i]]) {
                 trustedCourts[_truster][_trustees[i]] = false;
                 trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
