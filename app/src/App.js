@@ -227,7 +227,7 @@ class CourtNamesForm extends React.Component {
   updateTrustedCourts() {
     let items = []
     for(let i in this.trustedCourts) {
-      items.push("<option id='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames[this.trustedCourts[i]] + "</option>")
+      items.push("<option value='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames[this.trustedCourts[i]] + "</option>")
     }
     this.setState({trustedCourtsItems: items.join('')})
   }
