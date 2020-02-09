@@ -227,7 +227,7 @@ class CourtNamesForm extends React.Component {
   updateTrustedCourts() {
     let items = []
     for(let i in this.trustedCourts) {
-      items.push("<option id='"+list[i]+"'>" + list[i] + " " + this.courtNames[list[i]] + "</option>")
+      items.push("<option id='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames[this.trustedCourts[i]] + "</option>")
     }
     this.setState({trustedCourtsItems: items.join('')})
   }
@@ -317,7 +317,7 @@ class CourtNamesForm extends React.Component {
   }
   
   createLimitCourt() {
-    this.props.api.createLimitCourt(this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
+    this.props.api.createLimitCourt(this.props.courtId, this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
   }
   
   onICTokenSelect() {
