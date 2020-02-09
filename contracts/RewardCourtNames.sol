@@ -10,7 +10,7 @@ contract RewardCourtNames
     // ourCourtId => (courtID => prevChange)
     mapping (uint256 => mapping (uint256 => uint)) public courtNameChanges;
 
-      // ourCourtId => (icToken => prevChange)
+    // ourCourtId => (icToken => prevChange)
     mapping (uint256 => mapping (uint256 => uint)) public icTokenNameChanges;
 
     event SetCourtName(uint256 ourCourtId, uint256 courtId, string name, uint previous);
@@ -20,7 +20,7 @@ contract RewardCourtNames
         rewardCourts = _rewardCourts;
     }
 
-    function setCourtName(uint256 _courtId, uint256 _ourCourtId, string _name) external {
+    function setCourtName(uint256 _ourCourtId, uint256 _courtId, string _name) external {
         require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, "You don't control this court.");
         emit SetCourtName(_ourCourtId, _courtId, _name, courtNameChanges[_ourCourtId][_courtId]);
         courtNameChanges[_ourCourtId][_courtId] = block.number;

@@ -1,3 +1,4 @@
+import { zip } from 'rxjs';
 import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
@@ -149,6 +150,7 @@ class CourtNamesForm extends React.Component {
     this.allIntercourtTokens = new Set(); // both named IC tokens and IC tokens participating in our limits
     this.ownedContractHandle = null;
     this.courtNamesContractHandle = null;
+    this.trustedCourts = null;
 
     this.courtsListWidget = React.createRef()
     this.courtNameEntryWidget = React.createRef()
@@ -183,8 +185,9 @@ class CourtNamesForm extends React.Component {
     this.loaded = true
   }
 
-  updateCourtItems(courtIDs, courtNames) {
-    const items = courtIDs.map(id =>
+  updateCourtItems() {
+    console.log('this.courtNames', this.courtNames)
+    const items = this.courtIDs.map(id =>
       "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
     )
     this.setState({courtItems: items.join('')})
@@ -211,16 +214,24 @@ class CourtNamesForm extends React.Component {
     widget.setState({tokensItems: items.join('')})
   }
 
-  updateTokenNames(widget) {
+  updateTokenNames() {
     let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
     let items = []
     for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
       const id = absolutelyAllIntercourtTokens[i]
       items.push("<option value='"+id+"'>" + id + " " + (this.icTokenNames.has(id) ? this.icTokenNames.get(id) : "") + "</option>")
     }
-    widget.setState({icTokensItems: items.join('')})
+    this.setState({icTokensItems: items.join('')})
   }
 
+  updateTrustedCourts() {
+    let items = []
+    for(let i in this.trustedCourts) {
+      items.push("<option id='"+list[i]+"'>" + list[i] + " " + this.courtNames[list[i]] + "</option>")
+    }
+    this.setState({trustedCourtsItems: items.join('')})
+  }
+  
   processCourtEvents(events) {
     for(let i in events) {
       const event = events[i]
@@ -252,12 +263,14 @@ class CourtNamesForm extends React.Component {
         }
       }
     }
+    this.updateCourtItems()
   }
   
   processNameEvents(events) {
     let items = []
     for(let i in events) {
       const event = events[i]
+      console.log(event)
       if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
       if(event.event == 'SetCourtName') {
         this.courtNames[event.returnValues.courtId] = event.returnValues.name
@@ -271,11 +284,14 @@ class CourtNamesForm extends React.Component {
     for(let court in this.icDict) {
       this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
     }
-    this.updateCourtItems(this.courtIDs, this.courtNames)
-    this.updateTokenNames(this)
+    this.updateCourtItems()
+    this.updateTokenNames()
+    this.updateTrustedCourts()
   }
 
   load() {
+    let widget = this;
+    
     Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
     .then(abi => {
       let [abi1, abi2] = abi
@@ -283,21 +299,18 @@ class CourtNamesForm extends React.Component {
       this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
       this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
-      this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs, ourCourtId: this.props.courtId}})
+      this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
         .subscribe(events => this.processCourtEvents(events))
       this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
         .subscribe(events => this.processNameEvents(events))
       this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
-        .then(list => {
-          let items = []
-          for(let i in list) {
-            items.push("<option id='"+list[i]+"'>" + list[i] + "</option>")
-          }
-          this.setState({trustedCourtsItems: items.join('')})
+        .then(function(values) {
+          widget.trustedCourts = values;
+          widget.updateTrustedCourts()
         })
     });
   }
-  
+
   rename() {
     this.props.api.setCourtName(this.props.courtId, this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
   }
