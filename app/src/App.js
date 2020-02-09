@@ -186,7 +186,6 @@ class CourtNamesForm extends React.Component {
   }
 
   updateCourtItems() {
-    console.log('this.courtNames', this.courtNames)
     const items = this.courtIDs.map(id =>
       "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
     )
@@ -215,6 +214,7 @@ class CourtNamesForm extends React.Component {
   }
 
   updateTokenNames() {
+    console.log('ic', this.allIntercourtTokens)
     let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
     let items = []
     for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
@@ -271,12 +271,13 @@ class CourtNamesForm extends React.Component {
     for(let i in events) {
       const event = events[i]
       console.log(event)
-      if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
+      //if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
       if(event.event == 'SetCourtName') {
         this.courtNames[event.returnValues.courtId] = event.returnValues.name
         this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
       }
       if(event.event == 'SetIntercourtTokenName') {
+        console.log("QQQ")
         this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
         this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
       }
