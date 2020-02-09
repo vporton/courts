@@ -7,9 +7,13 @@
         {
           "name": "",
           "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
-      "name": "courtNameChanges",
+      "name": "icTokenNameChanges",
       "outputs": [
         {
           "name": "",
@@ -26,9 +30,13 @@
         {
           "name": "",
           "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
-      "name": "icTokenNameChanges",
+      "name": "courtNameChanges",
       "outputs": [
         {
           "name": "",
@@ -55,6 +63,11 @@
       "inputs": [
         {
           "indexed": false,
+          "name": "ourCourtId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
           "name": "courtId",
           "type": "uint256"
         },
@@ -77,7 +90,7 @@
       "inputs": [
         {
           "indexed": false,
-          "name": "courtId",
+          "name": "ourCourtId",
           "type": "uint256"
         },
         {
@@ -103,6 +116,10 @@
       "constant": false,
       "inputs": [
         {
+          "name": "_ourCourtId",
+          "type": "uint256"
+        },
+        {
           "name": "_courtId",
           "type": "uint256"
         },
@@ -121,7 +138,7 @@
       "constant": false,
       "inputs": [
         {
-          "name": "_courtId",
+          "name": "_ourCourtId",
           "type": "uint256"
         },
         {
@@ -140,25 +157,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.4.24+commit.e67f0147\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_courtId\",\"type\":\"uint256\"},{\"name\":\"_icToken\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setIntercourtTokenName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"courtNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"icTokenNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_courtId\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setCourtName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_rewardCourts\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"courtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetCourtName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"courtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"icToken\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetIntercourtTokenName\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":\"RewardCourtNames\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":10000},\"remappings\":[]},\"sources\":{\"/home/porton/Projects/courts/contracts/Address.sol\":{\"keccak256\":\"0xdb09e2900804fd719889bda2d4417302cf59890e46763aeab7f1c903903a38f6\",\"urls\":[\"bzzr://eaf713dd91ba14c78b1bff397b153694e070c84abfc626b61088cfc85fa0cdf1\"]},\"/home/porton/Projects/courts/contracts/Common.sol\":{\"keccak256\":\"0x999e85d8edf6840e7700f6ea4612caffcac959a0afcc6e12f5b060111942c2db\",\"urls\":[\"bzzr://4be8db106e5d51ef80bb85ab1421e03dca34527be01fcc7f546dc9245b1f6f82\"]},\"/home/porton/Projects/courts/contracts/ERC165.sol\":{\"keccak256\":\"0x985227ca7c58debabf304826b08f8772fb7830d1b6bcf90d33ebcc7c712f67a1\",\"urls\":[\"bzzr://31fba66320d6929a3deb9ac76c354b19ee149eff57718eabb6bba1d92f021483\"]},\"/home/porton/Projects/courts/contracts/IERC1155.sol\":{\"keccak256\":\"0x32f3e1b102418586e39478f626c1ae4844dc82cb83b82a0b635dd1e5aafbb038\",\"urls\":[\"bzzr://a4ff87192410b0c61a7779de9b591ccd0aec5dce18bbb79ec468efd8bc7776d5\"]},\"/home/porton/Projects/courts/contracts/IERC1155TokenReceiver.sol\":{\"keccak256\":\"0xeecd362617a15d247b45408017fda83aea2863412d229bd853dc32ecf12518a3\",\"urls\":[\"bzzr://2ded57a7007d35b1f168b130a4e24066d84b8fbe5daa87250917d61218e14604\"]},\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":{\"keccak256\":\"0xc980ebbca1869de4636b14aa187015d0fce09241840daa9f6291cc69ad83416f\",\"urls\":[\"bzzr://b9f3d68b239fbbfe722f56bce0f16bf7f678ee8d4a7e0c72337b12912ffdd120\"]},\"/home/porton/Projects/courts/contracts/RewardCourts.sol\":{\"keccak256\":\"0x1fd895373bc0b116b336674436cd703f99584ed78a2f8a567174a8164f51117a\",\"urls\":[\"bzzr://25ad3418113da03bf12a8c7aee1233ace3b06d6d2b534b27dc2f6177356c24b4\"]},\"@aragon/os/contracts/lib/math/SafeMath.sol\":{\"keccak256\":\"0x2e11c8dcead82c452ef452f4dbced40e20ae105fa4145d920dac6e077b31d846\",\"urls\":[\"bzzr://91dbd0e3335720d4a3d12a90682b8d9834f76e75918c1f646a84debb38089ece\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b506040516020806104fd833981016040525160008054600160a060020a03909216600160a060020a03199092169190911790556104ab806100526000396000f3006080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063ca2e686b14610090578063ef248a4d146100ba578063f8dfcb14146100d2575b600080fd5b34801561007257600080fd5b5061008e600480359060248035916044359182019101356100f6565b005b34801561009c57600080fd5b506100a86004356102ad565b60408051918252519081900360200190f35b3480156100c657600080fd5b506100a86004356102bf565b3480156100de57600080fd5b5061008e6004803590602480359081019101356102d1565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561016e57600080fd5b505af1158015610182573d6000803e3d6000fd5b505050506040513d602081101561019857600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461021c57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c84848484600260008a8152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a15050600090815260026020526040902043905550565b60016020526000908152604090205481565b60026020526000908152604090205481565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018790529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561034957600080fd5b505af115801561035d573d6000803e3d6000fd5b505050506040513d602081101561037357600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103f757604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7fc52b8ebe460e7e9f461d77888cd3e700eac7427949949cea34b56f7fd299dba4838383600160008881526020019081526020016000205460405180858152602001806020018381526020018281038252858582818152602001925080828437604051920182900397509095505050505050a1505060009081526001602052604090204390555600a165627a7a723058200ef1cbf546d19d7cfa9745f6461a1706b6eee43ac13ea79f1c16cf93b7377cc50029",
-  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063ca2e686b14610090578063ef248a4d146100ba578063f8dfcb14146100d2575b600080fd5b34801561007257600080fd5b5061008e600480359060248035916044359182019101356100f6565b005b34801561009c57600080fd5b506100a86004356102ad565b60408051918252519081900360200190f35b3480156100c657600080fd5b506100a86004356102bf565b3480156100de57600080fd5b5061008e6004803590602480359081019101356102d1565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561016e57600080fd5b505af1158015610182573d6000803e3d6000fd5b505050506040513d602081101561019857600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461021c57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c84848484600260008a8152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a15050600090815260026020526040902043905550565b60016020526000908152604090205481565b60026020526000908152604090205481565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018790529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561034957600080fd5b505af115801561035d573d6000803e3d6000fd5b505050506040513d602081101561037357600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103f757604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7fc52b8ebe460e7e9f461d77888cd3e700eac7427949949cea34b56f7fd299dba4838383600160008881526020019081526020016000205460405180858152602001806020018381526020018281038252858582818152602001925080828437604051920182900397509095505050505050a1505060009081526001602052604090204390555600a165627a7a723058200ef1cbf546d19d7cfa9745f6461a1706b6eee43ac13ea79f1c16cf93b7377cc50029",
-  "sourceMap": "55:1237:7:-;;;555:85;8:9:-1;5:2;;;30:1;27;20:12;5:2;555:85:7;;;;;;;;;;;;;605:12;:28;;-1:-1:-1;;;;;605:28:7;;;-1:-1:-1;;;;;;605:28:7;;;;;;;;;55:1237;;;;;;",
-  "deployedSourceMap": "55:1237:7:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;945:345;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;945:345:7;;;;;;;;;;;;;;;;;;;;;272:49;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;272:49:7;;;;;;;;;;;;;;;;;;;;;327:51;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;327:51:7;;;;;646:293;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;646:293:7;;;;;;;;;;;;;;;;945:345;1054:12;;;:34;;;;;;;;;;;;;;1092:10;;1054:48;:12;;;;:24;;:34;;;;;;;;;;;;;;;;;;:12;:34;;;5:2:-1;;;;30:1;27;20:12;5:2;1054:34:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1054:34:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1054:34:7;:48;;;1046:90;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1151:79;1174:8;1184;1194:5;;1201:18;:28;1220:8;1201:28;;;;;;;;;;;;1151:79;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1151:79:7;;-1:-1:-1;;;;;;;1151:79:7;-1:-1:-1;;1240:28:7;;;;:18;:28;;;;;1271:12;1240:43;;-1:-1:-1;945:345:7:o;272:49::-;;;;;;;;;;;;;:::o;327:51::-;;;;;;;;;;;;;:::o;646:293::-;727:12;;;:34;;;;;;;;;;;;;;765:10;;727:48;:12;;;;:24;;:34;;;;;;;;;;;;;;;;;;:12;:34;;;5:2:-1;;;;30:1;27;20:12;5:2;727:34:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;727:34:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;727:34:7;:48;;;719:90;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;824:57;837:8;847:5;;854:16;:26;871:8;854:26;;;;;;;;;;;;824:57;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;824:57:7;;-1:-1:-1;;;;;;824:57:7;-1:-1:-1;;891:26:7;;;;:16;:26;;;;;920:12;891:41;;646:293::o",
-  "source": "pragma solidity ^0.4.0;\n\nimport './RewardCourts.sol';\n\ncontract RewardCourtNames\n{\n    RewardCourts rewardCourts;\n    \n    // TODO: Should all names be local to the msg.sender?\n\n    // See https://ethereum.stackexchange.com/a/78986/36438\n    // court ID => prevChange\n    mapping (uint256 => uint) public courtNameChanges;\n    mapping (uint256 => uint) public icTokenNameChanges;\n\n    event SetCourtName(uint256 courtId, string name, uint previous);\n    event SetIntercourtTokenName(uint256 courtId, uint256 icToken, string name, uint previous);\n    \n    constructor(RewardCourts _rewardCourts) {\n        rewardCourts = _rewardCourts;\n    }\n\n    function setCourtName(uint256 _courtId, string _name) external {\n        require(rewardCourts.courtOwners(_courtId) == msg.sender, \"You don't control this court.\");\n        emit SetCourtName(_courtId, _name, courtNameChanges[_courtId]);\n        courtNameChanges[_courtId] = block.number;\n    }\n\n    function setIntercourtTokenName(uint256 _courtId, uint256 _icToken, string _name) external {\n        require(rewardCourts.courtOwners(_courtId) == msg.sender, \"You don't control this court.\");\n        emit SetIntercourtTokenName(_courtId, _icToken, _name, icTokenNameChanges[_courtId]);\n        icTokenNameChanges[_icToken] = block.number;\n    }\n}\n",
+  "metadata": "{\"compiler\":{\"version\":\"0.4.24+commit.e67f0147\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint256\"},{\"name\":\"_icToken\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setIntercourtTokenName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint256\"},{\"name\":\"_courtId\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setCourtName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"icTokenNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"courtNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_rewardCourts\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"ourCourtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"courtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetCourtName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"ourCourtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"icToken\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetIntercourtTokenName\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":\"RewardCourtNames\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":10000},\"remappings\":[]},\"sources\":{\"/home/porton/Projects/courts/contracts/Address.sol\":{\"keccak256\":\"0xdb09e2900804fd719889bda2d4417302cf59890e46763aeab7f1c903903a38f6\",\"urls\":[\"bzzr://eaf713dd91ba14c78b1bff397b153694e070c84abfc626b61088cfc85fa0cdf1\"]},\"/home/porton/Projects/courts/contracts/Common.sol\":{\"keccak256\":\"0x999e85d8edf6840e7700f6ea4612caffcac959a0afcc6e12f5b060111942c2db\",\"urls\":[\"bzzr://4be8db106e5d51ef80bb85ab1421e03dca34527be01fcc7f546dc9245b1f6f82\"]},\"/home/porton/Projects/courts/contracts/ERC165.sol\":{\"keccak256\":\"0x985227ca7c58debabf304826b08f8772fb7830d1b6bcf90d33ebcc7c712f67a1\",\"urls\":[\"bzzr://31fba66320d6929a3deb9ac76c354b19ee149eff57718eabb6bba1d92f021483\"]},\"/home/porton/Projects/courts/contracts/IERC1155.sol\":{\"keccak256\":\"0x32f3e1b102418586e39478f626c1ae4844dc82cb83b82a0b635dd1e5aafbb038\",\"urls\":[\"bzzr://a4ff87192410b0c61a7779de9b591ccd0aec5dce18bbb79ec468efd8bc7776d5\"]},\"/home/porton/Projects/courts/contracts/IERC1155TokenReceiver.sol\":{\"keccak256\":\"0xeecd362617a15d247b45408017fda83aea2863412d229bd853dc32ecf12518a3\",\"urls\":[\"bzzr://2ded57a7007d35b1f168b130a4e24066d84b8fbe5daa87250917d61218e14604\"]},\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":{\"keccak256\":\"0xe684efde847efad9c7beb5a8b97b42632023aa9074946e2c26d20851d5ac1db3\",\"urls\":[\"bzzr://363bebd58dc58eccc3bdd86f6478f7706ff1ca4fcc0a403a744f84aaf6c01403\"]},\"/home/porton/Projects/courts/contracts/RewardCourts.sol\":{\"keccak256\":\"0x1fd895373bc0b116b336674436cd703f99584ed78a2f8a567174a8164f51117a\",\"urls\":[\"bzzr://25ad3418113da03bf12a8c7aee1233ace3b06d6d2b534b27dc2f6177356c24b4\"]},\"@aragon/os/contracts/lib/math/SafeMath.sol\":{\"keccak256\":\"0x2e11c8dcead82c452ef452f4dbced40e20ae105fa4145d920dac6e077b31d846\",\"urls\":[\"bzzr://91dbd0e3335720d4a3d12a90682b8d9834f76e75918c1f646a84debb38089ece\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405160208061055c833981016040525160008054600160a060020a03909216600160a060020a031990921691909117905561050a806100526000396000f3006080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063cdaf140114610090578063e2493d53146100b8578063fffe76d6146100e5575b600080fd5b34801561007257600080fd5b5061008e60048035906024803591604435918201910135610100565b005b34801561009c57600080fd5b5061008e600480359060248035916044359182019101356102d2565b3480156100c457600080fd5b506100d36004356024356104a4565b60408051918252519081900360200190f35b3480156100f157600080fd5b506100d36004356024356104c1565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561017857600080fd5b505af115801561018c573d6000803e3d6000fd5b505050506040513d60208110156101a257600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461022657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c84848484600260008a81526020019081526020016000206000898152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a1505060009182526002602090815260408084209284529190529020439055565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561034a57600080fd5b505af115801561035e573d6000803e3d6000fd5b505050506040513d602081101561037457600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103f857604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f203fb99c582210f7c473d3db2bbfa15a0548242b113a1c8f6d09f7fe638c7a7c84848484600160008a81526020019081526020016000206000898152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a1505060009182526001602090815260408084209284529190529020439055565b600260209081526000928352604080842090915290825290205481565b6001602090815260009283526040808420909152908252902054815600a165627a7a723058202aa5375a3ce2edebc77631659630beeaa5e91f39976c8d043026c6879b6e65830029",
+  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063cdaf140114610090578063e2493d53146100b8578063fffe76d6146100e5575b600080fd5b34801561007257600080fd5b5061008e60048035906024803591604435918201910135610100565b005b34801561009c57600080fd5b5061008e600480359060248035916044359182019101356102d2565b3480156100c457600080fd5b506100d36004356024356104a4565b60408051918252519081900360200190f35b3480156100f157600080fd5b506100d36004356024356104c1565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561017857600080fd5b505af115801561018c573d6000803e3d6000fd5b505050506040513d60208110156101a257600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461022657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c84848484600260008a81526020019081526020016000206000898152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a1505060009182526002602090815260408084209284529190529020439055565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561034a57600080fd5b505af115801561035e573d6000803e3d6000fd5b505050506040513d602081101561037457600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103f857604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b7f203fb99c582210f7c473d3db2bbfa15a0548242b113a1c8f6d09f7fe638c7a7c84848484600160008a81526020019081526020016000206000898152602001908152602001600020546040518086815260200185815260200180602001838152602001828103825285858281815260200192508082843760405192018290039850909650505050505050a1505060009182526001602090815260408084209284529190529020439055565b600260209081526000928352604080842090915290825290205481565b6001602090815260009283526040808420909152908252902054815600a165627a7a723058202aa5375a3ce2edebc77631659630beeaa5e91f39976c8d043026c6879b6e65830029",
+  "sourceMap": "55:1402:7:-;;;622:85;8:9:-1;5:2;;;30:1;27;20:12;5:2;622:85:7;;;;;;;;;;;;;672:12;:28;;-1:-1:-1;;;;;672:28:7;;;-1:-1:-1;;;;;;672:28:7;;;;;;;;;55:1402;;;;;;",
+  "deployedSourceMap": "55:1402:7:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1075:380;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1075:380:7;;;;;;;;;;;;;;;;;;;;;713:356;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;713:356:7;;;;;;;;;;;;;;;;;;;350:72;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;350:72:7;;;;;;;;;;;;;;;;;;;;;;;228:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;228:70:7;;;;;;;1075:380;1187:12;;;:37;;;;;;;;;;;;;;1228:10;;1187:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;1187:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1187:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1187:37:7;:51;;;1179:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1287:95;1310:11;1323:8;1333:5;;1340:18;:31;1359:11;1340:31;;;;;;;;;;;:41;1372:8;1340:41;;;;;;;;;;;;1287:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1287:95:7;;-1:-1:-1;;;;;;;1287:95:7;-1:-1:-1;;1392:31:7;;;;:18;:31;;;;;;;;:41;;;;;;;;1436:12;1392:56;;1075:380::o;713:356::-;815:12;;;:37;;;;;;;;;;;;;;856:10;;815:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;815:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;815:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;815:37:7;:51;;;807:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;915:83;928:11;941:8;951:5;;958:16;:29;975:11;958:29;;;;;;;;;;;:39;988:8;958:39;;;;;;;;;;;;915:83;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;915:83:7;;-1:-1:-1;;;;;;;915:83:7;-1:-1:-1;;1008:29:7;;;;:16;:29;;;;;;;;:39;;;;;;;;1050:12;1008:54;;713:356::o;350:72::-;;;;;;;;;;;;;;;;;;;;;;;;:::o;228:70::-;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.0;\n\nimport './RewardCourts.sol';\n\ncontract RewardCourtNames\n{\n    RewardCourts rewardCourts;\n    \n    // See https://ethereum.stackexchange.com/a/78986/36438\n    // ourCourtId => (courtID => prevChange)\n    mapping (uint256 => mapping (uint256 => uint)) public courtNameChanges;\n\n    // ourCourtId => (icToken => prevChange)\n    mapping (uint256 => mapping (uint256 => uint)) public icTokenNameChanges;\n\n    event SetCourtName(uint256 ourCourtId, uint256 courtId, string name, uint previous);\n    event SetIntercourtTokenName(uint256 ourCourtId, uint256 icToken, string name, uint previous);\n    \n    constructor(RewardCourts _rewardCourts) {\n        rewardCourts = _rewardCourts;\n    }\n\n    function setCourtName(uint256 _ourCourtId, uint256 _courtId, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetCourtName(_ourCourtId, _courtId, _name, courtNameChanges[_ourCourtId][_courtId]);\n        courtNameChanges[_ourCourtId][_courtId] = block.number;\n    }\n\n    function setIntercourtTokenName(uint256 _ourCourtId, uint256 _icToken, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetIntercourtTokenName(_ourCourtId, _icToken, _name, icTokenNameChanges[_ourCourtId][_icToken]);\n        icTokenNameChanges[_ourCourtId][_icToken] = block.number;\n    }\n}\n",
   "sourcePath": "/home/porton/Projects/courts/contracts/RewardCourtNames.sol",
   "ast": {
     "absolutePath": "/home/porton/Projects/courts/contracts/RewardCourtNames.sol",
     "exportedSymbols": {
       "RewardCourtNames": [
-        787
+        810
       ]
     },
-    "id": 788,
+    "id": 811,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 676,
+        "id": 682,
         "literals": [
           "solidity",
           "^",
@@ -171,10 +188,10 @@
       {
         "absolutePath": "/home/porton/Projects/courts/contracts/RewardCourts.sol",
         "file": "./RewardCourts.sol",
-        "id": 677,
+        "id": 683,
         "nodeType": "ImportDirective",
-        "scope": 788,
-        "sourceUnit": 2748,
+        "scope": 811,
+        "sourceUnit": 2771,
         "src": "25:28:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -185,35 +202,35 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 787,
+        "id": 810,
         "linearizedBaseContracts": [
-          787
+          810
         ],
         "name": "RewardCourtNames",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 679,
+            "id": 685,
             "name": "rewardCourts",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
+            "scope": 810,
             "src": "87:25:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_RewardCourts_$2747",
+              "typeIdentifier": "t_contract$_RewardCourts_$2770",
               "typeString": "contract RewardCourts"
             },
             "typeName": {
               "contractScope": null,
-              "id": 678,
+              "id": 684,
               "name": "RewardCourts",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2747,
+              "referencedDeclaration": 2770,
               "src": "87:12:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                 "typeString": "contract RewardCourts"
               }
             },
@@ -222,43 +239,62 @@
           },
           {
             "constant": false,
-            "id": 683,
+            "id": 691,
             "name": "courtNameChanges",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
-            "src": "272:49:7",
+            "scope": 810,
+            "src": "228:70:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-              "typeString": "mapping(uint256 => uint256)"
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
             },
             "typeName": {
-              "id": 682,
+              "id": 690,
               "keyType": {
-                "id": 680,
+                "id": 686,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "281:7:7",
+                "src": "237:7:7",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "272:25:7",
+              "src": "228:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                "typeString": "mapping(uint256 => uint256)"
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
               },
               "valueType": {
-                "id": 681,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "292:4:7",
+                "id": 689,
+                "keyType": {
+                  "id": 687,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "257:7:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "248:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
+                  "typeString": "mapping(uint256 => uint256)"
+                },
+                "valueType": {
+                  "id": 688,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "268:4:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
                 }
               }
             },
@@ -267,43 +303,62 @@
           },
           {
             "constant": false,
-            "id": 687,
+            "id": 697,
             "name": "icTokenNameChanges",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
-            "src": "327:51:7",
+            "scope": 810,
+            "src": "350:72:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-              "typeString": "mapping(uint256 => uint256)"
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
             },
             "typeName": {
-              "id": 686,
+              "id": 696,
               "keyType": {
-                "id": 684,
+                "id": 692,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "336:7:7",
+                "src": "359:7:7",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "327:25:7",
+              "src": "350:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                "typeString": "mapping(uint256 => uint256)"
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
               },
               "valueType": {
-                "id": 685,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "347:4:7",
+                "id": 695,
+                "keyType": {
+                  "id": 693,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "379:7:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "370:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
+                  "typeString": "mapping(uint256 => uint256)"
+                },
+                "valueType": {
+                  "id": 694,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "390:4:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
                 }
               }
             },
@@ -313,144 +368,21 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 695,
+            "id": 707,
             "name": "SetCourtName",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 694,
+              "id": 706,
               "nodeType": "ParameterList",
               "parameters": [
-                {
-                  "constant": false,
-                  "id": 689,
-                  "indexed": false,
-                  "name": "courtId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "404:15:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 688,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "404:7:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 691,
-                  "indexed": false,
-                  "name": "name",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "421:11:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string"
-                  },
-                  "typeName": {
-                    "id": 690,
-                    "name": "string",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "421:6:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 693,
-                  "indexed": false,
-                  "name": "previous",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "434:13:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 692,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "434:4:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "403:45:7"
-            },
-            "src": "385:64:7"
-          },
-          {
-            "anonymous": false,
-            "documentation": null,
-            "id": 705,
-            "name": "SetIntercourtTokenName",
-            "nodeType": "EventDefinition",
-            "parameters": {
-              "id": 704,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 697,
-                  "indexed": false,
-                  "name": "courtId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "483:15:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 696,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "483:7:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
                 {
                   "constant": false,
                   "id": 699,
                   "indexed": false,
-                  "name": "icToken",
+                  "name": "ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "500:15:7",
+                  "scope": 707,
+                  "src": "448:18:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -461,7 +393,7 @@
                     "id": 698,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "500:7:7",
+                    "src": "448:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -474,24 +406,24 @@
                   "constant": false,
                   "id": 701,
                   "indexed": false,
-                  "name": "name",
+                  "name": "courtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "517:11:7",
+                  "scope": 707,
+                  "src": "468:15:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string"
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   },
                   "typeName": {
                     "id": 700,
-                    "name": "string",
+                    "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "517:6:7",
+                    "src": "468:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "value": null,
@@ -501,10 +433,37 @@
                   "constant": false,
                   "id": 703,
                   "indexed": false,
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 707,
+                  "src": "485:11:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 702,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "485:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 705,
+                  "indexed": false,
                   "name": "previous",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "530:13:7",
+                  "scope": 707,
+                  "src": "498:13:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -512,10 +471,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 702,
+                    "id": 704,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "530:4:7",
+                    "src": "498:4:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -525,34 +484,157 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "482:62:7"
+              "src": "447:65:7"
             },
-            "src": "454:91:7"
+            "src": "429:84:7"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 717,
+            "name": "SetIntercourtTokenName",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 716,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 709,
+                  "indexed": false,
+                  "name": "ourCourtId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "547:18:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 708,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "547:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 711,
+                  "indexed": false,
+                  "name": "icToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "567:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 710,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "567:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 713,
+                  "indexed": false,
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "584:11:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 712,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "584:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 715,
+                  "indexed": false,
+                  "name": "previous",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "597:13:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 714,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "597:4:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "546:65:7"
+            },
+            "src": "518:94:7"
           },
           {
             "body": {
-              "id": 714,
+              "id": 726,
               "nodeType": "Block",
-              "src": "595:45:7",
+              "src": "662:45:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 712,
+                    "id": 724,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 710,
+                      "id": 722,
                       "name": "rewardCourts",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 679,
-                      "src": "605:12:7",
+                      "referencedDeclaration": 685,
+                      "src": "672:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2770",
                         "typeString": "contract RewardCourts"
                       }
                     },
@@ -560,31 +642,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 711,
+                      "id": 723,
                       "name": "_rewardCourts",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 707,
-                      "src": "620:13:7",
+                      "referencedDeclaration": 719,
+                      "src": "687:13:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2770",
                         "typeString": "contract RewardCourts"
                       }
                     },
-                    "src": "605:28:7",
+                    "src": "672:28:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2770",
                       "typeString": "contract RewardCourts"
                     }
                   },
-                  "id": 713,
+                  "id": 725,
                   "nodeType": "ExpressionStatement",
-                  "src": "605:28:7"
+                  "src": "672:28:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 715,
+            "id": 727,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -592,31 +674,31 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 708,
+              "id": 720,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 707,
+                  "id": 719,
                   "name": "_rewardCourts",
                   "nodeType": "VariableDeclaration",
-                  "scope": 715,
-                  "src": "567:26:7",
+                  "scope": 727,
+                  "src": "634:26:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                    "typeIdentifier": "t_contract$_RewardCourts_$2770",
                     "typeString": "contract RewardCourts"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 706,
+                    "id": 718,
                     "name": "RewardCourts",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2747,
-                    "src": "567:12:7",
+                    "referencedDeclaration": 2770,
+                    "src": "634:12:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2770",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -624,26 +706,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "566:28:7"
+              "src": "633:28:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 709,
+              "id": 721,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "595:0:7"
+              "src": "662:0:7"
             },
-            "scope": 787,
-            "src": "555:85:7",
+            "scope": 810,
+            "src": "622:85:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 748,
+              "id": 767,
               "nodeType": "Block",
-              "src": "709:230:7",
+              "src": "797:272:7",
               "statements": [
                 {
                   "expression": {
@@ -655,7 +737,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 729,
+                        "id": 743,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -665,12 +747,12 @@
                           "arguments": [
                             {
                               "argumentTypes": null,
-                              "id": 725,
-                              "name": "_courtId",
+                              "id": 739,
+                              "name": "_ourCourtId",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 717,
-                              "src": "752:8:7",
+                              "referencedDeclaration": 729,
+                              "src": "840:11:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -686,32 +768,32 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 723,
+                              "id": 737,
                               "name": "rewardCourts",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 679,
-                              "src": "727:12:7",
+                              "referencedDeclaration": 685,
+                              "src": "815:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                                 "typeString": "contract RewardCourts"
                               }
                             },
-                            "id": 724,
+                            "id": 738,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "courtOwners",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 849,
-                            "src": "727:24:7",
+                            "referencedDeclaration": 872,
+                            "src": "815:24:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
                               "typeString": "function (uint256) view external returns (address)"
                             }
                           },
-                          "id": 726,
+                          "id": 740,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -719,7 +801,7 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "727:34:7",
+                          "src": "815:37:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -731,18 +813,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 727,
+                            "id": 741,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21029,
-                            "src": "765:3:7",
+                            "referencedDeclaration": 21052,
+                            "src": "856:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 728,
+                          "id": 742,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -750,13 +832,13 @@
                           "memberName": "sender",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": null,
-                          "src": "765:10:7",
+                          "src": "856:10:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "727:48:7",
+                        "src": "815:51:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -765,14 +847,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "596f7520646f6e277420636f6e74726f6c207468697320636f7572742e",
-                        "id": 730,
+                        "id": 744,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "777:31:7",
+                        "src": "868:31:7",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_991760765d8f61321ef8efdc5670e39565fb741dd88256c34b68505f877b5812",
@@ -792,21 +874,21 @@
                           "typeString": "literal_string \"You don't control this court.\""
                         }
                       ],
-                      "id": 722,
+                      "id": 736,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21032,
-                        21033
+                        21055,
+                        21056
                       ],
-                      "referencedDeclaration": 21033,
-                      "src": "719:7:7",
+                      "referencedDeclaration": 21056,
+                      "src": "807:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 731,
+                    "id": 745,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -814,15 +896,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "719:90:7",
+                    "src": "807:93:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 732,
+                  "id": 746,
                   "nodeType": "ExpressionStatement",
-                  "src": "719:90:7"
+                  "src": "807:93:7"
                 },
                 {
                   "eventCall": {
@@ -830,12 +912,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 734,
-                        "name": "_courtId",
+                        "id": 748,
+                        "name": "_ourCourtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 717,
-                        "src": "837:8:7",
+                        "referencedDeclaration": 729,
+                        "src": "928:11:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -843,12 +925,25 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 735,
+                        "id": 749,
+                        "name": "_courtId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 731,
+                        "src": "941:8:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 750,
                         "name": "_name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 719,
-                        "src": "847:5:7",
+                        "referencedDeclaration": 733,
+                        "src": "951:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -858,26 +953,53 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 736,
-                          "name": "courtNameChanges",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 683,
-                          "src": "854:16:7",
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 751,
+                            "name": "courtNameChanges",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 691,
+                            "src": "958:16:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            }
+                          },
+                          "id": 753,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 752,
+                            "name": "_ourCourtId",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 729,
+                            "src": "975:11:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "958:29:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                             "typeString": "mapping(uint256 => uint256)"
                           }
                         },
-                        "id": 738,
+                        "id": 755,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 737,
+                          "id": 754,
                           "name": "_courtId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 717,
-                          "src": "871:8:7",
+                          "referencedDeclaration": 731,
+                          "src": "988:8:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -888,7 +1010,7 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "854:26:7",
+                        "src": "958:39:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -902,6 +1024,10 @@
                           "typeString": "uint256"
                         },
                         {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
                         },
@@ -910,18 +1036,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 733,
+                      "id": 747,
                       "name": "SetCourtName",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 695,
-                      "src": "824:12:7",
+                      "referencedDeclaration": 707,
+                      "src": "915:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint256,uint256,string memory,uint256)"
                       }
                     },
-                    "id": 739,
+                    "id": 756,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -929,20 +1055,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "824:57:7",
+                    "src": "915:83:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 740,
+                  "id": 757,
                   "nodeType": "EmitStatement",
-                  "src": "819:62:7"
+                  "src": "910:88:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 746,
+                    "id": 765,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -951,26 +1077,53 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 741,
-                        "name": "courtNameChanges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 683,
-                        "src": "891:16:7",
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 758,
+                          "name": "courtNameChanges",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 691,
+                          "src": "1008:16:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                          }
+                        },
+                        "id": 761,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 759,
+                          "name": "_ourCourtId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 729,
+                          "src": "1025:11:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1008:29:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                           "typeString": "mapping(uint256 => uint256)"
                         }
                       },
-                      "id": 743,
+                      "id": 762,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 742,
+                        "id": 760,
                         "name": "_courtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 717,
-                        "src": "908:8:7",
+                        "referencedDeclaration": 731,
+                        "src": "1038:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -981,7 +1134,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "891:26:7",
+                      "src": "1008:39:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -993,18 +1146,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 744,
+                        "id": 763,
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 21019,
-                        "src": "920:5:7",
+                        "referencedDeclaration": 21042,
+                        "src": "1050:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
                           "typeString": "block"
                         }
                       },
-                      "id": 745,
+                      "id": 764,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1012,26 +1165,26 @@
                       "memberName": "number",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "920:12:7",
+                      "src": "1050:12:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "891:41:7",
+                    "src": "1008:54:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 747,
+                  "id": 766,
                   "nodeType": "ExpressionStatement",
-                  "src": "891:41:7"
+                  "src": "1008:54:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 749,
+            "id": 768,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1039,16 +1192,16 @@
             "name": "setCourtName",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 720,
+              "id": 734,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 717,
-                  "name": "_courtId",
+                  "id": 729,
+                  "name": "_ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 749,
-                  "src": "668:16:7",
+                  "scope": 768,
+                  "src": "735:19:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1056,10 +1209,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 716,
+                    "id": 728,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "668:7:7",
+                    "src": "735:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1070,11 +1223,37 @@
                 },
                 {
                   "constant": false,
-                  "id": 719,
+                  "id": 731,
+                  "name": "_courtId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 768,
+                  "src": "756:16:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 730,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "756:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 733,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 749,
-                  "src": "686:12:7",
+                  "scope": 768,
+                  "src": "774:12:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1082,10 +1261,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 718,
+                    "id": 732,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "686:6:7",
+                    "src": "774:6:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1095,26 +1274,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "667:32:7"
+              "src": "734:53:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 721,
+              "id": 735,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "709:0:7"
+              "src": "797:0:7"
             },
-            "scope": 787,
-            "src": "646:293:7",
+            "scope": 810,
+            "src": "713:356:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 785,
+              "id": 808,
               "nodeType": "Block",
-              "src": "1036:254:7",
+              "src": "1169:286:7",
               "statements": [
                 {
                   "expression": {
@@ -1126,7 +1305,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 765,
+                        "id": 784,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1136,12 +1315,12 @@
                           "arguments": [
                             {
                               "argumentTypes": null,
-                              "id": 761,
-                              "name": "_courtId",
+                              "id": 780,
+                              "name": "_ourCourtId",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 751,
-                              "src": "1079:8:7",
+                              "referencedDeclaration": 770,
+                              "src": "1212:11:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -1157,32 +1336,32 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 759,
+                              "id": 778,
                               "name": "rewardCourts",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 679,
-                              "src": "1054:12:7",
+                              "referencedDeclaration": 685,
+                              "src": "1187:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                                 "typeString": "contract RewardCourts"
                               }
                             },
-                            "id": 760,
+                            "id": 779,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "courtOwners",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 849,
-                            "src": "1054:24:7",
+                            "referencedDeclaration": 872,
+                            "src": "1187:24:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
                               "typeString": "function (uint256) view external returns (address)"
                             }
                           },
-                          "id": 762,
+                          "id": 781,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1190,7 +1369,7 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "1054:34:7",
+                          "src": "1187:37:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1202,18 +1381,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 763,
+                            "id": 782,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21029,
-                            "src": "1092:3:7",
+                            "referencedDeclaration": 21052,
+                            "src": "1228:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 764,
+                          "id": 783,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1221,13 +1400,13 @@
                           "memberName": "sender",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": null,
-                          "src": "1092:10:7",
+                          "src": "1228:10:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "1054:48:7",
+                        "src": "1187:51:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1236,14 +1415,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "596f7520646f6e277420636f6e74726f6c207468697320636f7572742e",
-                        "id": 766,
+                        "id": 785,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1104:31:7",
+                        "src": "1240:31:7",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_991760765d8f61321ef8efdc5670e39565fb741dd88256c34b68505f877b5812",
@@ -1263,21 +1442,21 @@
                           "typeString": "literal_string \"You don't control this court.\""
                         }
                       ],
-                      "id": 758,
+                      "id": 777,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21032,
-                        21033
+                        21055,
+                        21056
                       ],
-                      "referencedDeclaration": 21033,
-                      "src": "1046:7:7",
+                      "referencedDeclaration": 21056,
+                      "src": "1179:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 767,
+                    "id": 786,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1285,15 +1464,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1046:90:7",
+                    "src": "1179:93:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 768,
+                  "id": 787,
                   "nodeType": "ExpressionStatement",
-                  "src": "1046:90:7"
+                  "src": "1179:93:7"
                 },
                 {
                   "eventCall": {
@@ -1301,12 +1480,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 770,
-                        "name": "_courtId",
+                        "id": 789,
+                        "name": "_ourCourtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 751,
-                        "src": "1174:8:7",
+                        "referencedDeclaration": 770,
+                        "src": "1310:11:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1314,12 +1493,12 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 771,
+                        "id": 790,
                         "name": "_icToken",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 753,
-                        "src": "1184:8:7",
+                        "referencedDeclaration": 772,
+                        "src": "1323:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1327,12 +1506,12 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 772,
+                        "id": 791,
                         "name": "_name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 755,
-                        "src": "1194:5:7",
+                        "referencedDeclaration": 774,
+                        "src": "1333:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -1342,26 +1521,53 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 773,
-                          "name": "icTokenNameChanges",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 687,
-                          "src": "1201:18:7",
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 792,
+                            "name": "icTokenNameChanges",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 697,
+                            "src": "1340:18:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            }
+                          },
+                          "id": 794,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 793,
+                            "name": "_ourCourtId",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 770,
+                            "src": "1359:11:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1340:31:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                             "typeString": "mapping(uint256 => uint256)"
                           }
                         },
-                        "id": 775,
+                        "id": 796,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 774,
-                          "name": "_courtId",
+                          "id": 795,
+                          "name": "_icToken",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 751,
-                          "src": "1220:8:7",
+                          "referencedDeclaration": 772,
+                          "src": "1372:8:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -1372,7 +1578,7 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "1201:28:7",
+                        "src": "1340:41:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1398,18 +1604,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 769,
+                      "id": 788,
                       "name": "SetIntercourtTokenName",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 705,
-                      "src": "1151:22:7",
+                      "referencedDeclaration": 717,
+                      "src": "1287:22:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
                         "typeString": "function (uint256,uint256,string memory,uint256)"
                       }
                     },
-                    "id": 776,
+                    "id": 797,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1417,20 +1623,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1151:79:7",
+                    "src": "1287:95:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 777,
+                  "id": 798,
                   "nodeType": "EmitStatement",
-                  "src": "1146:84:7"
+                  "src": "1282:100:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 783,
+                    "id": 806,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1439,26 +1645,53 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 778,
-                        "name": "icTokenNameChanges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 687,
-                        "src": "1240:18:7",
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 799,
+                          "name": "icTokenNameChanges",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 697,
+                          "src": "1392:18:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                          }
+                        },
+                        "id": 802,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 800,
+                          "name": "_ourCourtId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 770,
+                          "src": "1411:11:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1392:31:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                           "typeString": "mapping(uint256 => uint256)"
                         }
                       },
-                      "id": 780,
+                      "id": 803,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 779,
+                        "id": 801,
                         "name": "_icToken",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 753,
-                        "src": "1259:8:7",
+                        "referencedDeclaration": 772,
+                        "src": "1424:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1469,7 +1702,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "1240:28:7",
+                      "src": "1392:41:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -1481,18 +1714,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 781,
+                        "id": 804,
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 21019,
-                        "src": "1271:5:7",
+                        "referencedDeclaration": 21042,
+                        "src": "1436:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
                           "typeString": "block"
                         }
                       },
-                      "id": 782,
+                      "id": 805,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1500,26 +1733,26 @@
                       "memberName": "number",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "1271:12:7",
+                      "src": "1436:12:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "1240:43:7",
+                    "src": "1392:56:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 784,
+                  "id": 807,
                   "nodeType": "ExpressionStatement",
-                  "src": "1240:43:7"
+                  "src": "1392:56:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 786,
+            "id": 809,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1527,16 +1760,16 @@
             "name": "setIntercourtTokenName",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 756,
+              "id": 775,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 751,
-                  "name": "_courtId",
+                  "id": 770,
+                  "name": "_ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "977:16:7",
+                  "scope": 809,
+                  "src": "1107:19:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1544,10 +1777,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 750,
+                    "id": 769,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "977:7:7",
+                    "src": "1107:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1558,11 +1791,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 753,
+                  "id": 772,
                   "name": "_icToken",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "995:16:7",
+                  "scope": 809,
+                  "src": "1128:16:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1570,10 +1803,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 752,
+                    "id": 771,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "995:7:7",
+                    "src": "1128:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1584,11 +1817,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 755,
+                  "id": 774,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "1013:12:7",
+                  "scope": 809,
+                  "src": "1146:12:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1596,10 +1829,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 754,
+                    "id": 773,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1013:6:7",
+                    "src": "1146:6:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1609,40 +1842,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "976:50:7"
+              "src": "1106:53:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 757,
+              "id": 776,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1036:0:7"
+              "src": "1169:0:7"
             },
-            "scope": 787,
-            "src": "945:345:7",
+            "scope": 810,
+            "src": "1075:380:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 788,
-        "src": "55:1237:7"
+        "scope": 811,
+        "src": "55:1402:7"
       }
     ],
-    "src": "0:1293:7"
+    "src": "0:1458:7"
   },
   "legacyAST": {
     "absolutePath": "/home/porton/Projects/courts/contracts/RewardCourtNames.sol",
     "exportedSymbols": {
       "RewardCourtNames": [
-        787
+        810
       ]
     },
-    "id": 788,
+    "id": 811,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 676,
+        "id": 682,
         "literals": [
           "solidity",
           "^",
@@ -1655,10 +1888,10 @@
       {
         "absolutePath": "/home/porton/Projects/courts/contracts/RewardCourts.sol",
         "file": "./RewardCourts.sol",
-        "id": 677,
+        "id": 683,
         "nodeType": "ImportDirective",
-        "scope": 788,
-        "sourceUnit": 2748,
+        "scope": 811,
+        "sourceUnit": 2771,
         "src": "25:28:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1669,35 +1902,35 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 787,
+        "id": 810,
         "linearizedBaseContracts": [
-          787
+          810
         ],
         "name": "RewardCourtNames",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 679,
+            "id": 685,
             "name": "rewardCourts",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
+            "scope": 810,
             "src": "87:25:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_RewardCourts_$2747",
+              "typeIdentifier": "t_contract$_RewardCourts_$2770",
               "typeString": "contract RewardCourts"
             },
             "typeName": {
               "contractScope": null,
-              "id": 678,
+              "id": 684,
               "name": "RewardCourts",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2747,
+              "referencedDeclaration": 2770,
               "src": "87:12:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                 "typeString": "contract RewardCourts"
               }
             },
@@ -1706,43 +1939,62 @@
           },
           {
             "constant": false,
-            "id": 683,
+            "id": 691,
             "name": "courtNameChanges",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
-            "src": "272:49:7",
+            "scope": 810,
+            "src": "228:70:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-              "typeString": "mapping(uint256 => uint256)"
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
             },
             "typeName": {
-              "id": 682,
+              "id": 690,
               "keyType": {
-                "id": 680,
+                "id": 686,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "281:7:7",
+                "src": "237:7:7",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "272:25:7",
+              "src": "228:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                "typeString": "mapping(uint256 => uint256)"
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
               },
               "valueType": {
-                "id": 681,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "292:4:7",
+                "id": 689,
+                "keyType": {
+                  "id": 687,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "257:7:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "248:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
+                  "typeString": "mapping(uint256 => uint256)"
+                },
+                "valueType": {
+                  "id": 688,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "268:4:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
                 }
               }
             },
@@ -1751,43 +2003,62 @@
           },
           {
             "constant": false,
-            "id": 687,
+            "id": 697,
             "name": "icTokenNameChanges",
             "nodeType": "VariableDeclaration",
-            "scope": 787,
-            "src": "327:51:7",
+            "scope": 810,
+            "src": "350:72:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-              "typeString": "mapping(uint256 => uint256)"
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
             },
             "typeName": {
-              "id": 686,
+              "id": 696,
               "keyType": {
-                "id": 684,
+                "id": 692,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "336:7:7",
+                "src": "359:7:7",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "327:25:7",
+              "src": "350:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                "typeString": "mapping(uint256 => uint256)"
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
               },
               "valueType": {
-                "id": 685,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "347:4:7",
+                "id": 695,
+                "keyType": {
+                  "id": 693,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "379:7:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "370:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
+                  "typeString": "mapping(uint256 => uint256)"
+                },
+                "valueType": {
+                  "id": 694,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "390:4:7",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
                 }
               }
             },
@@ -1797,144 +2068,21 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 695,
+            "id": 707,
             "name": "SetCourtName",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 694,
+              "id": 706,
               "nodeType": "ParameterList",
               "parameters": [
-                {
-                  "constant": false,
-                  "id": 689,
-                  "indexed": false,
-                  "name": "courtId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "404:15:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 688,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "404:7:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 691,
-                  "indexed": false,
-                  "name": "name",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "421:11:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string"
-                  },
-                  "typeName": {
-                    "id": 690,
-                    "name": "string",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "421:6:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 693,
-                  "indexed": false,
-                  "name": "previous",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 695,
-                  "src": "434:13:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 692,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "434:4:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "403:45:7"
-            },
-            "src": "385:64:7"
-          },
-          {
-            "anonymous": false,
-            "documentation": null,
-            "id": 705,
-            "name": "SetIntercourtTokenName",
-            "nodeType": "EventDefinition",
-            "parameters": {
-              "id": 704,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 697,
-                  "indexed": false,
-                  "name": "courtId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "483:15:7",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 696,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "483:7:7",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
                 {
                   "constant": false,
                   "id": 699,
                   "indexed": false,
-                  "name": "icToken",
+                  "name": "ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "500:15:7",
+                  "scope": 707,
+                  "src": "448:18:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1945,7 +2093,7 @@
                     "id": 698,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "500:7:7",
+                    "src": "448:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1958,24 +2106,24 @@
                   "constant": false,
                   "id": 701,
                   "indexed": false,
-                  "name": "name",
+                  "name": "courtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "517:11:7",
+                  "scope": 707,
+                  "src": "468:15:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string"
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   },
                   "typeName": {
                     "id": 700,
-                    "name": "string",
+                    "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "517:6:7",
+                    "src": "468:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "value": null,
@@ -1985,10 +2133,37 @@
                   "constant": false,
                   "id": 703,
                   "indexed": false,
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 707,
+                  "src": "485:11:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 702,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "485:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 705,
+                  "indexed": false,
                   "name": "previous",
                   "nodeType": "VariableDeclaration",
-                  "scope": 705,
-                  "src": "530:13:7",
+                  "scope": 707,
+                  "src": "498:13:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1996,10 +2171,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 702,
+                    "id": 704,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "530:4:7",
+                    "src": "498:4:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2009,34 +2184,157 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "482:62:7"
+              "src": "447:65:7"
             },
-            "src": "454:91:7"
+            "src": "429:84:7"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 717,
+            "name": "SetIntercourtTokenName",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 716,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 709,
+                  "indexed": false,
+                  "name": "ourCourtId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "547:18:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 708,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "547:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 711,
+                  "indexed": false,
+                  "name": "icToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "567:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 710,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "567:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 713,
+                  "indexed": false,
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "584:11:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 712,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "584:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 715,
+                  "indexed": false,
+                  "name": "previous",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 717,
+                  "src": "597:13:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 714,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "597:4:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "546:65:7"
+            },
+            "src": "518:94:7"
           },
           {
             "body": {
-              "id": 714,
+              "id": 726,
               "nodeType": "Block",
-              "src": "595:45:7",
+              "src": "662:45:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 712,
+                    "id": 724,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 710,
+                      "id": 722,
                       "name": "rewardCourts",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 679,
-                      "src": "605:12:7",
+                      "referencedDeclaration": 685,
+                      "src": "672:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2770",
                         "typeString": "contract RewardCourts"
                       }
                     },
@@ -2044,31 +2342,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 711,
+                      "id": 723,
                       "name": "_rewardCourts",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 707,
-                      "src": "620:13:7",
+                      "referencedDeclaration": 719,
+                      "src": "687:13:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2770",
                         "typeString": "contract RewardCourts"
                       }
                     },
-                    "src": "605:28:7",
+                    "src": "672:28:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2770",
                       "typeString": "contract RewardCourts"
                     }
                   },
-                  "id": 713,
+                  "id": 725,
                   "nodeType": "ExpressionStatement",
-                  "src": "605:28:7"
+                  "src": "672:28:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 715,
+            "id": 727,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -2076,31 +2374,31 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 708,
+              "id": 720,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 707,
+                  "id": 719,
                   "name": "_rewardCourts",
                   "nodeType": "VariableDeclaration",
-                  "scope": 715,
-                  "src": "567:26:7",
+                  "scope": 727,
+                  "src": "634:26:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                    "typeIdentifier": "t_contract$_RewardCourts_$2770",
                     "typeString": "contract RewardCourts"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 706,
+                    "id": 718,
                     "name": "RewardCourts",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2747,
-                    "src": "567:12:7",
+                    "referencedDeclaration": 2770,
+                    "src": "634:12:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2770",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -2108,26 +2406,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "566:28:7"
+              "src": "633:28:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 709,
+              "id": 721,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "595:0:7"
+              "src": "662:0:7"
             },
-            "scope": 787,
-            "src": "555:85:7",
+            "scope": 810,
+            "src": "622:85:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 748,
+              "id": 767,
               "nodeType": "Block",
-              "src": "709:230:7",
+              "src": "797:272:7",
               "statements": [
                 {
                   "expression": {
@@ -2139,7 +2437,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 729,
+                        "id": 743,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2149,12 +2447,12 @@
                           "arguments": [
                             {
                               "argumentTypes": null,
-                              "id": 725,
-                              "name": "_courtId",
+                              "id": 739,
+                              "name": "_ourCourtId",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 717,
-                              "src": "752:8:7",
+                              "referencedDeclaration": 729,
+                              "src": "840:11:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -2170,32 +2468,32 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 723,
+                              "id": 737,
                               "name": "rewardCourts",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 679,
-                              "src": "727:12:7",
+                              "referencedDeclaration": 685,
+                              "src": "815:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                                 "typeString": "contract RewardCourts"
                               }
                             },
-                            "id": 724,
+                            "id": 738,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "courtOwners",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 849,
-                            "src": "727:24:7",
+                            "referencedDeclaration": 872,
+                            "src": "815:24:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
                               "typeString": "function (uint256) view external returns (address)"
                             }
                           },
-                          "id": 726,
+                          "id": 740,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2203,7 +2501,7 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "727:34:7",
+                          "src": "815:37:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -2215,18 +2513,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 727,
+                            "id": 741,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21029,
-                            "src": "765:3:7",
+                            "referencedDeclaration": 21052,
+                            "src": "856:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 728,
+                          "id": 742,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2234,13 +2532,13 @@
                           "memberName": "sender",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": null,
-                          "src": "765:10:7",
+                          "src": "856:10:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "727:48:7",
+                        "src": "815:51:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -2249,14 +2547,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "596f7520646f6e277420636f6e74726f6c207468697320636f7572742e",
-                        "id": 730,
+                        "id": 744,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "777:31:7",
+                        "src": "868:31:7",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_991760765d8f61321ef8efdc5670e39565fb741dd88256c34b68505f877b5812",
@@ -2276,21 +2574,21 @@
                           "typeString": "literal_string \"You don't control this court.\""
                         }
                       ],
-                      "id": 722,
+                      "id": 736,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21032,
-                        21033
+                        21055,
+                        21056
                       ],
-                      "referencedDeclaration": 21033,
-                      "src": "719:7:7",
+                      "referencedDeclaration": 21056,
+                      "src": "807:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 731,
+                    "id": 745,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2298,15 +2596,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "719:90:7",
+                    "src": "807:93:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 732,
+                  "id": 746,
                   "nodeType": "ExpressionStatement",
-                  "src": "719:90:7"
+                  "src": "807:93:7"
                 },
                 {
                   "eventCall": {
@@ -2314,12 +2612,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 734,
-                        "name": "_courtId",
+                        "id": 748,
+                        "name": "_ourCourtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 717,
-                        "src": "837:8:7",
+                        "referencedDeclaration": 729,
+                        "src": "928:11:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2327,12 +2625,25 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 735,
+                        "id": 749,
+                        "name": "_courtId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 731,
+                        "src": "941:8:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 750,
                         "name": "_name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 719,
-                        "src": "847:5:7",
+                        "referencedDeclaration": 733,
+                        "src": "951:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -2342,26 +2653,53 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 736,
-                          "name": "courtNameChanges",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 683,
-                          "src": "854:16:7",
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 751,
+                            "name": "courtNameChanges",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 691,
+                            "src": "958:16:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            }
+                          },
+                          "id": 753,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 752,
+                            "name": "_ourCourtId",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 729,
+                            "src": "975:11:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "958:29:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                             "typeString": "mapping(uint256 => uint256)"
                           }
                         },
-                        "id": 738,
+                        "id": 755,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 737,
+                          "id": 754,
                           "name": "_courtId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 717,
-                          "src": "871:8:7",
+                          "referencedDeclaration": 731,
+                          "src": "988:8:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -2372,7 +2710,7 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "854:26:7",
+                        "src": "958:39:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2386,6 +2724,10 @@
                           "typeString": "uint256"
                         },
                         {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
                         },
@@ -2394,18 +2736,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 733,
+                      "id": 747,
                       "name": "SetCourtName",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 695,
-                      "src": "824:12:7",
+                      "referencedDeclaration": 707,
+                      "src": "915:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint256,uint256,string memory,uint256)"
                       }
                     },
-                    "id": 739,
+                    "id": 756,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2413,20 +2755,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "824:57:7",
+                    "src": "915:83:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 740,
+                  "id": 757,
                   "nodeType": "EmitStatement",
-                  "src": "819:62:7"
+                  "src": "910:88:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 746,
+                    "id": 765,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2435,26 +2777,53 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 741,
-                        "name": "courtNameChanges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 683,
-                        "src": "891:16:7",
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 758,
+                          "name": "courtNameChanges",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 691,
+                          "src": "1008:16:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                          }
+                        },
+                        "id": 761,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 759,
+                          "name": "_ourCourtId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 729,
+                          "src": "1025:11:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1008:29:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                           "typeString": "mapping(uint256 => uint256)"
                         }
                       },
-                      "id": 743,
+                      "id": 762,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 742,
+                        "id": 760,
                         "name": "_courtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 717,
-                        "src": "908:8:7",
+                        "referencedDeclaration": 731,
+                        "src": "1038:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2465,7 +2834,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "891:26:7",
+                      "src": "1008:39:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2477,18 +2846,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 744,
+                        "id": 763,
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 21019,
-                        "src": "920:5:7",
+                        "referencedDeclaration": 21042,
+                        "src": "1050:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
                           "typeString": "block"
                         }
                       },
-                      "id": 745,
+                      "id": 764,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2496,26 +2865,26 @@
                       "memberName": "number",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "920:12:7",
+                      "src": "1050:12:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "891:41:7",
+                    "src": "1008:54:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 747,
+                  "id": 766,
                   "nodeType": "ExpressionStatement",
-                  "src": "891:41:7"
+                  "src": "1008:54:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 749,
+            "id": 768,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -2523,16 +2892,16 @@
             "name": "setCourtName",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 720,
+              "id": 734,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 717,
-                  "name": "_courtId",
+                  "id": 729,
+                  "name": "_ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 749,
-                  "src": "668:16:7",
+                  "scope": 768,
+                  "src": "735:19:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2540,10 +2909,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 716,
+                    "id": 728,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "668:7:7",
+                    "src": "735:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2554,11 +2923,37 @@
                 },
                 {
                   "constant": false,
-                  "id": 719,
+                  "id": 731,
+                  "name": "_courtId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 768,
+                  "src": "756:16:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 730,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "756:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 733,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 749,
-                  "src": "686:12:7",
+                  "scope": 768,
+                  "src": "774:12:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2566,10 +2961,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 718,
+                    "id": 732,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "686:6:7",
+                    "src": "774:6:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -2579,26 +2974,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "667:32:7"
+              "src": "734:53:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 721,
+              "id": 735,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "709:0:7"
+              "src": "797:0:7"
             },
-            "scope": 787,
-            "src": "646:293:7",
+            "scope": 810,
+            "src": "713:356:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 785,
+              "id": 808,
               "nodeType": "Block",
-              "src": "1036:254:7",
+              "src": "1169:286:7",
               "statements": [
                 {
                   "expression": {
@@ -2610,7 +3005,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 765,
+                        "id": 784,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2620,12 +3015,12 @@
                           "arguments": [
                             {
                               "argumentTypes": null,
-                              "id": 761,
-                              "name": "_courtId",
+                              "id": 780,
+                              "name": "_ourCourtId",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 751,
-                              "src": "1079:8:7",
+                              "referencedDeclaration": 770,
+                              "src": "1212:11:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -2641,32 +3036,32 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 759,
+                              "id": 778,
                               "name": "rewardCourts",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 679,
-                              "src": "1054:12:7",
+                              "referencedDeclaration": 685,
+                              "src": "1187:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2747",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2770",
                                 "typeString": "contract RewardCourts"
                               }
                             },
-                            "id": 760,
+                            "id": 779,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "courtOwners",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 849,
-                            "src": "1054:24:7",
+                            "referencedDeclaration": 872,
+                            "src": "1187:24:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
                               "typeString": "function (uint256) view external returns (address)"
                             }
                           },
-                          "id": 762,
+                          "id": 781,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2674,7 +3069,7 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "1054:34:7",
+                          "src": "1187:37:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -2686,18 +3081,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 763,
+                            "id": 782,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21029,
-                            "src": "1092:3:7",
+                            "referencedDeclaration": 21052,
+                            "src": "1228:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 764,
+                          "id": 783,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2705,13 +3100,13 @@
                           "memberName": "sender",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": null,
-                          "src": "1092:10:7",
+                          "src": "1228:10:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "1054:48:7",
+                        "src": "1187:51:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -2720,14 +3115,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "596f7520646f6e277420636f6e74726f6c207468697320636f7572742e",
-                        "id": 766,
+                        "id": 785,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1104:31:7",
+                        "src": "1240:31:7",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_991760765d8f61321ef8efdc5670e39565fb741dd88256c34b68505f877b5812",
@@ -2747,21 +3142,21 @@
                           "typeString": "literal_string \"You don't control this court.\""
                         }
                       ],
-                      "id": 758,
+                      "id": 777,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21032,
-                        21033
+                        21055,
+                        21056
                       ],
-                      "referencedDeclaration": 21033,
-                      "src": "1046:7:7",
+                      "referencedDeclaration": 21056,
+                      "src": "1179:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 767,
+                    "id": 786,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2769,15 +3164,15 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1046:90:7",
+                    "src": "1179:93:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 768,
+                  "id": 787,
                   "nodeType": "ExpressionStatement",
-                  "src": "1046:90:7"
+                  "src": "1179:93:7"
                 },
                 {
                   "eventCall": {
@@ -2785,12 +3180,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 770,
-                        "name": "_courtId",
+                        "id": 789,
+                        "name": "_ourCourtId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 751,
-                        "src": "1174:8:7",
+                        "referencedDeclaration": 770,
+                        "src": "1310:11:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2798,12 +3193,12 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 771,
+                        "id": 790,
                         "name": "_icToken",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 753,
-                        "src": "1184:8:7",
+                        "referencedDeclaration": 772,
+                        "src": "1323:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2811,12 +3206,12 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 772,
+                        "id": 791,
                         "name": "_name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 755,
-                        "src": "1194:5:7",
+                        "referencedDeclaration": 774,
+                        "src": "1333:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -2826,26 +3221,53 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 773,
-                          "name": "icTokenNameChanges",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 687,
-                          "src": "1201:18:7",
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 792,
+                            "name": "icTokenNameChanges",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 697,
+                            "src": "1340:18:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            }
+                          },
+                          "id": 794,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 793,
+                            "name": "_ourCourtId",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 770,
+                            "src": "1359:11:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1340:31:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                             "typeString": "mapping(uint256 => uint256)"
                           }
                         },
-                        "id": 775,
+                        "id": 796,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 774,
-                          "name": "_courtId",
+                          "id": 795,
+                          "name": "_icToken",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 751,
-                          "src": "1220:8:7",
+                          "referencedDeclaration": 772,
+                          "src": "1372:8:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -2856,7 +3278,7 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "1201:28:7",
+                        "src": "1340:41:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2882,18 +3304,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 769,
+                      "id": 788,
                       "name": "SetIntercourtTokenName",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 705,
-                      "src": "1151:22:7",
+                      "referencedDeclaration": 717,
+                      "src": "1287:22:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
                         "typeString": "function (uint256,uint256,string memory,uint256)"
                       }
                     },
-                    "id": 776,
+                    "id": 797,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2901,20 +3323,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1151:79:7",
+                    "src": "1287:95:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 777,
+                  "id": 798,
                   "nodeType": "EmitStatement",
-                  "src": "1146:84:7"
+                  "src": "1282:100:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 783,
+                    "id": 806,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2923,26 +3345,53 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 778,
-                        "name": "icTokenNameChanges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 687,
-                        "src": "1240:18:7",
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 799,
+                          "name": "icTokenNameChanges",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 697,
+                          "src": "1392:18:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                          }
+                        },
+                        "id": 802,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 800,
+                          "name": "_ourCourtId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 770,
+                          "src": "1411:11:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1392:31:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                           "typeString": "mapping(uint256 => uint256)"
                         }
                       },
-                      "id": 780,
+                      "id": 803,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 779,
+                        "id": 801,
                         "name": "_icToken",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 753,
-                        "src": "1259:8:7",
+                        "referencedDeclaration": 772,
+                        "src": "1424:8:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2953,7 +3402,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "1240:28:7",
+                      "src": "1392:41:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2965,18 +3414,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 781,
+                        "id": 804,
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 21019,
-                        "src": "1271:5:7",
+                        "referencedDeclaration": 21042,
+                        "src": "1436:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
                           "typeString": "block"
                         }
                       },
-                      "id": 782,
+                      "id": 805,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2984,26 +3433,26 @@
                       "memberName": "number",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "1271:12:7",
+                      "src": "1436:12:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "1240:43:7",
+                    "src": "1392:56:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 784,
+                  "id": 807,
                   "nodeType": "ExpressionStatement",
-                  "src": "1240:43:7"
+                  "src": "1392:56:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 786,
+            "id": 809,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -3011,16 +3460,16 @@
             "name": "setIntercourtTokenName",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 756,
+              "id": 775,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 751,
-                  "name": "_courtId",
+                  "id": 770,
+                  "name": "_ourCourtId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "977:16:7",
+                  "scope": 809,
+                  "src": "1107:19:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3028,10 +3477,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 750,
+                    "id": 769,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "977:7:7",
+                    "src": "1107:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -3042,11 +3491,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 753,
+                  "id": 772,
                   "name": "_icToken",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "995:16:7",
+                  "scope": 809,
+                  "src": "1128:16:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3054,10 +3503,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 752,
+                    "id": 771,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "995:7:7",
+                    "src": "1128:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -3068,11 +3517,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 755,
+                  "id": 774,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 786,
-                  "src": "1013:12:7",
+                  "scope": 809,
+                  "src": "1146:12:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3080,10 +3529,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 754,
+                    "id": 773,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1013:6:7",
+                    "src": "1146:6:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -3093,35 +3542,42 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "976:50:7"
+              "src": "1106:53:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 757,
+              "id": 776,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1036:0:7"
+              "src": "1169:0:7"
             },
-            "scope": 787,
-            "src": "945:345:7",
+            "scope": 810,
+            "src": "1075:380:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 788,
-        "src": "55:1237:7"
+        "scope": 811,
+        "src": "55:1402:7"
       }
     ],
-    "src": "0:1293:7"
+    "src": "0:1458:7"
   },
   "compiler": {
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "7018198": {
+      "events": {},
+      "links": {},
+      "address": "0x4c5b333d361b7ac4d937d66a0039f5f013e17cec",
+      "transactionHash": "0xa3250ffbb768845ea0dc438de306ea77b0e54701e65100cecd67d3b869bdd71d"
+    }
+  },
   "schemaVersion": "3.0.21",
-  "updatedAt": "2020-01-26T08:20:57.806Z",
+  "updatedAt": "2020-02-09T08:18:52.738Z",
   "devdoc": {
     "methods": {}
   },
