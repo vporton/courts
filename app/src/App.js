@@ -300,7 +300,7 @@ class CourtNamesForm extends React.Component {
       // FIXME: Does not work (https://github.com/aragon/aragon.js/issues/362)
       this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
         .subscribe(events => this.processCourtEvents(events))
-      this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+      this.courtNamesContractHandle.pastEvents({/*event: 'SetCourtName',*/ fromBlock: 0, filter: {ourCourtId: -1/*this.props.courtId*/}})
         .subscribe(events => this.processNameEvents(events))
       this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
         .then(function(values) {
