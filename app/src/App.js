@@ -297,6 +297,7 @@ class CourtNamesForm extends React.Component {
       this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
       this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
+      // Does FIXME: not work (https://github.com/aragon/aragon.js/issues/362)
       this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
         .subscribe(events => this.processCourtEvents(events))
       this.courtNamesContractHandle.pastEvents({fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
