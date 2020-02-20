@@ -52,46 +52,15 @@ contract CourtWrapper is AragonApp {
      *
      * Allowed to everybody.
      */
-    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
-        ownedContract.intercourtTransfer(_from, _to, _intercourtToken, _value, _courtsPath, _data);
-    }
+//    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
+//        ownedContract.intercourtTransfer(_from, _to, _intercourtToken, _value, _courtsPath, _data);
+//    }
 
     /**
      * @notice Rename court #`_courtId` to "`_name`".
      */
     function setCourtName(uint256 _ourCourtId, uint256 _courtId, string _name) external auth(JUDGE_ROLE) {
         courtNamesContract.setCourtName(_ourCourtId, _courtId, _name);
-    }
-
-    /**
-     * @notice Create limit court over court `_baseCourt` with name "`_name`".
-     */
-    function createLimitCourt(uint256 _ourCourtId, uint256 _baseCourt, string _name) external auth(JUDGE_ROLE) returns (uint256 _newCourt) {
-        _newCourt = ownedContract.createLimitCourt(_baseCourt);
-        courtNamesContract.setCourtName(_ourCourtId, _newCourt, _name);
-        return _newCourt;
-    }
-
-    /**
-     * @notice Set court #`_courtId` trust limits on intercourt token `_intercourtToken` to `_limit`.
-     */
-    function setCourtLimits(uint256 _courtId, uint256 _intercourtToken, uint256 _limit) external auth(JUDGE_ROLE) {
-        uint256[] memory _intercourtTokens = new uint256[](1);
-        _intercourtTokens[0] = _intercourtToken;
-        uint256[] memory _limits = new uint256[](1);
-        _limits[0] = _limit;
-        ownedContract.setCourtLimits(_courtId, _intercourtTokens, _limits);
-    }
-
-    /**
-     * @notice Add to court #`_courtId` trust limits on intercourt token `_intercourtToken` to `_limit`.
-     */
-    function addToCourtLimits(uint256 _courtId, uint256 _intercourtToken, uint256 _limit) external auth(JUDGE_ROLE) {
-        uint256[] memory _intercourtTokens = new uint256[](1);
-        _intercourtTokens[0] = _intercourtToken;
-        uint256[] memory _limits = new uint256[](1);
-        _limits[0] = _limit;
-        ownedContract.addToCourtLimits(_courtId, _intercourtTokens, _limits);
     }
 
     /**
