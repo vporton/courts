@@ -140,25 +140,19 @@ class CourtNamesForm extends React.Component {
 
     this.state = {
       courtItems: '',
-      limitCourtItems: '',
       tokensItems: '',
       icTokensItems: '',
       trustedCourtsItems: '',
-      currentLimitCourt: null,
     }
 
-    this.allIntercourtTokens = new Set(); // both named IC tokens and IC tokens participating in our limits
+    this.allIntercourtTokens = new Set(); // named IC tokens
     this.ownedContractHandle = null;
     this.courtNamesContractHandle = null;
     this.trustedCourts = null;
 
     this.courtsListWidget = React.createRef()
     this.courtNameEntryWidget = React.createRef()
-    this.limitWidget = React.createRef()
-    this.limitCourtNameWidget = React.createRef()
     this.baseCourtWidget = React.createRef()
-    this.limitsSelectWidget = React.createRef()
-    this.limitCourtEntry = React.createRef()
     this.icTokenEntry = React.createRef()
     this.amountEntry = React.createRef()
     this.icTokensListWidget = React.createRef()
@@ -169,7 +163,6 @@ class CourtNamesForm extends React.Component {
 
     this.loaded = false
     this.courtIDs = []
-    this.limitCourtIDs = []
     // FIXME: Use `Map`
     this.courtNames = {}
     this.icDict = {} // courts to arrays of IC tokens mapping
@@ -190,27 +183,6 @@ class CourtNamesForm extends React.Component {
       "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
     )
     this.setState({courtItems: items.join('')})
-  }
-
-  updateLimitCourtItems(widget, limitCourtIDs, courtNames) {
-    const items = this.limitCourtIDs.map(id =>
-      "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
-    )
-    this.setState({
-      limitCourtItems: items.join(''),
-      currentLimitCourt: limitCourtIDs.length ? limitCourtIDs[0] : null,
-    })
-    this.onLimitWidgetChange()
-  }
-
-  updateLimitValues(widget, tokenValues, tokenSpents, icTokensList) {
-    let items = []
-    for(let i=0; i<tokenValues.length; ++i) {
-      const id = icTokensList[i]
-      const v = " / remains " + (tokenValues[i] - tokenSpents[i]) + " / spent " + tokenSpents[i]
-      items.push("<option value='"+id+"'>" + id + " " + (widget.icTokenNames.has(id) ? widget.icTokenNames.get(id) : "") + v + "</option>")
-    }
-    widget.setState({tokensItems: items.join('')})
   }
 
   updateTokenNames() {
@@ -234,32 +206,9 @@ class CourtNamesForm extends React.Component {
   processCourtEvents(events) {
     for(let i in events) {
       const event = events[i]
-      if(event.event == 'CourtCreated' || event.event == 'LimitCourtCreated') {
+      if(event.event == 'CourtCreated') {
         const courtID = event.returnValues.createdCourt
         this.courtIDs.push(courtID)
-      }
-      if(event.event == 'LimitCourtCreated') {
-        const courtID = event.returnValues.createdCourt
-        this.limitCourtIDs.push(courtID);
-        this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
-      }
-      if(event.event == 'SetCourtLimits' || event.event == 'AddToCourtLimits') {
-        const courtID = event.returnValues.courtId
-        const intercourtTokens = event.returnValues.intercourtTokens
-        for(let i=0; i<this.courtIDs.length; ++i) {
-          if(!(courtID in this.icDict))
-            this.icDict[courtID] = new Set()
-          this.icDict[courtID] = new Set([...this.icDict[courtID], ...intercourtTokens])
-        }
-      }
-      if(event.event == 'SetCourtLimits' || event.event == 'AddToCourtLimits') {
-        const courtID = event.returnValues.courtId
-        const intercourtTokens = event.returnValues.intercourtTokens
-        for(let i=0; i<this.courtIDs.length; ++i) {
-          if(!(courtID in this.icDict))
-            this.icDict[courtID] = new Set()
-          this.icDict[courtID] = new Set([...this.icDict[courtID], ...intercourtTokens])
-        }
       }
     }
     this.updateCourtItems()
@@ -272,7 +221,6 @@ class CourtNamesForm extends React.Component {
       //if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
       if(event.event == 'SetCourtName') {
         this.courtNames[event.returnValues.courtId] = event.returnValues.name
-        this.updateLimitCourtItems(this.limitCourtIDs, this.courtNames)
       }
       if(event.event == 'SetIntercourtTokenName') {
         this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
@@ -314,10 +262,6 @@ class CourtNamesForm extends React.Component {
     this.props.api.setCourtName(this.props.courtId, this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
   }
   
-  createLimitCourt() {
-    this.props.api.createLimitCourt(this.props.courtId, this.baseCourtWidget.current.value, this.limitCourtNameWidget.current.value).toPromise()
-  }
-  
   onICTokenSelect() {
     this.icTokenEntryWidget.current.value = this.icTokensListWidget.current.value
   }
@@ -330,19 +274,6 @@ class CourtNamesForm extends React.Component {
     this.props.api.createICToken(this.icTokenNameEntryWidget.current.value).toPromise()
   }
   
-  onTokensWidgetChange() {
-    this.icTokenEntry.current.value = this.limitsSelectWidget.current.value
-  }
-  
-  setCourtLimits() {
-    console.log(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value)
-    this.props.api.setCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
-  }
-
-  addToCourtLimits() {
-    this.props.api.addToCourtLimits(this.limitCourtEntry.current.value, this.icTokenEntry.current.value, this.amountEntry.current.value).toPromise()
-  }
-  
   trust() {
     this.props.api.trustCourt(this.trustedCourtEntry.current.value).toPromise()
   }
@@ -351,28 +282,6 @@ class CourtNamesForm extends React.Component {
     this.props.api.untrustCourt(this.trustedCourtsWidget.current.value).toPromise()
   }
 
-  onLimitWidgetChange() {
-    let widget = this
-    
-    this.state.currentLimitCourt = Number(this.limitWidget.current.value)
-    
-    let icTokensList = [...this.allIntercourtTokens]
-    
-    let tokenValuesPromises = [], tokenSpentsPromises = []
-    for(let i in icTokensList) {
-      var token = calculateTokenId(this.state.currentLimitCourt, icTokensList[i]) // FIXME: currentLimitCourt may be null
-      token = String(token)
-      tokenValuesPromises.push(this.ownedContractHandle.courtLimits(token).toPromise()) // TODO: Efficient?
-      tokenSpentsPromises.push(this.ownedContractHandle.courtTotalSpents(token).toPromise()) // TODO: Efficient?
-    }
-    let tokensPromise = Promise.all([Promise.all(tokenValuesPromises), Promise.all(tokenSpentsPromises)])
-    tokensPromise.then(function(values) {
-      const tokenValues = values[0]
-      const tokenSpents = values[1]
-      widget.updateLimitValues(widget, tokenValues, tokenSpents, icTokensList)
-    })
-  }
-  
   render() {
     // TODO: Validate the amount.
     return (
@@ -394,31 +303,6 @@ class CourtNamesForm extends React.Component {
           Name: <input type="text" ref={this.icTokenNameEntryWidget}/>
           <button type="button" onClick={this.renameICToken.bind(this)}>Rename</button>
           <button type="button" onClick={this.newICToken.bind(this)}>Create new</button>
-        </div>
-        <H2>Limit courts</H2>
-        <div>
-          <div>
-            <select ref={this.limitWidget} onChange={this.onLimitWidgetChange.bind(this)}>
-              {Parser(this.state.limitCourtItems)}
-            </select>
-            /
-            Base court: <input type="number" ref={this.baseCourtWidget}/>
-            /
-            Name: <input type="text" ref={this.limitCourtNameWidget}/>
-            <button onClick={this.createLimitCourt.bind(this)}>Create limit court</button>
-          </div>
-          <div>
-            Intercourt tokens:
-            <select ref={this.limitsSelectWidget} onChange={this.onTokensWidgetChange.bind(this)}>
-              {Parser(this.state.tokensItems)}
-            </select>
-            /
-            Court: <input type="number" ref={this.limitCourtEntry}/>
-            Intercourt token: <input type="number" ref={this.icTokenEntry}/>
-            Amount: <input type="number" ref={this.amountEntry}/>
-            <button onClick={this.setCourtLimits.bind(this)}>Replace</button>
-            <button onClick={this.addToCourtLimits.bind(this)}>Add</button>
-          </div>
         </div>
         <H2>Intercourt trust</H2>
         <div>
