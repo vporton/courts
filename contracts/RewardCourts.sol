@@ -221,23 +221,23 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _courtsPath Through which courts to transfer
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
-//    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
-//        uint256[] memory _ids = new uint256[](1);
-//        _ids[0] = _intercourtToken;
-//        uint256[] memory _values = new uint256[](1);
-//        _values[0] = _value;
-//        _doIntercourtTransferBatch(_from, _to, _ids, _values, _courtsPath);
-//
-//        // Using _uncheckedGenerateTokenId because already checked in _doIntercourtTransferBatch().
-//        emit TransferSingle(msg.sender, _from, 0x0, _uncheckedGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
-//        emit TransferSingle(msg.sender, 0x0, _to, _uncheckedGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
-//
-//        // Now that the balance is updated and the event was emitted,
-//        // call onERC1155Received if the destination is a contract.
-//        if (_to.isContract()) {
-//            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _intercourtToken, _value, _data);
-//        }
-//    }
+    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
+        uint256[] memory _ids = new uint256[](1);
+        _ids[0] = _intercourtToken;
+        uint256[] memory _values = new uint256[](1);
+        _values[0] = _value;
+        _doIntercourtTransferBatch(_from, _to, _ids, _values, _courtsPath);
+
+        // Using _uncheckedGenerateTokenId because already checked in _doIntercourtTransferBatch().
+        emit TransferSingle(msg.sender, _from, 0x0, _uncheckedGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
+        emit TransferSingle(msg.sender, 0x0, _to, _uncheckedGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
+
+        // Now that the balance is updated and the event was emitted,
+        // call onERC1155Received if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _intercourtToken, _value, _data);
+        }
+    }
 
     /**
         @notice Transfer money through several courts with automatic currency conversion between court tokens.
@@ -248,25 +248,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _courtsPath Through which courts to transfer
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
-//    function intercourtTransferBatch(address _from, address _to, uint256[] _intercourtTokens, uint256[] _values, uint256[] _courtsPath, bytes _data) external {
-//        require(_intercourtTokens.length == _values.length, "_intercourtTokens and _values array length must match.");
-//
-//        _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
-//
-//        emit TransferBatch(msg.sender, _from, 0x0, _intercourtTokens, _values);
-//        emit TransferBatch(msg.sender, 0x0, _to, _intercourtTokens, _values);
-//
-//        uint256[] memory _ids = new uint256[](_intercourtTokens.length);
-//        for (uint i = 0; i < _ids.length; ++i) {
-//            _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
-//        }
-//        
-//        // Now that the balances are updated and the events are emitted,
-//        // call onERC1155BatchReceived if the destination is a contract.
-//        if (_to.isContract()) {
-//            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
-//        }
-//    }
+    function intercourtTransferBatch(address _from, address _to, uint256[] _intercourtTokens, uint256[] _values, uint256[] _courtsPath, bytes _data) external {
+        require(_intercourtTokens.length == _values.length, "_intercourtTokens and _values array length must match.");
+
+        _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
+
+        emit TransferBatch(msg.sender, _from, 0x0, _intercourtTokens, _values);
+        emit TransferBatch(msg.sender, 0x0, _to, _intercourtTokens, _values);
+
+        uint256[] memory _ids = new uint256[](_intercourtTokens.length);
+        for (uint i = 0; i < _ids.length; ++i) {
+            _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
+        }
+        
+        // Now that the balances are updated and the events are emitted,
+        // call onERC1155BatchReceived if the destination is a contract.
+        if (_to.isContract()) {
+            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
+        }
+    }
 
 /////////////////////////////////////////// Minting //////////////////////////////////////////////
 
@@ -556,35 +556,28 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return _id & ((1 << 128) - 1);
     }
     
-//    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory _courtsPath) internal {
-//        require(_to != address(0x0), "_to must be non-zero.");
-//        assert(_ids.length == _values.length);
-//        require(_courtsPath.length != 0);
-//        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
-//        //require(checkNoDuplicates(_courtsPath), "Duplicate courts.");
-//
-//        for (uint i = 0; i < _courtsPath.length - 1; ++i) {
-//            require(trustedCourts[_getFinalCourt(_courtsPath[i+1])][_courtsPath[i]], "A court in the path is not in a trusted list.");
-//        }
-//
-//        for (uint k = 0; k < _ids.length; ++k) {
-//            uint256 _intercourtToken = _ids[k];
-//            uint256 _fromToken = _generateTokenId(_getFinalCourt(_courtsPath[0]), _intercourtToken);
-//            uint256 _toToken = _generateTokenId(_getFinalCourt(_courtsPath[_courtsPath.length-1]), _intercourtToken);
-//            // SafeMath will throw with insufficient funds _from
-//            // or if _intercourtToken is not valid (balance will be 0)
-//            balances[_fromToken][_from] = balances[_fromToken][_from].sub(_values[k]);
-//            balances[_toToken][_to] = _values[k].add(balances[_toToken][_to]);
-//            for (i = 0; i < _courtsPath.length; ++i) {
-//                for (uint256 _court = _courtsPath[i]; isLimitCourt(_court); _court = limitCourts[_court]) {
-//                    uint256 _id = _generateTokenId(_court, _intercourtToken);
-//                    courtTotalSpents[_id] = courtTotalSpents[_id].add(_values[k]);
-//                    require(courtTotalSpents[_id] <= courtLimits[_id], "Court limit exceeded.");
-//                }
-//            }
-//        }
-//    }
-//
+    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory _courtsPath) internal {
+        require(_to != address(0x0), "_to must be non-zero.");
+        assert(_ids.length == _values.length);
+        require(_courtsPath.length != 0);
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+        //require(checkNoDuplicates(_courtsPath), "Duplicate courts.");
+
+        for (uint i = 0; i < _courtsPath.length - 1; ++i) {
+            require(trustedCourts[_courtsPath[i+1]][_courtsPath[i]], "A court in the path is not in a trusted list.");
+        }
+
+        for (uint k = 0; k < _ids.length; ++k) {
+            uint256 _intercourtToken = _ids[k];
+            uint256 _fromToken = _generateTokenId(_courtsPath[0], _intercourtToken);
+            uint256 _toToken = _generateTokenId(_courtsPath[_courtsPath.length-1], _intercourtToken);
+            // SafeMath will throw with insufficient funds _from
+            // or if _intercourtToken is not valid (balance will be 0)
+            balances[_fromToken][_from] = balances[_fromToken][_from].sub(_values[k]);
+            balances[_toToken][_to] = _values[k].add(balances[_toToken][_to]);
+        }
+    }
+
     // function checkNoDuplicates(uint256[] memory _array) private pure returns (bool) {
     //     for (uint256 i = 1; i < _array.length; ++i) {
     //         for (uint256 j = 0; j < i; ++j)
