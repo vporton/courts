@@ -1,3 +1,5 @@
+- Fix the bug of always using "allEvents" with "external_past_events".
+
 - The top part of the UI is hidden when the vertical window size is small.
 
 - Tabbed UI (split into multiple apps?)
