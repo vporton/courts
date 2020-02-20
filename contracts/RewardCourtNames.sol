@@ -13,8 +13,8 @@ contract RewardCourtNames
     // ourCourtId => (icToken => prevChange)
     mapping (uint256 => mapping (uint256 => uint)) public icTokenNameChanges;
 
-    event SetCourtName(uint256 ourCourtId, uint256 courtId, string name, uint previous);
-    event SetIntercourtTokenName(uint256 ourCourtId, uint256 icToken, string name, uint previous);
+    event SetCourtName(uint256 indexed ourCourtId, uint256 indexed courtId, string name, uint indexed previous);
+    event SetIntercourtTokenName(uint256 indexed ourCourtId, uint256 indexed icToken, string name, uint indexed previous);
     
     constructor(RewardCourts _rewardCourts) {
         rewardCourts = _rewardCourts;
