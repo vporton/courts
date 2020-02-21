@@ -76,7 +76,7 @@ contract("RewardCourts", accounts => {
   })
 
 contract("RewardCourts", accounts => {
-  it("limit courts", () => {
+  it("courts trust", () => {
     // make trust court3 -> court2 -> court3
     return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
