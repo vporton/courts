@@ -246,9 +246,11 @@ class CourtNamesForm extends React.Component {
       this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
       // FIXME: Does not work (https://github.com/aragon/aragon.js/issues/362)
-      this.ownedContractHandle.pastEvents({fromBlock: 0, filter: {courtId: this.courtIDs}})
+      this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
         .subscribe(events => this.processCourtEvents(events))
-      this.courtNamesContractHandle.pastEvents({/*event: 'SetCourtName',*/ fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+      this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+        .subscribe(events => this.processNameEvents(events))
+      this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
         .subscribe(events => this.processNameEvents(events))
       this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
         .then(function(values) {
