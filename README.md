@@ -24,9 +24,6 @@ HONEST1, HONEST2, ..., HONEST10 to be converted into its currency. This way we s
 of verifying honesty into multiple organizations and have a "central" hub that based on their
 decisions verifies honesty automatically.
 
-If the hub court trusts a court 5 mistakenly, we could beforehand limit our trust to 1000 tokens per months
-and later abandon the trust as HONEST5 becomes known no more to represent real honesty.
-
 Now a payment gateway may accept the money H of our hub, or it may choose to use another hub.
 There is no really "central" hub, it is up to payment gateways and traders to decide which
 money they accept and which don't. That's the democratic way to control money.
@@ -71,11 +68,6 @@ Run
 This script will create a core contract and a court associated with your organization.
 
 After this you can mint test (not real) money on your machine.
-
-# Unimplemented
-
-The core contract does support limiting amount of transfers and trust between courts (see above),
-but the UI does not yet.
 
 # Tweaks
 
