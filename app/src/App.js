@@ -163,8 +163,7 @@ class CourtNamesForm extends React.Component {
 
     this.loaded = false
     this.courtIDs = []
-    // FIXME: Use `Map`
-    this.courtNames = {}
+    this.courtNames = new Map();
     this.icDict = {} // courts to arrays of IC tokens mapping
     this.icTokenNames = new Map()
   }
@@ -180,7 +179,7 @@ class CourtNamesForm extends React.Component {
 
   updateCourtItems() {
     const items = this.courtIDs.map(id =>
-      "<option value='"+id+"'>" + id + " " + (id in this.courtNames ? this.courtNames[id] : "") + "</option>"
+      "<option value='"+id+"'>" + id + " " + (this.courtNames.has(id) ? this.courtNames.get(id) : "") + "</option>"
     )
     this.setState({courtItems: items.join('')})
   }
@@ -198,7 +197,7 @@ class CourtNamesForm extends React.Component {
   updateTrustedCourts() {
     let items = []
     for(let i in this.trustedCourts) {
-      items.push("<option value='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames[this.trustedCourts[i]] + "</option>")
+      items.push("<option value='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames.get(this.trustedCourts[i]) + "</option>")
     }
     this.setState({trustedCourtsItems: items.join('')})
   }
@@ -220,7 +219,7 @@ class CourtNamesForm extends React.Component {
       const event = events[i]
       //if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
       if(event.event == 'SetCourtName') {
-        this.courtNames[event.returnValues.courtId] = event.returnValues.name
+        this.courtNames.set(event.returnValues.courtId, event.returnValues.name)
       }
       if(event.event == 'SetIntercourtTokenName') {
         this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
