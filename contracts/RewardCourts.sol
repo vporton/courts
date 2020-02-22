@@ -507,6 +507,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value, uint256[] _courtsPath) private {
 
         uint256 _court = _getCourt(_id);
+
+        require(courtOwners[_court] == msg.sender, "Not a court owner.");
+
         uint256 _intercourtToken = _getIntercourtToken(_id);
         
         for (uint i = 0; i < _courtsPath.length; ++i) {
@@ -516,8 +519,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }
     
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
-        require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
+        _id = _generateTokenId(_court, _intercourtToken);
         balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
     }
 

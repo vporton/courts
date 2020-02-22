@@ -5,6 +5,7 @@ function generateTokenId(_court, _intercourtToken) {
 }
 
 contract("RewardCourts", accounts => {
+
   it("can mint", () => {
     return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
@@ -77,7 +78,7 @@ contract("RewardCourts", accounts => {
 
 contract("RewardCourts", accounts => {
   it("courts trust", () => {
-    // make trust court3 -> court2 -> court3
+    // make trust court3 -> court2 -> court1
     return RewardCourts.deployed()
       .then(instance => Promise.all([Promise.resolve(instance),
                                      instance.createCourt({from: accounts[0]}),
@@ -118,6 +119,53 @@ contract("RewardCourts", accounts => {
       })
     })
   })
+
+contract("RewardCourts", accounts => {
+  it("minting for another court", () => {
+    // make trust court3 -> court2 -> court1
+    return RewardCourts.deployed()
+      .then(instance => Promise.all([Promise.resolve(instance),
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createCourt({from: accounts[1]}),
+                                     instance.createCourt({from: accounts[2]}),
+                                     instance.createIntercourtToken()]))
+      .then(async args => {
+        let [instance, courtId1, courtId2, courtId3, ICTokenId] = args
+        courtId1 = courtId1.logs[0].args[1]
+        courtId2 = courtId2.logs[0].args[1]
+        courtId3 = courtId3.logs[0].args[1]
+        ICTokenId = ICTokenId.logs[0].args[0]
+        return [instance, courtId1, courtId2, courtId3, ICTokenId]
+      })
+      .then(async args => {
+        let [instance, courtId1, courtId2, courtId3, ICTokenId] = args
+        await instance.trustCourts(courtId2, [courtId1], {from: accounts[1]});
+        await instance.trustCourts(courtId3, [courtId2], {from: accounts[2]});
+
+        let srcToken = generateTokenId(courtId1, ICTokenId)
+        let dstToken = generateTokenId(courtId3, ICTokenId)
+        await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[0]})
+        assert.equal(await instance.balanceOf.call(accounts[3], dstToken), 1000, "Wrong minted amount")
+        
+//         {
+//           let error = true;
+//           try {
+//             await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [courtId1, courtId2, courtId3], [],
+//                                               {from: accounts[0]})
+//           }
+//           catch(e) {
+//             error = false;
+//           }
+//           assert.isOk(!error, "Intercourt transfer from another's wallet")
+//         }
+//         await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [courtId1, courtId2, courtId3], [],
+//                                           {from: accounts[1]})
+        
+        return [instance, courtId1, courtId2, courtId3, ICTokenId]
+      })
+    })
+  })
+
 })
 
 // TODO: More testing and security audit.
