@@ -1,4 +1,5 @@
-- Fix the bug of always using "allEvents" with "external_past_events".
+- Fix the bug of always using "allEvents" with "external_past_events":
+  https://github.com/aragon/aragon.js/issues/362
 
 - The top part of the UI is hidden when the vertical window size is small.
 
@@ -12,8 +13,10 @@
 
 - App initialization function.
 
-- Intercourt transfer.
+- Intercourt transfer in UI.
 
 - setOwner().
 
 - UI for new court creation.
+
+- Can we optimize by loading only latest court names, not historic ones from Ethereum events?
