@@ -150,6 +150,7 @@ contract("RewardCourts", accounts => {
         {
           let error = true;
           try {
+            // courtId2 does not trust itself.
             await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId2], {from: accounts[0]})
           }
           catch(e) {
