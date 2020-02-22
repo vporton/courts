@@ -282,13 +282,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _id      ID of the token type
         @param _value   Transfer amount
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+        @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function mintFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+    function mintFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data, uint256[] _courtsPath) external {
 
         require(_to != address(0x0), "_to must be non-zero.");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
-        _doMintFrom(_from, _to, _id, _value);
+        _doMintFrom(_from, _to, _id, _value, _courtsPath);
 
         // MUST emit event
         emit TransferSingle(msg.sender, 0x0, _to, _id, _value);
@@ -314,8 +315,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _ids     IDs of each token type (order and length must match _values array)
         @param _values  Transfer amounts per token type (order and length must match _ids array)
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
+        @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function batchMintFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
+    function batchMintFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data, uint256[] _courtsPath) external {
 
         // MUST Throw on errors
         require(_to != address(0x0), "destination address must be non-zero.");
@@ -326,7 +328,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             uint256 _id = _ids[i];
             uint256 _value = _values[i];
 
-            _doMintFrom(_from, _to, _id, _value);
+            _doMintFrom(_from, _to, _id, _value, _courtsPath);
         }
 
         // Note: instead of the below batch versions of event and acceptance check you MAY have emitted a TransferSingle
@@ -502,12 +504,17 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         balances[_id][_to]   = _value.add(balances[_id][_to]);
     }
 
-    function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value) private {
+    function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value, uint256[] _courtsPath) private {
 
         uint256 _court = _getCourt(_id);
         uint256 _intercourtToken = _getIntercourtToken(_id);
+        
+        for (uint i = 0; i < _courtsPath.length; ++i) {
+            uint256 _nextCourt = _courtsPath[i];
+            require(trustedCourts[_nextCourt][_court], "A court in the path is not in a trusted list.");
+            _court = _nextCourt;
+        }
     
-        // FIXME: Seems not to decrease balances of foreign tokens.
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
         require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
@@ -556,7 +563,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return _id & ((1 << 128) - 1);
     }
     
-    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] memory _courtsPath) internal {
+    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] _courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
         require(_courtsPath.length != 0);

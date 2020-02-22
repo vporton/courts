@@ -22,12 +22,12 @@ contract("RewardCourts", accounts => {
       .then(async args => {
         let [instance, courtId, ICTokenId] = args;
         let token = generateTokenId(courtId, ICTokenId)
-        await instance.mintFrom(accounts[0], accounts[1], token, 12, [], {from: accounts[0]})
+        await instance.mintFrom(accounts[0], accounts[1], token, 12, [], [], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
         {
           let error = true;
           try {
-            await instance.mintFrom(accounts[2], accounts[1], token, 12, [], {from: accounts[0]})
+            await instance.mintFrom(accounts[2], accounts[1], token, 12, [], [], {from: accounts[0]})
           }
           catch(e) {
             error = false;
@@ -37,7 +37,7 @@ contract("RewardCourts", accounts => {
         {
           let error = true;
           try {
-            await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], {from: accounts[0]})
+            await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], [], {from: accounts[0]})
           }
           catch(e) {
             error = false;
@@ -98,7 +98,7 @@ contract("RewardCourts", accounts => {
         await instance.trustCourts(courtId3, [courtId2]);
 
         let token = generateTokenId(courtId1, ICTokenId)
-        await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], {from: accounts[0]})
+        await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], [], {from: accounts[0]})
         
         {
           let error = true;

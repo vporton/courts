@@ -44,7 +44,8 @@ contract CourtWrapper is AragonApp {
       */
     function mintFrom(address _from, address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
-        ownedContract.mintFrom(_from, _to, _id, _value, _data);
+        uint256[] memory _courtsPath;
+        ownedContract.mintFrom(_from, _to, _id, _value, _data, _courtsPath);
     }
 
     /**
