@@ -509,7 +509,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
         // FIXME: Seems not to decrease balances of foreign tokens.
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
-        require(courtOwners[_court] == msg.sender || balances[_id][_from] >= _value, "Insufficient funds.");
+        require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
         balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
     }
