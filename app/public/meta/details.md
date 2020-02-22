@@ -1,6 +1,7 @@
-An application for Aragon.
+Reard Courts application for Aragon.
 
-**Features**
-- Feature \#1.
-- Feature \#2.
-- Feature \#3.
+It allows to mint tokens by decisions of courts.
+
+It is intended to give money to those who for any reason have less than they should.
+
+See also: https://github.com/vporton/courts/wiki
