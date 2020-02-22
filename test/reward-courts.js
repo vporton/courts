@@ -147,19 +147,27 @@ contract("RewardCourts", accounts => {
         await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[3], dstToken), 1000, "Wrong minted amount")
         
-//         {
-//           let error = true;
-//           try {
-//             await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [courtId1, courtId2, courtId3], [],
-//                                               {from: accounts[0]})
-//           }
-//           catch(e) {
-//             error = false;
-//           }
-//           assert.isOk(!error, "Intercourt transfer from another's wallet")
-//         }
-//         await instance.intercourtTransfer(accounts[1], accounts[2], ICTokenId, 300, [courtId1, courtId2, courtId3], [],
-//                                           {from: accounts[1]})
+        {
+          let error = true;
+          try {
+            await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId2], {from: accounts[0]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "No trust allowed.")
+        }
+        
+        {
+          let error = true;
+          try {
+            await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[1]})
+          }
+          catch(e) {
+            error = false;
+          }
+          assert.isOk(!error, "We are not court owner.")
+        }
         
         return [instance, courtId1, courtId2, courtId3, ICTokenId]
       })
