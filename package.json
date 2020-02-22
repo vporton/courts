@@ -1,7 +1,7 @@
 {
   "name": "@porton/apps-judge",
-  "version": "0.0.1",
-  "description": "",
+  "version": "4.0.0",
+  "description": "Mint money by court decisions.",
   "dependencies": {
     "@aragon/api": "file:../forks/aragon.js/packages/aragon-api",
     "@aragon/api-react": "^2.0.0-beta.9",
