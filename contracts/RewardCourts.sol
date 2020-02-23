@@ -463,12 +463,20 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function trustCourts(uint256 _truster, uint256[] _trustees) external {
         require(courtOwners[_truster] == msg.sender, "We are not court owner");
 
+        uint _pos = trustedCourtsList[_truster].length; // position to insert
+        uint _newLength = _pos;
         for (uint i = 0; i < _trustees.length; ++i) {
-            require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
-            if (!trustedCourts[_truster][_trustees[i]]) {
-                trustedCourtsList[_truster].length = trustedCourtsList[_truster].length + 1; // TODO: inefficient
-                trustedCourtsList[_truster][trustedCourtsList[_truster].length - 1] = _trustees[i];
-                trustedCourts[_truster][_trustees[i]] = true;
+            if (!trustedCourts[_truster][_trustees[i]])
+                _newLength += 1;
+        }
+        
+        trustedCourtsList[_truster].length = _newLength;
+
+        for (uint j = 0; j < _trustees.length; ++j) {
+            require(_trustees[j] > 0 && _trustees[j] <= courtNonce, "Court does not exist.");
+            if (!trustedCourts[_truster][_trustees[j]]) {
+                trustedCourtsList[_truster][_pos++] = _trustees[j];
+                trustedCourts[_truster][_trustees[j]] = true;
             }
         }
         emit TrustCourts(_truster, _trustees);
