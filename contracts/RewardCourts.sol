@@ -466,6 +466,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint _pos = trustedCourtsList[_truster].length; // position to insert
         uint _newLength = _pos;
         for (uint i = 0; i < _trustees.length; ++i) {
+            require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
             if (!trustedCourts[_truster][_trustees[i]])
                 _newLength += 1;
         }
@@ -473,7 +474,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         trustedCourtsList[_truster].length = _newLength;
 
         for (uint j = 0; j < _trustees.length; ++j) {
-            require(_trustees[j] > 0 && _trustees[j] <= courtNonce, "Court does not exist.");
             if (!trustedCourts[_truster][_trustees[j]]) {
                 trustedCourtsList[_truster][_pos++] = _trustees[j];
                 trustedCourts[_truster][_trustees[j]] = true;
