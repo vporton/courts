@@ -1,0 +1,27 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": false
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/transform-flow-strip-types",
+    "@babel/transform-runtime",
+    ["inline-json-import", { "extensions": [".json"] }]
+  ],
+  "env": {
+    "production": {
+      "presets": [
+        ["minify", {
+          "builtIns": false,
+          "mangle": false
+        }]
+      ]
+    }
+  }
+}
