@@ -3,7 +3,7 @@
   "author": "Victor Porton",
   "description": "Reward courts that mint money",
   "details_url": "/meta/details.md",
-  "source_url": "https://<placeholder-repository-url>",
+  "source_url": "https://github.com/vporton/courts",
   "icons": [
     {
       "src": "/meta/icon.svg",
