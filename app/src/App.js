@@ -17,6 +17,7 @@ function App() {
         <p>Owned contract: {appState.ownedContract}<br/>
           Court names contract: {appState.courtNamesContract}<br/>
           Controlled court: {appState.courtId}</p>
+        <Tabs items={['Manage', 'Mint', 'Names']}/>
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
