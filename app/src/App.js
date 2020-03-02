@@ -13,11 +13,10 @@ function App() {
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
-        <H1>XJudge Whom to Give Rewards</H1>
+        <H1>Judge Whom to Give Rewards</H1>
         <p>Owned contract: {appState.ownedContract}<br/>
           Court names contract: {appState.courtNamesContract}<br/>
           Controlled court: {appState.courtId}</p>
-        <Tabs items={['Manage', 'Mint', 'Names']}/>
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
