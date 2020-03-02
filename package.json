@@ -3,9 +3,8 @@
   "version": "5.0.0",
   "description": "Mint money by court decisions.",
   "dependencies": {
-    "@aragon/api": "file:../forks/aragon.js/packages/aragon-api",
     "@aragon/api-react": "^2.0.0-beta.9",
-    "@aragon/monorepo-js": "file:../forks/aragon.js",
+    "@aragon/monorepo-js": "file:aragon.js",
     "@aragon/os": "^4.3.0",
     "@aragon/toolkit": "0.0.2",
     "@aragon/ui": "^1.3.1",

@@ -13,7 +13,7 @@ function App() {
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
-        <H1>Judge Whom to Give Rewards</H1>
+        <H1>XJudge Whom to Give Rewards</H1>
         <p>Owned contract: {appState.ownedContract}<br/>
           Court names contract: {appState.courtNamesContract}<br/>
           Controlled court: {appState.courtId}</p>

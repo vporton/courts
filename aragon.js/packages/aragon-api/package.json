@@ -1,0 +1,89 @@
+{
+  "name": "@aragon/api",
+  "version": "2.0.0-beta.9",
+  "description": "Aragon app API",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "flow": "flow src",
+    "lint": "standard \"src/**/*.js\"",
+    "test": "nyc --reporter=lcov ava",
+    "test:watch": "ava --watch -v",
+    "build": "babel src -d dist -s",
+    "build:dev": "npm run build -- inline",
+    "prepublishOnly": "env NODE_ENV=production npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aragon/aragon.js.git"
+  },
+  "keywords": [
+    "ethereum",
+    "aragon",
+    "web3",
+    "api",
+    "blockchain"
+  ],
+  "author": "Aragon Association <legal@aragon.org>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/aragon/aragon.js/issues"
+  },
+  "homepage": "https://github.com/aragon/aragon.js#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "ava": "^2.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-minify": "^0.5.0",
+    "debug": "^3.1.0",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "flow-bin": "^0.63.1",
+    "nyc": "^14.1.1",
+    "proxyquire": "^2.0.1",
+    "sinon": "^6.3.1",
+    "standard": "^12.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ]
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.js"
+    ],
+    "require": [
+      "@babel/register"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "src/**/*.test.js"
+    ]
+  },
+  "browserslist": {
+    "development": ">2%, last 1 edge versions, not ie > 0, not op_mini all",
+    "production": ">2%, last 1 edge versions, not ie > 0, not op_mini all"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.2",
+    "@aragon/rpc-messenger": "^2.0.0",
+    "@babel/runtime": "^7.1.2"
+  }
+}

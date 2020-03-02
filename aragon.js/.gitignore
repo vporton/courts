@@ -1,0 +1,22 @@
+# Editor files
+.vscode
+
+# Dependencies
+node_modules
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+
+# Artifacts
+dist
+
+# Tests and coverage
+coverage
+.nyc_output
+
+# Tools
+lerna-debug.log
+wallaby.js
+
+.localstorage
