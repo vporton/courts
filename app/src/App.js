@@ -9,6 +9,7 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils")
 function App() {
   const { api, appState } = useAragonApi()
   const { isSyncing } = appState
+  console.log("Tabs", Tabs)
   return (
     <Main>
       <BaseLayout>
