@@ -16,27 +16,25 @@ function App() {
 
   return (
     <Main>
-      <BaseLayout>
-        {isSyncing && <Syncing />}
-        <H1>Judge Whom to Give Rewards</H1>
-        <Tabs items={['Info', 'Manage', 'Mint', 'Names']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
-        <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
-          <p>Owned contract: {appState.ownedContract}<br/>
-            Court names contract: {appState.courtNamesContract}<br/>
-            Controlled court: {appState.courtId}</p>
-        </div>
-        <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
-          <H2>Manage</H2>
-          <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        </div>
-        <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
-          <H2>Send any amount of tokens to recepients of your choice.</H2>
-          <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
-        </div>
-        <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
-          <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        </div>
-      </BaseLayout>
+      {isSyncing && <Syncing />}
+      <H1>Judge Whom to Give Rewards</H1>
+      <Tabs items={['Info', 'Manage', 'Mint', 'Names']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
+      <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
+        <p>Owned contract: {appState.ownedContract}<br/>
+          Court names contract: {appState.courtNamesContract}<br/>
+          Controlled court: {appState.courtId}</p>
+      </div>
+      <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
+        <H2>Manage</H2>
+        <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+      </div>
+      <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
+        <H2>Send any amount of tokens to recepients of your choice.</H2>
+        <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+      </div>
+      <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
+        <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+      </div>
     </Main>
   )
 }
@@ -436,14 +434,6 @@ const H2 = styled.div`
 
 const TH = styled.th`
   text-align: right;
-`
-
-const BaseLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
 `
 
 const Syncing = styled.div.attrs({ children: 'Syncing…' })`
