@@ -6,7 +6,7 @@ aragon apm publish major --environment rinkeby --files dist/
 
 * Assign to somebody the permission to manage app.
 
-* dao install <ORG NAME> reward2.open.aragonpm.eth --environment rinkeby
+* dao install <ORG NAME> reward.open.aragonpm.eth --environment rinkeby
 
 -----------
 
