@@ -1,27 +1,41 @@
 import { zip } from 'rxjs';
 import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
-import { Main, Button } from '@aragon/ui'
+import { Main, Button, Tabs } from '@aragon/ui'
 import styled from 'styled-components'
 import Parser from 'html-react-parser';
 const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
 function App() {
-  const { api, appState } = useAragonApi()
+  const { api, appState, setAppState, path, requestPath } = useAragonApi()
   const { isSyncing } = appState
+  const pathParts = path.match(/^\/tab\/([0-9]+)/)
+  const pageIndex = Array.isArray(pathParts)
+    ? parseInt(pathParts[1], 10) - 1
+    : 0
+
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
-        <p>Owned contract: {appState.ownedContract}<br/>
-          Court names contract: {appState.courtNamesContract}<br/>
-          Controlled court: {appState.courtId}</p>
-        <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
-        <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <Tabs items={['Info', 'Manage', 'Mint', 'Names']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
+        <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
+          <p>Owned contract: {appState.ownedContract}<br/>
+            Court names contract: {appState.courtNamesContract}<br/>
+            Controlled court: {appState.courtId}</p>
+        </div>
+        <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
+          <H2>Manage</H2>
+          <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
+          <H2>Send any amount of tokens to recepients of your choice.</H2>
+          <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
+          <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        </div>
       </BaseLayout>
     </Main>
   )
@@ -241,21 +255,29 @@ class CourtNamesForm extends React.Component {
     .then(abi => {
       let [abi1, abi2] = abi
         
-      this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
-      this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
+      if (!/^0x0+$/.test(this.props.ownedContract))
+        this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
+      if (!/^0x0+$/.test(this.props.courtNamesContract))
+        this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
       // FIXME: Does not work (https://github.com/aragon/aragon.js/issues/362)
-      this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
-        .subscribe(events => this.processCourtEvents(events))
-      this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-        .subscribe(events => this.processNameEvents(events))
-      this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-        .subscribe(events => this.processNameEvents(events))
-      this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
-        .then(function(values) {
-          widget.trustedCourts = values;
-          widget.updateTrustedCourts()
-        })
+      if (this.ownedContractHandle) {
+        this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
+          .subscribe(events => this.processCourtEvents(events))
+      }
+      if (this.courtNamesContractHandle) {
+        this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+          .subscribe(events => this.processNameEvents(events))
+        this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+          .subscribe(events => this.processNameEvents(events))
+      }
+      if (this.ownedContractHandle) {
+        this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
+          .then(function(values) {
+            widget.trustedCourts = values;
+            widget.updateTrustedCourts()
+          })
+      }
     });
   }
 
