@@ -7,27 +7,35 @@ import Parser from 'html-react-parser';
 const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
 function App() {
-  const { api, appState, setAppState } = useAragonApi()
+  const { api, appState, setAppState, path, requestPath } = useAragonApi()
   const { isSyncing } = appState
-//   function setSelectedTab(num) {
-//     setAppState({selectedTab: num})
-//   }
+  const pathParts = path.match(/^\/tab\/([0-9]+)/)
+  const pageIndex = Array.isArray(pathParts)
+    ? parseInt(pathParts[1], 10) - 1
+    : 0
+
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
-        <Tabs items={['Info', 'Manage', 'Mint', 'Names']}/>
-        <div style={{display: 'none'}}>
+        <Tabs items={['Info', 'Manage', 'Mint', 'Names']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
+        <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
           <p>Owned contract: {appState.ownedContract}<br/>
             Court names contract: {appState.courtNamesContract}<br/>
             Controlled court: {appState.courtId}</p>
         </div>
-        <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
-        <H2>Send any amount of tokens to recepients of your choice.</H2>
-        <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
-        <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
+          <H2>Manage</H2>
+          <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
+          <H2>Send any amount of tokens to recepients of your choice.</H2>
+          <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
+          <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        </div>
       </BaseLayout>
     </Main>
   )
