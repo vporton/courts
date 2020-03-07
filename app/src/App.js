@@ -380,7 +380,8 @@ class MintForm extends React.Component {
   onICTokenChange(e) {
     const ict = this.ICTokenInput.current.value
     const valid = /^[0-9]+$/.test(ict)
-    this.setState({token: String(calculateTokenId(this.props.courtId, ict)), intercourtTokenValid: valid})
+    this.setState({token: valid ? String(calculateTokenId(this.props.courtId, ict)) : null,
+                   intercourtTokenValid: valid})
   }
 
   onRecepientTokenChange() {
