@@ -128,7 +128,7 @@ class ManageForm extends React.Component {
         </table>
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.changeCourt.bind(this)}>Change</button>
-        <div style={{background: 'red', padding: '3px', 'margin-top': '0.5ex'}}>
+        <div style={{background: 'red', padding: '3px', marginTop: '0.5ex'}}>
           <H2>Danger zone:</H2>
           Core contract owner:
           <input ref={this.ownerInput} onChange={this.onOwnerChange.bind(this)}
