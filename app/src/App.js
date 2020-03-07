@@ -7,18 +7,22 @@ import Parser from 'html-react-parser';
 const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
 function App() {
-  const { api, appState } = useAragonApi()
+  const { api, appState, setAppState } = useAragonApi()
   const { isSyncing } = appState
-  console.log("Tabs", Tabs)
+//   function setSelectedTab(num) {
+//     setAppState({selectedTab: num})
+//   }
   return (
     <Main>
       <BaseLayout>
         {isSyncing && <Syncing />}
         <H1>Judge Whom to Give Rewards</H1>
-        <p>Owned contract: {appState.ownedContract}<br/>
-          Court names contract: {appState.courtNamesContract}<br/>
-          Controlled court: {appState.courtId}</p>
-        <Tabs items={['Manage', 'Mint', 'Names']}/>
+        <Tabs items={['Info', 'Manage', 'Mint', 'Names']}/>
+        <div style={{display: 'none'}}>
+          <p>Owned contract: {appState.ownedContract}<br/>
+            Court names contract: {appState.courtNamesContract}<br/>
+            Controlled court: {appState.courtId}</p>
+        </div>
         <H2>Manage</H2>
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
         <H2>Send any amount of tokens to recepients of your choice.</H2>
@@ -243,21 +247,29 @@ class CourtNamesForm extends React.Component {
     .then(abi => {
       let [abi1, abi2] = abi
         
-      this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
-      this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
+      if (!/^0x0+$/.test(this.props.ownedContract))
+        this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
+      if (!/^0x0+$/.test(this.props.courtNamesContract))
+        this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
 
       // FIXME: Does not work (https://github.com/aragon/aragon.js/issues/362)
-      this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
-        .subscribe(events => this.processCourtEvents(events))
-      this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-        .subscribe(events => this.processNameEvents(events))
-      this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-        .subscribe(events => this.processNameEvents(events))
-      this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
-        .then(function(values) {
-          widget.trustedCourts = values;
-          widget.updateTrustedCourts()
-        })
+      if (this.ownedContractHandle) {
+        this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
+          .subscribe(events => this.processCourtEvents(events))
+      }
+      if (this.courtNamesContractHandle) {
+        this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+          .subscribe(events => this.processNameEvents(events))
+        this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
+          .subscribe(events => this.processNameEvents(events))
+      }
+      if (this.ownedContractHandle) {
+        this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
+          .then(function(values) {
+            widget.trustedCourts = values;
+            widget.updateTrustedCourts()
+          })
+      }
     });
   }
 

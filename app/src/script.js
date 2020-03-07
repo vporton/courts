@@ -12,6 +12,7 @@ app.store(async (state, { event }) => {
     nextState.ownedContract = await getOwnedContract()
     nextState.courtNamesContract = await getCourtNamesContract()
     nextState.courtId = await getCourtId()
+    nextState.selectedTab = 3
   }
 
   switch (event) {
