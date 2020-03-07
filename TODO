@@ -1,9 +1,6 @@
 - Fix the bug of always using "allEvents" with "external_past_events":
   https://github.com/aragon/aragon.js/issues/362
-
-- The top part of the UI is hidden when the vertical window size is small.
-
-- Tabbed UI (split into multiple apps?)
+  (Currently solved by distributing aragon.js/ with our software.)
 
 - More roles.
 
