@@ -33,6 +33,14 @@ contract CourtWrapper is AragonApp {
     }
 
     /**
+      * @notice Set owner of our core contract to `_owner` (dangerous, irreversible operation!)
+      */
+    function setContractOwner(address _owner) external auth(JUDGE_ROLE) {
+      // require(_owner != 0);
+      ownedContract.setOwner(courtId, _owner);
+    }
+    
+    /**
       * @notice Transfers `_value` tokens of an `_id` from the `_from` address to the `_to` address specified (with safety call).
       */
     function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {

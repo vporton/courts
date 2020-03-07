@@ -43,11 +43,12 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, courtNamesValid: false, courtValid: false
+      ownedValid: false, courtNamesValid: false, courtValid: false, ownerValid: false
     }
     this.ownedInput = React.createRef()
     this.courtNamesInput = React.createRef()
     this.courtInput = React.createRef()
+    this.ownerInput = React.createRef()
   }
 
   onOwnedChange() {
@@ -76,6 +77,16 @@ class ManageForm extends React.Component {
     this.setState({courtValid: valid})
   }
 
+  onOwnerChange() {
+    try {
+      const address = toChecksumAddress(this.ownerInput.current.value)
+      this.setState({ownerValid: true})
+    } catch(e) { 
+      console.error('invalid Ethereum address', e.message)
+      this.setState({ownerValid: false})
+    }
+  }
+
   valid() {
     return this.state.ownedValid && this.state.courtNamesValid && this.state.courtValid
   }
@@ -84,6 +95,10 @@ class ManageForm extends React.Component {
     return this.props.api.setCourt(this.ownedInput.current.value,
                                    this.courtNamesInput.current.value,
                                    this.courtInput.current.value).toPromise()
+  }
+  
+  changeOwner() {
+    return this.props.api.setContractOwner(this.ownerInput.current.value).toPromise()
   }
   
   render() {
@@ -113,6 +128,14 @@ class ManageForm extends React.Component {
         </table>
         <button disabled={this.valid() ? "" : "disabled"}
                 onClick={this.changeCourt.bind(this)}>Change</button>
+        <div style={{background: 'red', padding: '3px', 'margin-top': '0.5ex'}}>
+          <H2>Danger zone:</H2>
+          Core contract owner:
+          <input ref={this.ownerInput} onChange={this.onOwnerChange.bind(this)}
+                className={this.state.ownerValid ? "" : "error"}/>
+          <button disabled={this.state.ownerValid ? "" : "disabled"}
+                  onClick={this.changeOwner.bind(this)}>Change</button>
+        </div>
       </div>
     )
   }

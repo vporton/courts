@@ -15,8 +15,6 @@
 
 - Intercourt transfer in UI.
 
-- setOwner().
-
 - UI for new court creation.
 
 - Can we optimize by loading only latest court names, not historic ones from Ethereum events?

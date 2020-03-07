@@ -12,6 +12,6 @@ echo "Deploying court names contract..."
 RewardCourtNames="$(npx aragon deploy RewardCourtNames --init $RewardCourts | sed -n 's/.* at: \(.*\)/\1/'p)"
 echo RewardCourtNames=$RewardCourtNames
 
-WRAPPER=$(dao apps $DAO | perl -n -e '/\breward.open@.*?(0x[0-9a-fA-F]*)/ && print $1')
+WRAPPER=$(npx dao apps $DAO | perl -n -e '/\breward.open@.*?(0x[0-9a-fA-F]*)/ && print $1')
 echo "Setting wrapper for this court..."
 npx dao exec $DAO $WRAPPER setCourt $RewardCourts $RewardCourtNames 0
