@@ -43,14 +43,14 @@ contract CourtWrapper is AragonApp {
     // TODO: @formatPct here is a hack.
     
     /**
-      * @notice Transfers `@formatPct(_value, 10^20, 18)` tokens of an `_id` from the `_from` address to the `_to` address specified (with safety call).
+      * @notice Transfers `@formatPct(_value, 10^20, 18)` tokens of an `_id` to the `_to` address specified (with safety call).
       */
     function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         ownedContract.safeTransferFrom(_from, _to, _id, _value, _data);
     }
 
     /**
-      * @notice Mints `@formatPct(_value, 10^20, 18)` intercourt tokens #`_intercourtToken` from the `_from` address to the `_to` address specified.
+      * @notice Mints `@formatPct(_value, 10^20, 18)` intercourt tokens #`_intercourtToken` to the `_to` address specified.
       */
     function mint(address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
