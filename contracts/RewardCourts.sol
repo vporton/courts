@@ -279,19 +279,19 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         MUST revert on any other error.
         MUST emit the `TransferSingle` event to reflect the balance change.
         After the above conditions are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call `onERC1155Received` on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
-        @param _from    Source address
         @param _to      Target address
         @param _id      ID of the token type
         @param _value   Transfer amount
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
         @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function mintFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data, uint256[] _courtsPath) external {
+    function mint(address _to, uint256 _id, uint256 _value, bytes _data, uint256[] _courtsPath) external {
 
         require(_to != address(0x0), "_to must be non-zero.");
-        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+        uint256 _court = _getCourt(_id);
+        require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
-        _doMintFrom(_from, _to, _id, _value, _courtsPath);
+        _doMint(_to, _id, _value, _courtsPath);
 
         // MUST emit event
         emit TransferSingle(msg.sender, 0x0, _to, _id, _value);
@@ -299,7 +299,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
         if (_to.isContract()) {
-            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id, _value, _data);
+            _doSafeTransferAcceptanceCheck(msg.sender, address(this), _to, _id, _value, _data);
         }
     }
 
@@ -312,25 +312,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         MUST emit `TransferSingle` or `TransferBatch` event(s) such that all the balance changes are reflected.
         Balance changes and events MUST follow the ordering of the arrays (_ids[0]/_values[0] before _ids[1]/_values[1], etc).
         After the above conditions for the transfer(s) in the batch are met, this function MUST check if `_to` is a smart contract (e.g. code size > 0). If so, it MUST call the relevant `ERC1155TokenReceiver` hook(s) on `_to` and act appropriately (see "Safe Transfer Rules" section of the standard).
-        @param _from    Source address
         @param _to      Target address
         @param _ids     IDs of each token type (order and length must match _values array)
         @param _values  Transfer amounts per token type (order and length must match _ids array)
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
         @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function batchMintFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data, uint256[] _courtsPath) external {
+    function batchMint(address _to, uint256[] _ids, uint256[] _values, bytes _data, uint256[] _courtsPath) external {
 
         // MUST Throw on errors
         require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
-        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+        uint256 _court = _getCourt(_id);
+        require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
         for (uint256 i = 0; i < _ids.length; ++i) {
             uint256 _id = _ids[i];
             uint256 _value = _values[i];
 
-            _doMintFrom(_from, _to, _id, _value, _courtsPath);
+            _doMint(_to, _id, _value, _courtsPath);
         }
 
         // Note: instead of the below batch versions of event and acceptance check you MAY have emitted a TransferSingle
@@ -344,7 +344,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // Now that the balances are updated and the events are emitted,
         // call onERC1155BatchReceived if the destination is a contract.
         if (_to.isContract()) {
-            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
+            _doSafeBatchTransferAcceptanceCheck(msg.sender, address(this), _to, _ids, _values, _data);
         }
     }
 
@@ -514,7 +514,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         balances[_id][_to]   = _value.add(balances[_id][_to]);
     }
 
-    function _doMintFrom(address _from, address _to, uint256 _id, uint256 _value, uint256[] _courtsPath) private {
+    function _doMint(address _to, uint256 _id, uint256 _value, uint256[] _courtsPath) private {
 
         uint256 _court = _getCourt(_id);
 

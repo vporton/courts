@@ -52,10 +52,10 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Mints `@formatPct(_value, 10^20, 18)` intercourt tokens #`_intercourtToken` from the `_from` address to the `_to` address specified.
       */
-    function mintFrom(address _from, address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
+    function mint(address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
         uint256[] memory _courtsPath;
-        //ownedContract.mintFrom(_from, _to, _id, _value, _data, _courtsPath); // FIXME: uncomment
+        ownedContract.mint(_to, _id, _value, _data, _courtsPath);
     }
 
     /**

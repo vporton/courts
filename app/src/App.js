@@ -14,6 +14,7 @@ function App() {
     ? parseInt(pathParts[1], 10) - 1
     : 0
 
+     if(api) console.log(currentApp.appAddress)
   return (
     <Main>
       {isSyncing && <Syncing />}

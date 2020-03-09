@@ -23,22 +23,12 @@ contract("RewardCourts", accounts => {
       .then(async args => {
         let [instance, courtId, ICTokenId] = args;
         let token = generateTokenId(courtId, ICTokenId)
-        await instance.mintFrom(accounts[0], accounts[1], token, 12, [], [], {from: accounts[0]})
+        await instance.mint(accounts[1], token, 12, [], [], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[1], token), 12, "Wrong minted amount")
         {
           let error = true;
           try {
-            await instance.mintFrom(accounts[2], accounts[1], token, 12, [], [], {from: accounts[0]})
-          }
-          catch(e) {
-            error = false;
-          }
-          assert.isOk(!error, "Minting from another's wallet")
-        }
-        {
-          let error = true;
-          try {
-            await instance.mintFrom(accounts[0], accounts[1], generateTokenId(100, 100), 12, [], [], {from: accounts[0]})
+            await instance.mint(accounts[1], generateTokenId(100, 100), 12, [], [], {from: accounts[0]})
           }
           catch(e) {
             error = false;
@@ -99,7 +89,7 @@ contract("RewardCourts", accounts => {
         await instance.trustCourts(courtId3, [courtId2]);
 
         let token = generateTokenId(courtId1, ICTokenId)
-        await instance.mintFrom(accounts[0], accounts[1], token, 10000, [], [], {from: accounts[0]})
+        await instance.mint(accounts[1], token, 10000, [], [], {from: accounts[0]})
         
         {
           let error = true;
@@ -144,14 +134,14 @@ contract("RewardCourts", accounts => {
 
         let srcToken = generateTokenId(courtId1, ICTokenId)
         let dstToken = generateTokenId(courtId3, ICTokenId)
-        await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[0]})
+        await instance.mint(accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[0]})
         assert.equal(await instance.balanceOf.call(accounts[3], dstToken), 1000, "Wrong minted amount")
         
         {
           let error = true;
           try {
             // courtId2 does not trust itself.
-            await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId2], {from: accounts[0]})
+            await instance.mint(accounts[3], srcToken, 1000, [], [courtId2, courtId2], {from: accounts[0]})
           }
           catch(e) {
             error = false;
@@ -162,7 +152,7 @@ contract("RewardCourts", accounts => {
         {
           let error = true;
           try {
-            await instance.mintFrom(accounts[0], accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[1]})
+            await instance.mint(accounts[3], srcToken, 1000, [], [courtId2, courtId3], {from: accounts[1]})
           }
           catch(e) {
             error = false;
