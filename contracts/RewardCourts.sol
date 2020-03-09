@@ -10,6 +10,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
+    
+    uint8 public constant decimals = 18;
 
     uint256 internal courtNonce;
     uint256 internal icTokenNonce;

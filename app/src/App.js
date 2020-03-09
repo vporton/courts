@@ -395,7 +395,7 @@ class MintForm extends React.Component {
   }
 
   onAmountChange() {
-    this.setState({amountValid: /^[0-9]+$/.test(this.amountInput.current.value)})
+    this.setState({amountValid: /^[0-9]+(\.[0-9]+)?$/.test(this.amountInput.current.value)})
   }
 
   valid() {
@@ -406,7 +406,7 @@ class MintForm extends React.Component {
     return this.props.api.mintFrom(this.props.ownedContract,
                                    this.recepientInput.current.value,
                                    this.ICTokenInput.current.value,
-                                   this.amountInput.current.value,
+                                   String(BigInt(this.amountInput.current.value * (10**18))),
                                    []).toPromise()
   }
   
@@ -434,7 +434,7 @@ class MintForm extends React.Component {
             <tr>
               <TH><label>Amount:</label></TH>
               <td><input ref={this.amountInput}
-                        id="amount" type="number"
+                        id="amount" type="text"
                         onChange={this.onAmountChange.bind(this)}
                         className={this.state.amountValid ? "" : "error"}/></td>
             </tr>
