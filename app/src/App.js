@@ -14,7 +14,6 @@ function App() {
     ? parseInt(pathParts[1], 10) - 1
     : 0
 
-     if(api) console.log(currentApp.appAddress)
   return (
     <Main>
       {isSyncing && <Syncing />}
@@ -404,11 +403,10 @@ class MintForm extends React.Component {
   }
   
   mint() {
-    return this.props.api.mintFrom(this.props.ownedContract,
-                                   this.recepientInput.current.value,
-                                   this.ICTokenInput.current.value,
-                                   String(BigInt(this.amountInput.current.value * (10**18))),
-                                   []).toPromise()
+    return this.props.api.mint(this.recepientInput.current.value,
+                               this.ICTokenInput.current.value,
+                               String(BigInt(this.amountInput.current.value * (10**18))),
+                               []).toPromise()
   }
   
   render() {
