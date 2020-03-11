@@ -11,7 +11,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 {
     using SafeMath for uint256;
     using Address for address;
-    
+
     uint8 public constant decimals = 18;
 
     uint256 internal courtNonce;
@@ -22,22 +22,22 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     // owner => (operator => approved)
     mapping (address => mapping(address => bool)) internal operatorApproval;
-    
+
     // token => (owner => spentLimit)
     //mapping (address => mapping (address => uint256)) public spentLimit; // It is better done in the wrapper (voting) contract.
-    
+
     // truster => (trustee => bool)
     mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
-    
+
     // truster => trustees[]
     mapping (uint256 => uint256[]) public trustedCourtsList;
-    
+
     // token => court
     //mapping (address => uint256) public tokenControllingCourts;
 
     // token => intercourt token
     //mapping (address => uint256) public interCourtTokens;
-    
+
     // court ID => owner
     mapping (uint256 => address) public courtOwners;
 
@@ -65,7 +65,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     bytes4 constant private INTERFACE_SIGNATURE_ERC1155 = 0xd9b67a26;
 
     bytes4 constant private INTERFACE_SIGNATURE_URI = 0x0e89341c;
-    
+
     function supportsInterface(bytes4 _interfaceId)
     public
     view
@@ -263,7 +263,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         for (uint i = 0; i < _ids.length; ++i) {
             _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
-        
+
         // Now that the balances are updated and the events are emitted,
         // call onERC1155BatchReceived if the destination is a contract.
         if (_to.isContract()) {
@@ -457,7 +457,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //     require(courtOwners[_intercourtToken] == msg.sender); // Also, it is not a court.
     //     emit URI(_uri, _id);
     // }
-    
+
     /**
         @notice Trust these courts.
         @param _truster The truster court
@@ -473,7 +473,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             if (!trustedCourts[_truster][_trustees[i]])
                 _newLength += 1;
         }
-        
+
         trustedCourtsList[_truster].length = _newLength;
 
         for (uint j = 0; j < _trustees.length; ++j) {
@@ -522,13 +522,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
         uint256 _intercourtToken = _getIntercourtToken(_id);
-        
+
         for (uint i = 0; i < _courtsPath.length; ++i) {
             uint256 _nextCourt = _courtsPath[i];
             require(trustedCourts[_nextCourt][_court], "A court in the path is not in a trusted list.");
             _court = _nextCourt;
         }
-    
+
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
 
         uint256 _id2 = _generateTokenId(_court, _intercourtToken);
@@ -555,7 +555,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // If you want predictable revert reasons consider using low level _to.call() style instead so the revert does not bubble up and you can revert yourself on the ERC1155_BATCH_ACCEPTED test.
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
-    
+
     function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
         require (_court != 0 && _intercourtToken != 0, "Wrong values.");
 
@@ -567,15 +567,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         return (_court << 128) + _intercourtToken;
     }
-    
+
     function _getCourt(uint256 _id) public returns (uint256) {
         return _id >> 128;
     }
-    
+
     function _getIntercourtToken(uint256 _id) public returns (uint256) {
         return _id & ((1 << 128) - 1);
     }
-    
+
     function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] _courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
