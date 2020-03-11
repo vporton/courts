@@ -70,13 +70,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     public
     view
     returns (bool) {
-         if (_interfaceId == INTERFACE_SIGNATURE_ERC165 ||
-             _interfaceId == INTERFACE_SIGNATURE_ERC1155 ||
-             _interfaceId == INTERFACE_SIGNATURE_URI) {
-            return true;
-         }
+        if (_interfaceId == INTERFACE_SIGNATURE_ERC165 ||
+            _interfaceId == INTERFACE_SIGNATURE_ERC1155 ||
+            _interfaceId == INTERFACE_SIGNATURE_URI) {
+          return true;
+        }
 
-         return false;
+        return false;
     }
 
 /////////////////////////////////////////// ERC1155 //////////////////////////////////////////////
@@ -170,7 +170,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return balances[_id][_owner];
     }
 
-
     /**
         @notice Get the balance of multiple account/token pairs
         @param _owners The addresses of the token holders
@@ -179,7 +178,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
      */
     function balanceOfBatch(address[] _owners, uint256[] _ids) external view returns (uint256[] memory) {
 
-        require(_owners.length == _ids.length, "owners and ids lengths do not match"  );
+        require(_owners.length == _ids.length, "owners and ids lengths do not match");
 
         uint256[] memory balances_ = new uint256[](_owners.length);
 
