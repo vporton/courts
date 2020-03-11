@@ -24,7 +24,7 @@ dao install <ORG NAME> reward.open.aragonpm.eth --environment rinkeby
 
 * Execute the following to find the new app <PROXY ADDRESS>:
 ```
-npx dao apps testrewardcourt4 --all --env rinkeby
+npx dao apps <ORG NAME> --all --env rinkeby
 ```
 
 * Execute:
