@@ -39,7 +39,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-standard": "^4.0.0",
-    "ethlint": "^1.2.4",
+    "ethlint": "^1.2.5",
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.9.1",
     "husky": "^4.2.3",

@@ -178,7 +178,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
      */
     function balanceOfBatch(address[] _owners, uint256[] _ids) external view returns (uint256[] memory) {
 
-        require(_owners.length == _ids.length);
+        require(_owners.length == _ids.length, "owners and ids lengths do not match"  );
 
         uint256[] memory balances_ = new uint256[](_owners.length);
 
@@ -420,7 +420,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _owner   New owner
     */
     function setOwner(uint256 _court, address _owner) external {
-        require(courtOwners[_court] == msg.sender);
+        require(courtOwners[_court] == msg.sender, "We are not the owner");
 
         courtOwners[_court] = _owner;
         emit SetOwner(_court, _owner);
@@ -530,8 +530,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     
         require(_court != 0 && _intercourtToken != 0, "Invalid token.");
 
-        _id = _generateTokenId(_court, _intercourtToken);
-        balances[_id][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
+        uint256 _id2 = _generateTokenId(_court, _intercourtToken);
+        balances[_id2][_to] = _value.add(balances[_id][_to]); // SafeMath will throw if overflow
     }
 
     function _doSafeTransferAcceptanceCheck(address _operator, address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) internal {
@@ -556,13 +556,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
     
     function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
-        require (_court != 0 && _intercourtToken != 0);
+        require (_court != 0 && _intercourtToken != 0, "Wrong values.");
 
         _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
     }
 
     function _uncheckedGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
-        require(_court < 1 << 128 && _intercourtToken < 1 << 128);
+        require(_court < 1 << 128 && _intercourtToken < 1 << 128, "Wrong values.");
 
         return (_court << 128) + _intercourtToken;
     }
@@ -578,7 +578,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] _courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
-        require(_courtsPath.length != 0);
+        require(_courtsPath.length != 0, "length must be nonzero");
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
         //require(checkNoDuplicates(_courtsPath), "Duplicate courts.");
 
