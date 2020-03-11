@@ -436,7 +436,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         emit CourtCreated(msg.sender, _id);
     }
 
-
     /**
         @notice Create an intercourt token.
         @return           Intercourt token
