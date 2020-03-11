@@ -1,4 +1,4 @@
-- Now value is in Wei, that's wrong!
+- Trust in a separate tab.
 
 - Fix the bug of always using "allEvents" with "external_past_events":
   https://github.com/aragon/aragon.js/issues/362
