@@ -21,7 +21,7 @@ contract CourtWrapper is AragonApp {
     }
 
     /**
-      * @notice Set us to own the contract `_ownedContract` with court `_courtId`.
+      * @notice Set us to own the contract `_ownedContract` with court `_courtId` and names contract `_courtNamesContract`.
       */
     function setCourt(RewardCourts _ownedContract, RewardCourtNames _courtNamesContract, uint256 _courtId) external auth(JUDGE_ROLE) {
         ownedContract = _ownedContract;
