@@ -107,6 +107,12 @@ contract("RewardCourts", accounts => {
         
         return [instance, courtId1, courtId2, courtId3, ICTokenId]
       })
+      .then(async args => {
+        let [instance, courtId1, courtId2, courtId3, ICTokenId] = args
+        // Check no exceptions on untrust. // TODO: More checks for untrust working correctly.
+        await instance.untrustCourts(courtId2, [courtId1]);
+        await instance.untrustCourts(courtId3, [courtId2]);
+      })
     })
   })
 

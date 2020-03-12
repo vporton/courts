@@ -496,7 +496,12 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
             if (trustedCourts[_truster][_trustees[i]]) {
                 trustedCourts[_truster][_trustees[i]] = false;
-                trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
+                // FIXME: If remained only one?
+                if (max >= 1) {
+                    trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
+                } else {
+                    trustedCourtsList[_truster].length = 0;
+                }
             }
         }
         trustedCourtsList[_truster].length = max;
