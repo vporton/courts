@@ -577,7 +577,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     function _uncheckedGenerateTokenId(uint128 _court, uint128 _intercourtToken) public returns (uint256 _token) {
-        return (uint256(_court) << 128) + uint256(_intercourtToken);
+        return (uint256(_court) << 128) | uint256(_intercourtToken);
     }
 
     function _getCourt(uint256 _id) public returns (uint128) {
