@@ -509,7 +509,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
                 if (max >= 1) {
                     trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
                 } else {
-                    trustedCourtsList[_truster].length = 0;
+                    assert(max == 0);
+                    break;
                 }
             }
         }
