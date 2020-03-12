@@ -27,7 +27,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //mapping (address => mapping (address => uint256)) public spentLimit; // It is better done in the wrapper (voting) contract.
 
     // truster => (trustee => bool)
-    mapping (uint256 => mapping (uint256 => bool)) public trustedCourts; // which courts are trusted
+    mapping (uint256 => mapping (uint256 => bool)) internal trustedCourts; // which courts are trusted
 
     // truster => trustees[]
     mapping (uint256 => uint256[]) public trustedCourtsList;
