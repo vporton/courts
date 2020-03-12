@@ -410,7 +410,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @notice Get `trustedCourtsList` for a court.
         @param _truster Court
     */
-    function getTrustedCourtsList(uint256 _truster) public view returns (uint256[]) {
+    function getTrustedCourtsList(uint256 _truster) external view returns (uint256[]) {
         return trustedCourtsList[_truster];
     }
 
