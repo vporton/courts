@@ -14,7 +14,7 @@ contract CourtWrapper is AragonApp {
 
     RewardCourts public ownedContract;
     RewardCourtNames public courtNamesContract;
-    uint256 public courtId;
+    uint128 public courtId;
 
     function initialize() public onlyInit {
         initialized();
@@ -23,7 +23,7 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Set us to own the contract `_ownedContract` with court `_courtId` and names contract `_courtNamesContract`.
       */
-    function setCourt(RewardCourts _ownedContract, RewardCourtNames _courtNamesContract, uint256 _courtId) external auth(JUDGE_ROLE) {
+    function setCourt(RewardCourts _ownedContract, RewardCourtNames _courtNamesContract, uint128 _courtId) external auth(JUDGE_ROLE) {
         ownedContract = _ownedContract;
         courtNamesContract = _courtNamesContract;
         if (_courtId == 0)
@@ -52,9 +52,9 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Mints `@formatPct(_value, 10^20, 18)` intercourt tokens #`_intercourtToken` to the `_to` address specified.
       */
-    function mint(address _to, uint256 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
+    function mint(address _to, uint128 _intercourtToken, uint256 _value, bytes _data) external auth(JUDGE_ROLE) {
         uint256 _id = ownedContract._uncheckedGenerateTokenId(courtId, _intercourtToken);
-        uint256[] memory _courtsPath;
+        uint128[] memory _courtsPath;
         ownedContract.mint(_to, _id, _value, _data, _courtsPath);
     }
 
@@ -63,21 +63,21 @@ contract CourtWrapper is AragonApp {
      *
      * Allowed to everybody.
      */
-    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
+    function intercourtTransfer(address _from, address _to, uint128 _intercourtToken, uint256 _value, uint128[] _courtsPath, bytes _data) external {
         ownedContract.intercourtTransfer(_from, _to, _intercourtToken, _value, _courtsPath, _data);
     }
 
     /**
      * @notice Rename court #`_courtId` to "`_name`".
      */
-    function setCourtName(uint256 _ourCourtId, uint256 _courtId, string _name) external auth(JUDGE_ROLE) {
+    function setCourtName(uint128 _ourCourtId, uint128 _courtId, string _name) external auth(JUDGE_ROLE) {
         courtNamesContract.setCourtName(_ourCourtId, _courtId, _name);
     }
 
     /**
      * @notice Rename intercourt token #`_icToken` to "`_name`".
      */
-    function renameICToken(uint256 _icToken, string _name) external auth(JUDGE_ROLE) {
+    function renameICToken(uint128 _icToken, string _name) external auth(JUDGE_ROLE) {
         courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
     }
 
@@ -85,15 +85,15 @@ contract CourtWrapper is AragonApp {
      * @notice Create intercourt token named "`_name`".
      */
     function createICToken(string _name) external auth(JUDGE_ROLE) {
-        uint256 _icToken = ownedContract.createIntercourtToken();
+        uint128 _icToken = ownedContract.createIntercourtToken();
         courtNamesContract.setIntercourtTokenName(courtId, _icToken, _name);
     }
 
     /**
      * @notice Trust court "`_trustee`".
      */
-    function trustCourt(uint256 _trustee) {
-        uint256[] memory _trustees = new uint256[](1);
+    function trustCourt(uint128 _trustee) {
+        uint128[] memory _trustees = new uint128[](1);
         _trustees[0] = _trustee;
         ownedContract.trustCourts(courtId, _trustees);
     }
@@ -101,8 +101,8 @@ contract CourtWrapper is AragonApp {
     /**
      * @notice Untrust court "`_trustee`".
      */
-    function untrustCourt(uint256 _trustee) {
-        uint256[] memory _trustees = new uint256[](1);
+    function untrustCourt(uint128 _trustee) {
+        uint128[] memory _trustees = new uint128[](1);
         _trustees[0] = _trustee;
         ownedContract.untrustCourts(courtId, _trustees);
     }

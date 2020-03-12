@@ -14,8 +14,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     uint8 public constant decimals = 18;
 
-    uint256 internal courtNonce;
-    uint256 internal icTokenNonce;
+    uint128 internal courtNonce;
+    uint128 internal icTokenNonce;
 
     // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
@@ -27,25 +27,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     //mapping (address => mapping (address => uint256)) public spentLimit; // It is better done in the wrapper (voting) contract.
 
     // truster => (trustee => bool)
-    mapping (uint256 => mapping (uint256 => bool)) internal trustedCourts; // which courts are trusted
+    mapping (uint128 => mapping (uint128 => bool)) internal trustedCourts; // which courts are trusted
 
     // truster => trustees[]
-    mapping (uint256 => uint256[]) public trustedCourtsList;
+    mapping (uint128 => uint128[]) public trustedCourtsList;
 
     // token => court
-    //mapping (address => uint256) public tokenControllingCourts;
+    //mapping (address => uint128) public tokenControllingCourts;
 
     // token => intercourt token
-    //mapping (address => uint256) public interCourtTokens;
+    //mapping (address => uint128) public interCourtTokens;
 
     // court ID => owner
-    mapping (uint256 => address) public courtOwners;
+    mapping (uint128 => address) public courtOwners;
 
-    event CourtCreated(address indexed owner, uint256 indexed createdCourt);
-    event IntercourtTokenCreated(uint256 indexed ictoken);
-    event SetOwner(uint256 indexed court, address indexed owner);
-    event TrustCourts(uint256 indexed truster, uint256[] trustees);
-    event UntrustCourts(uint256 indexed truster, uint256[] trustees);
+    event CourtCreated(address indexed owner, uint128 indexed createdCourt);
+    event IntercourtTokenCreated(uint128 indexed ictoken);
+    event SetOwner(uint128 indexed court, address indexed owner);
+    event TrustCourts(uint128 indexed truster, uint128[] trustees);
+    event UntrustCourts(uint128 indexed truster, uint128[] trustees);
 
 /////////////////////////////////////////// ERC165 //////////////////////////////////////////////
 
@@ -223,8 +223,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _courtsPath Through which courts to transfer
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
-    function intercourtTransfer(address _from, address _to, uint256 _intercourtToken, uint256 _value, uint256[] _courtsPath, bytes _data) external {
-        uint256[] memory _ids = new uint256[](1);
+    function intercourtTransfer(address _from, address _to, uint128 _intercourtToken, uint256 _value, uint128[] _courtsPath, bytes _data) external {
+        uint128[] memory _ids = new uint128[](1);
         _ids[0] = _intercourtToken;
         uint256[] memory _values = new uint256[](1);
         _values[0] = _value;
@@ -250,23 +250,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _courtsPath Through which courts to transfer
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
-    function intercourtTransferBatch(address _from, address _to, uint256[] _intercourtTokens, uint256[] _values, uint256[] _courtsPath, bytes _data) external {
+    function intercourtTransferBatch(address _from, address _to, uint128[] _intercourtTokens, uint256[] _values, uint128[] _courtsPath, bytes _data) external {
         require(_intercourtTokens.length == _values.length, "_intercourtTokens and _values array length must match.");
 
         _doIntercourtTransferBatch(_from, _to, _intercourtTokens, _values, _courtsPath);
 
-        emit TransferBatch(msg.sender, _from, 0x0, _intercourtTokens, _values);
-        emit TransferBatch(msg.sender, 0x0, _to, _intercourtTokens, _values);
-
-        uint256[] memory _ids = new uint256[](_intercourtTokens.length);
-        for (uint i = 0; i < _ids.length; ++i) {
-            _ids[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
+        uint256[] memory _ids1 = new uint256[](_intercourtTokens.length);
+        uint256[] memory _ids2 = new uint256[](_intercourtTokens.length);
+        for (uint i = 0; i < _intercourtTokens.length; ++i) {
+            _ids1[i] = _generateTokenId(_courtsPath[0], _intercourtTokens[i]);
+            _ids2[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
+
+        emit TransferBatch(msg.sender, _from, 0x0, _ids1, _values);
+        emit TransferBatch(msg.sender, 0x0, _to, _ids2, _values);
 
         // Now that the balances are updated and the events are emitted,
         // call onERC1155BatchReceived if the destination is a contract.
         if (_to.isContract()) {
-            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids, _values, _data);
+            _doSafeBatchTransferAcceptanceCheck(msg.sender, _from, _to, _ids2, _values, _data);
         }
     }
 
@@ -285,10 +287,10 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
         @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function mint(address _to, uint256 _id, uint256 _value, bytes _data, uint256[] _courtsPath) external {
+    function mint(address _to, uint256 _id, uint256 _value, bytes _data, uint128[] _courtsPath) external {
 
         require(_to != address(0x0), "_to must be non-zero.");
-        uint256 _court = _getCourt(_id);
+        uint128 _court = _getCourt(_id);
         require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
         _doMint(_to, _id, _value, _courtsPath);
@@ -318,12 +320,12 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
         @param _courtsPath Mint for trusters (`[]` to mint for ourservers)
     */
-    function batchMint(address _to, uint256[] _ids, uint256[] _values, bytes _data, uint256[] _courtsPath) external {
+    function batchMint(address _to, uint256[] _ids, uint256[] _values, bytes _data, uint128[] _courtsPath) external {
 
         // MUST Throw on errors
         require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
-        uint256 _court = _getCourt(_id);
+        uint128 _court = _getCourt(_id);
         require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
         for (uint256 i = 0; i < _ids.length; ++i) {
@@ -411,7 +413,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _truster Truster
         @param _trustee Trustee
     */
-    function isCourtTrusted(uint256 _truster, uint256 _trustee) external view returns (bool) {
+    function isCourtTrusted(uint128 _truster, uint128 _trustee) external view returns (bool) {
         return trustedCourts[_truster][_trustee];
     }
 
@@ -419,7 +421,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @notice Get `trustedCourtsList` for a court.
         @param _truster Court
     */
-    function getTrustedCourtsList(uint256 _truster) external view returns (uint256[]) {
+    function getTrustedCourtsList(uint128 _truster) external view returns (uint128[]) {
         return trustedCourtsList[_truster];
     }
 
@@ -428,7 +430,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _court   Court
         @param _owner   New owner
     */
-    function setOwner(uint256 _court, address _owner) external {
+    function setOwner(uint128 _court, address _owner) external {
         require(courtOwners[_court] == msg.sender, "We are not the owner");
 
         courtOwners[_court] = _owner;
@@ -439,7 +441,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @notice Create a regular court.
         @return           Court ID
     */
-    function createCourt() external returns (uint256 _id) {
+    function createCourt() external returns (uint128 _id) {
         _id = ++courtNonce;
         courtOwners[_id] = msg.sender;
         emit CourtCreated(msg.sender, _id);
@@ -449,8 +451,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @notice Create an intercourt token.
         @return           Intercourt token
     */
-    function createIntercourtToken(/*string _uri*/) external returns (uint256) {
-        uint256 _id = ++icTokenNonce;
+    function createIntercourtToken(/*string _uri*/) external returns (uint128) {
+        uint128 _id = ++icTokenNonce;
         // _id is Intercourt token, not a token
         // if (bytes(_uri).length > 0)
         //     emit URI(_uri, _id);
@@ -470,7 +472,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _truster The truster court
         @param _trustees The trustee courts to add
     */
-    function trustCourts(uint256 _truster, uint256[] _trustees) external {
+    function trustCourts(uint128 _truster, uint128[] _trustees) external {
         require(courtOwners[_truster] == msg.sender, "We are not court owner");
 
         uint _pos = trustedCourtsList[_truster].length; // position to insert
@@ -497,7 +499,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _truster The truster court
         @param _trustees The trustee courts to remove
     */
-    function untrustCourts(uint256 _truster, uint256[] _trustees) external {
+    function untrustCourts(uint128 _truster, uint128[] _trustees) external {
         require(courtOwners[_truster] == msg.sender, "We are not court owner");
 
         uint max = trustedCourtsList[_truster].length;
@@ -527,16 +529,16 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         balances[_id][_to]   = _value.add(balances[_id][_to]);
     }
 
-    function _doMint(address _to, uint256 _id, uint256 _value, uint256[] _courtsPath) private {
+    function _doMint(address _to, uint256 _id, uint256 _value, uint128[] _courtsPath) private {
 
-        uint256 _court = _getCourt(_id);
+        uint128 _court = _getCourt(_id);
 
         //require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
-        uint256 _intercourtToken = _getIntercourtToken(_id);
+        uint128 _intercourtToken = _getIntercourtToken(_id);
 
         for (uint i = 0; i < _courtsPath.length; ++i) {
-            uint256 _nextCourt = _courtsPath[i];
+            uint128 _nextCourt = _courtsPath[i];
             require(trustedCourts[_nextCourt][_court], "A court in the path is not in a trusted list.");
             _court = _nextCourt;
         }
@@ -568,27 +570,25 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
 
-    function _generateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
+    function _generateTokenId(uint128 _court, uint128 _intercourtToken) public returns (uint256 _token) {
         require (_court != 0 && _intercourtToken != 0, "Wrong values.");
 
         _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
     }
 
-    function _uncheckedGenerateTokenId(uint256 _court, uint256 _intercourtToken) public returns (uint256 _token) {
-        require(_court < 1 << 128 && _intercourtToken < 1 << 128, "Wrong values.");
-
-        return (_court << 128) + _intercourtToken;
+    function _uncheckedGenerateTokenId(uint128 _court, uint128 _intercourtToken) public returns (uint256 _token) {
+        return (uint256(_court) << 128) + uint256(_intercourtToken);
     }
 
-    function _getCourt(uint256 _id) public returns (uint256) {
-        return _id >> 128;
+    function _getCourt(uint256 _id) public returns (uint128) {
+        return uint128(_id >> 128);
     }
 
-    function _getIntercourtToken(uint256 _id) public returns (uint256) {
-        return _id & ((1 << 128) - 1);
+    function _getIntercourtToken(uint256 _id) public returns (uint128) {
+        return uint128(_id & ((1 << 128) - 1));
     }
 
-    function _doIntercourtTransferBatch(address _from, address _to, uint256[] memory _ids, uint256[] memory _values, uint256[] _courtsPath) internal {
+    function _doIntercourtTransferBatch(address _from, address _to, uint128[] memory _ids, uint256[] memory _values, uint128[] _courtsPath) internal {
         require(_to != address(0x0), "_to must be non-zero.");
         assert(_ids.length == _values.length);
         require(_courtsPath.length != 0, "length must be nonzero");
@@ -600,7 +600,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         }
 
         for (uint k = 0; k < _ids.length; ++k) {
-            uint256 _intercourtToken = _ids[k];
+            uint128 _intercourtToken = _ids[k];
             uint256 _fromToken = _generateTokenId(_courtsPath[0], _intercourtToken);
             uint256 _toToken = _generateTokenId(_courtsPath[_courtsPath.length-1], _intercourtToken);
             // SafeMath will throw with insufficient funds _from
