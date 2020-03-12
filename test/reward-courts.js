@@ -113,8 +113,29 @@ contract("RewardCourts", accounts => {
         await instance.untrustCourts(courtId2, [courtId1]);
         await instance.untrustCourts(courtId3, [courtId2]);
       })
-    })
   })
+  it("courts untrust", () => {
+    return RewardCourts.deployed()
+      .then(instance => Promise.all([Promise.resolve(instance),
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createCourt({from: accounts[0]}),
+                                     instance.createCourt({from: accounts[0]})]))
+      .then(async args => {
+        let [instance, courtId1, courtId2, courtId3] = args
+        courtId1 = courtId1.logs[0].args[1]
+        courtId2 = courtId2.logs[0].args[1]
+        courtId3 = courtId3.logs[0].args[1]
+        await instance.trustCourts(courtId1, [courtId2]);
+        assert.equal((await instance.getTrustedCourtsList(courtId1)).length, 1)
+        await instance.trustCourts(courtId1, [courtId3]);
+        assert.equal((await instance.getTrustedCourtsList(courtId1)).length, 2)
+        await instance.untrustCourts(courtId1, [courtId3]);
+        assert.equal((await instance.getTrustedCourtsList(courtId1)).length, 1)
+        await instance.untrustCourts(courtId1, [courtId2]);
+        assert.equal((await instance.getTrustedCourtsList(courtId1)).length, 0)
+      })
+  })
+})
 
 contract("RewardCourts", accounts => {
   it("minting for another court", () => {
