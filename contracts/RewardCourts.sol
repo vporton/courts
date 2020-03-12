@@ -517,7 +517,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         uint256 _court = _getCourt(_id);
 
-        require(courtOwners[_court] == msg.sender, "Not a court owner.");
+        //require(courtOwners[_court] == msg.sender, "Not a court owner.");
 
         uint256 _intercourtToken = _getIntercourtToken(_id);
 
