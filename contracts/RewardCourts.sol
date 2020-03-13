@@ -327,12 +327,13 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         // MUST Throw on errors
         require(_to != address(0x0), "destination address must be non-zero.");
         require(_ids.length == _values.length, "_ids and _values array length must match.");
-        uint128 _court = _getCourt(_id);
-        require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
         for (uint256 i = 0; i < _ids.length; ++i) {
             uint256 _id = _ids[i];
             uint256 _value = _values[i];
+
+            uint128 _court = _getCourt(_id);
+            require(courtOwners[_court] == msg.sender, "Not the court owner.");
 
             _doMint(_to, _id, _value, _courtsPath);
         }
