@@ -29,7 +29,7 @@ function App() {
         <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
       </div>
       <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
-        <H2>Send any amount of tokens to recepients of your choice.</H2>
+        <H2>Send any amount of tokens to recipients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </div>
       <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
