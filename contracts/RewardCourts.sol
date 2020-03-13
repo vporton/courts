@@ -440,7 +440,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     }
 
     /**
-        @notice Create a regular court.
+        @notice Create a court.
         @return           Court ID
     */
     function createCourt() external returns (uint128 _id) {
