@@ -7,12 +7,21 @@ export const app = new Aragon()
 app.store(async (state, { event }) => {
   let nextState = { ...state }
 
+  console.log('TTT')
   // Initial state
   if (nextState.ownedContract == null) {
     nextState.ownedContract = await getOwnedContract()
     nextState.courtNamesContract = await getCourtNamesContract()
     nextState.courtId = await getCourtId()
     nextState.selectedTab = 3
+    
+    abi = await Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
+    let [abi1, abi2] = abi
+      
+    if (!/^0x0+$/.test(nextState.ownedContract))
+      nextState.ownedContractHandle = app.external(nextState.ownedContract, abi1)
+    if (!/^0x0+$/.test(nextState.courtNamesContract))
+      nextState.courtNamesContractHandle = app.external(nextState.courtNamesContract, abi2)
   }
 
   switch (event) {
