@@ -4,10 +4,38 @@ import Aragon, { events } from '@aragon/api'
 
 export const app = new Aragon()
 
+let rewardCourtsJSON = null, courtNamesJSON = null;
+
+function fetchRewardCourtsJSON() {
+  if(rewardCourtsJSON !== null)
+    return rewardCourtsJSON;
+  let f = fetch("public/RewardCourts.json") // TODO: Don't load unnecessary data
+  rewardCourtsJSON = f.then((response) => {
+    return response.json()
+  })
+  .then((json) => {
+    return json.abi
+  })
+  return rewardCourtsJSON
+}
+
+function fetchCourtNamesJSON() {
+  if(courtNamesJSON !== null)
+    return courtNamesJSON;
+  let f = fetch("public/RewardCourtNames.json") // TODO: Don't load unnecessary data
+  courtNamesJSON = f.then((response) => {
+    return response.json()
+  })
+  .then((json) => {
+    return json.abi
+  })
+  return courtNamesJSON
+}
+
 app.store(async (state, { event }) => {
   let nextState = { ...state }
 
-  console.log('TTT')
+  console.log('nextState:', nextState)
   // Initial state
   if (nextState.ownedContract == null) {
     nextState.ownedContract = await getOwnedContract()
