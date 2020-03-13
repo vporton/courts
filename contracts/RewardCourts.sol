@@ -231,13 +231,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         _doIntercourtTransferBatch(_from, _to, _ids, _values, _courtsPath);
 
         // Using _uncheckedGenerateTokenId because already checked in _doIntercourtTransferBatch().
-        emit TransferSingle(msg.sender, _from, 0x0, _uncheckedGenerateTokenId(_courtsPath[0], _intercourtToken), _value);
-        emit TransferSingle(msg.sender, 0x0, _to, _uncheckedGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken), _value);
+        uint256 _id1 = _uncheckedGenerateTokenId(_courtsPath[0], _intercourtToken);
+        uint256 _id2 = _uncheckedGenerateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtToken);
+        emit TransferSingle(msg.sender, _from, 0x0, _id1, _value);
+        emit TransferSingle(msg.sender, 0x0, _to, _id2, _value);
 
         // Now that the balance is updated and the event was emitted,
         // call onERC1155Received if the destination is a contract.
         if (_to.isContract()) {
-            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _intercourtToken, _value, _data);
+            _doSafeTransferAcceptanceCheck(msg.sender, _from, _to, _id2, _value, _data);
         }
     }
 

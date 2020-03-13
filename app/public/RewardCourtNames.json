@@ -6,11 +6,11 @@
       "inputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "",
-          "type": "uint256"
+          "type": "uint128"
         }
       ],
       "name": "icTokenNameChanges",
@@ -29,11 +29,11 @@
       "inputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "",
-          "type": "uint256"
+          "type": "uint128"
         }
       ],
       "name": "courtNameChanges",
@@ -64,12 +64,12 @@
         {
           "indexed": true,
           "name": "ourCourtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "indexed": true,
           "name": "courtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "indexed": false,
@@ -91,12 +91,12 @@
         {
           "indexed": true,
           "name": "ourCourtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "indexed": true,
           "name": "icToken",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "indexed": false,
@@ -117,11 +117,11 @@
       "inputs": [
         {
           "name": "_ourCourtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "_courtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "_name",
@@ -139,11 +139,11 @@
       "inputs": [
         {
           "name": "_ourCourtId",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "_icToken",
-          "type": "uint256"
+          "type": "uint128"
         },
         {
           "name": "_name",
@@ -157,12 +157,12 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.4.24+commit.e67f0147\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint256\"},{\"name\":\"_icToken\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setIntercourtTokenName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint256\"},{\"name\":\"_courtId\",\"type\":\"uint256\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setCourtName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"icTokenNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"courtNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_rewardCourts\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"ourCourtId\",\"type\":\"uint256\"},{\"indexed\":true,\"name\":\"courtId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":true,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetCourtName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"ourCourtId\",\"type\":\"uint256\"},{\"indexed\":true,\"name\":\"icToken\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":true,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetIntercourtTokenName\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":\"RewardCourtNames\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":10000},\"remappings\":[]},\"sources\":{\"/home/porton/Projects/courts/contracts/Address.sol\":{\"keccak256\":\"0xdb09e2900804fd719889bda2d4417302cf59890e46763aeab7f1c903903a38f6\",\"urls\":[\"bzzr://eaf713dd91ba14c78b1bff397b153694e070c84abfc626b61088cfc85fa0cdf1\"]},\"/home/porton/Projects/courts/contracts/Common.sol\":{\"keccak256\":\"0x999e85d8edf6840e7700f6ea4612caffcac959a0afcc6e12f5b060111942c2db\",\"urls\":[\"bzzr://4be8db106e5d51ef80bb85ab1421e03dca34527be01fcc7f546dc9245b1f6f82\"]},\"/home/porton/Projects/courts/contracts/ERC165.sol\":{\"keccak256\":\"0x985227ca7c58debabf304826b08f8772fb7830d1b6bcf90d33ebcc7c712f67a1\",\"urls\":[\"bzzr://31fba66320d6929a3deb9ac76c354b19ee149eff57718eabb6bba1d92f021483\"]},\"/home/porton/Projects/courts/contracts/IERC1155.sol\":{\"keccak256\":\"0x32f3e1b102418586e39478f626c1ae4844dc82cb83b82a0b635dd1e5aafbb038\",\"urls\":[\"bzzr://a4ff87192410b0c61a7779de9b591ccd0aec5dce18bbb79ec468efd8bc7776d5\"]},\"/home/porton/Projects/courts/contracts/IERC1155TokenReceiver.sol\":{\"keccak256\":\"0xeecd362617a15d247b45408017fda83aea2863412d229bd853dc32ecf12518a3\",\"urls\":[\"bzzr://2ded57a7007d35b1f168b130a4e24066d84b8fbe5daa87250917d61218e14604\"]},\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":{\"keccak256\":\"0x015847127a0d2b61df63eefa16b760faa8fd71f4c2291c43e5c908c8450e8fc8\",\"urls\":[\"bzzr://21287b0f1c0eca7a04c499f3d9ac103e80cfd548b4b379d7ea8135e14fd43aab\"]},\"/home/porton/Projects/courts/contracts/RewardCourts.sol\":{\"keccak256\":\"0xfabdb2852dd5d1671ea5108bab6dbd74fba012284ac4be0150f98407e66f4f00\",\"urls\":[\"bzzr://336e2bab5f3c517580890cc2dc0c89e590cfb137fab3afcc04cef98005b80da0\"]},\"@aragon/os/contracts/lib/math/SafeMath.sol\":{\"keccak256\":\"0x2e11c8dcead82c452ef452f4dbced40e20ae105fa4145d920dac6e077b31d846\",\"urls\":[\"bzzr://91dbd0e3335720d4a3d12a90682b8d9834f76e75918c1f646a84debb38089ece\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5060405160208061051e833981016040525160008054600160a060020a03909216600160a060020a03199092169190911790556104cc806100526000396000f3006080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063cdaf140114610090578063e2493d53146100b8578063fffe76d6146100e5575b600080fd5b34801561007257600080fd5b5061008e60048035906024803591604435918201910135610100565b005b34801561009c57600080fd5b5061008e600480359060248035916044359182019101356102b3565b3480156100c457600080fd5b506100d3600435602435610466565b60408051918252519081900360200190f35b3480156100f157600080fd5b506100d3600435602435610483565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561017857600080fd5b505af115801561018c573d6000803e3d6000fd5b505050506040513d60208110156101a257600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461022657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b600084815260026020908152604080832086845282529182902054825182815291820184905291859187917f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c9187918791908190810184848082843760405192018290039550909350505050a4505060009182526002602090815260408084209284529190529020439055565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561032b57600080fd5b505af115801561033f573d6000803e3d6000fd5b505050506040513d602081101561035557600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103d957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b600084815260016020908152604080832086845282529182902054825182815291820184905291859187917f203fb99c582210f7c473d3db2bbfa15a0548242b113a1c8f6d09f7fe638c7a7c9187918791908190810184848082843760405192018290039550909350505050a4505060009182526001602090815260408084209284529190529020439055565b600260209081526000928352604080842090915290825290205481565b6001602090815260009283526040808420909152908252902054815600a165627a7a723058206b6db23db214408d0e85d76500f11c11066b0584086183af386a5a3b23abe9df0029",
-  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b615a8d8114610066578063cdaf140114610090578063e2493d53146100b8578063fffe76d6146100e5575b600080fd5b34801561007257600080fd5b5061008e60048035906024803591604435918201910135610100565b005b34801561009c57600080fd5b5061008e600480359060248035916044359182019101356102b3565b3480156100c457600080fd5b506100d3600435602435610466565b60408051918252519081900360200190f35b3480156100f157600080fd5b506100d3600435602435610483565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561017857600080fd5b505af115801561018c573d6000803e3d6000fd5b505050506040513d60208110156101a257600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461022657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b600084815260026020908152604080832086845282529182902054825182815291820184905291859187917f4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c9187918791908190810184848082843760405192018290039550909350505050a4505060009182526002602090815260408084209284529190529020439055565b60008054604080517f6bd7fa5d000000000000000000000000000000000000000000000000000000008152600481018890529051339373ffffffffffffffffffffffffffffffffffffffff90931692636bd7fa5d92602480820193602093909283900390910190829087803b15801561032b57600080fd5b505af115801561033f573d6000803e3d6000fd5b505050506040513d602081101561035557600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146103d957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b600084815260016020908152604080832086845282529182902054825182815291820184905291859187917f203fb99c582210f7c473d3db2bbfa15a0548242b113a1c8f6d09f7fe638c7a7c9187918791908190810184848082843760405192018290039550909350505050a4505060009182526001602090815260408084209284529190529020439055565b600260209081526000928352604080842090915290825290205481565b6001602090815260009283526040808420909152908252902054815600a165627a7a723058206b6db23db214408d0e85d76500f11c11066b0584086183af386a5a3b23abe9df0029",
+  "metadata": "{\"compiler\":{\"version\":\"0.4.24+commit.e67f0147\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint128\"},{\"name\":\"\",\"type\":\"uint128\"}],\"name\":\"icTokenNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint128\"},{\"name\":\"_icToken\",\"type\":\"uint128\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setIntercourtTokenName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ourCourtId\",\"type\":\"uint128\"},{\"name\":\"_courtId\",\"type\":\"uint128\"},{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setCourtName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint128\"},{\"name\":\"\",\"type\":\"uint128\"}],\"name\":\"courtNameChanges\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_rewardCourts\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"ourCourtId\",\"type\":\"uint128\"},{\"indexed\":true,\"name\":\"courtId\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":true,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetCourtName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"ourCourtId\",\"type\":\"uint128\"},{\"indexed\":true,\"name\":\"icToken\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":true,\"name\":\"previous\",\"type\":\"uint256\"}],\"name\":\"SetIntercourtTokenName\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":\"RewardCourtNames\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":10000},\"remappings\":[]},\"sources\":{\"/home/porton/Projects/courts/contracts/Address.sol\":{\"keccak256\":\"0xdb09e2900804fd719889bda2d4417302cf59890e46763aeab7f1c903903a38f6\",\"urls\":[\"bzzr://eaf713dd91ba14c78b1bff397b153694e070c84abfc626b61088cfc85fa0cdf1\"]},\"/home/porton/Projects/courts/contracts/Common.sol\":{\"keccak256\":\"0x999e85d8edf6840e7700f6ea4612caffcac959a0afcc6e12f5b060111942c2db\",\"urls\":[\"bzzr://4be8db106e5d51ef80bb85ab1421e03dca34527be01fcc7f546dc9245b1f6f82\"]},\"/home/porton/Projects/courts/contracts/ERC165.sol\":{\"keccak256\":\"0x985227ca7c58debabf304826b08f8772fb7830d1b6bcf90d33ebcc7c712f67a1\",\"urls\":[\"bzzr://31fba66320d6929a3deb9ac76c354b19ee149eff57718eabb6bba1d92f021483\"]},\"/home/porton/Projects/courts/contracts/IERC1155.sol\":{\"keccak256\":\"0x32f3e1b102418586e39478f626c1ae4844dc82cb83b82a0b635dd1e5aafbb038\",\"urls\":[\"bzzr://a4ff87192410b0c61a7779de9b591ccd0aec5dce18bbb79ec468efd8bc7776d5\"]},\"/home/porton/Projects/courts/contracts/IERC1155TokenReceiver.sol\":{\"keccak256\":\"0xeecd362617a15d247b45408017fda83aea2863412d229bd853dc32ecf12518a3\",\"urls\":[\"bzzr://2ded57a7007d35b1f168b130a4e24066d84b8fbe5daa87250917d61218e14604\"]},\"/home/porton/Projects/courts/contracts/RewardCourtNames.sol\":{\"keccak256\":\"0xd2545f7dbb47be0357f6cc518a62614abfb696f487ee1074172506eef2601e09\",\"urls\":[\"bzzr://26f2461ab149df2199601e1a93bee157fd4bbb0be7006296817f552eadb464c1\"]},\"/home/porton/Projects/courts/contracts/RewardCourts.sol\":{\"keccak256\":\"0xdc04fc1c6d3976340fe38055742e247c115d9744f670694a3a07f9025248b199\",\"urls\":[\"bzzr://092b9054a6356587d284c6713ece8bb7d0eb31f084ea17489ee2dc36c7fbcecb\"]},\"@aragon/os/contracts/lib/math/SafeMath.sol\":{\"keccak256\":\"0x2e11c8dcead82c452ef452f4dbced40e20ae105fa4145d920dac6e077b31d846\",\"urls\":[\"bzzr://91dbd0e3335720d4a3d12a90682b8d9834f76e75918c1f646a84debb38089ece\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516020806105f0833981016040525160008054600160a060020a03909216600160a060020a031990921691909117905561059e806100526000396000f3006080604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166305ca32d68114610066578063163b572f146100a8578063397718fc146100e8578063e095b36f14610126575b600080fd5b34801561007257600080fd5b506100966fffffffffffffffffffffffffffffffff60043581169060243516610156565b60408051918252519081900360200190f35b3480156100b457600080fd5b506100e66fffffffffffffffffffffffffffffffff600480358216916024803590911691604435918201910135610173565b005b3480156100f457600080fd5b506100e66fffffffffffffffffffffffffffffffff600480358216916024803590911691604435918201910135610364565b34801561013257600080fd5b506100966fffffffffffffffffffffffffffffffff60043581169060243516610555565b600260209081526000928352604080842090915290825290205481565b60008054604080517fdbbbde570000000000000000000000000000000000000000000000000000000081526fffffffffffffffffffffffffffffffff881660048201529051339373ffffffffffffffffffffffffffffffffffffffff9093169263dbbbde5792602480820193602093909283900390910190829087803b1580156101fc57600080fd5b505af1158015610210573d6000803e3d6000fd5b505050506040513d602081101561022657600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146102aa57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b6fffffffffffffffffffffffffffffffff8085166000818152600260209081526040808320948816808452948252918290205482518281529182018690529392917fd870051039fff4ab0b97e713077359f0190e877f191675b18674f45a0cd90a6b9187918791908190810184848082843760405192018290039550909350505050a450506fffffffffffffffffffffffffffffffff91821660009081526002602090815260408083209390941682529190915220439055565b60008054604080517fdbbbde570000000000000000000000000000000000000000000000000000000081526fffffffffffffffffffffffffffffffff881660048201529051339373ffffffffffffffffffffffffffffffffffffffff9093169263dbbbde5792602480820193602093909283900390910190829087803b1580156103ed57600080fd5b505af1158015610401573d6000803e3d6000fd5b505050506040513d602081101561041757600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461049b57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b6fffffffffffffffffffffffffffffffff8085166000818152600160209081526040808320948816808452948252918290205482518281529182018690529392917f05f4ea672f2d1509c715dbfcf5b934acdae06bca2db96a60a74d3a63766e996a9187918791908190810184848082843760405192018290039550909350505050a450506fffffffffffffffffffffffffffffffff91821660009081526001602090815260408083209390941682529190915220439055565b6001602090815260009283526040808420909152908252902054815600a165627a7a72305820ee87ac3c98dd4b39273e29b12c794e3fdfa626eb2375c6d5f89b861bb60dc54a0029",
+  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166305ca32d68114610066578063163b572f146100a8578063397718fc146100e8578063e095b36f14610126575b600080fd5b34801561007257600080fd5b506100966fffffffffffffffffffffffffffffffff60043581169060243516610156565b60408051918252519081900360200190f35b3480156100b457600080fd5b506100e66fffffffffffffffffffffffffffffffff600480358216916024803590911691604435918201910135610173565b005b3480156100f457600080fd5b506100e66fffffffffffffffffffffffffffffffff600480358216916024803590911691604435918201910135610364565b34801561013257600080fd5b506100966fffffffffffffffffffffffffffffffff60043581169060243516610555565b600260209081526000928352604080842090915290825290205481565b60008054604080517fdbbbde570000000000000000000000000000000000000000000000000000000081526fffffffffffffffffffffffffffffffff881660048201529051339373ffffffffffffffffffffffffffffffffffffffff9093169263dbbbde5792602480820193602093909283900390910190829087803b1580156101fc57600080fd5b505af1158015610210573d6000803e3d6000fd5b505050506040513d602081101561022657600080fd5b505173ffffffffffffffffffffffffffffffffffffffff16146102aa57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b6fffffffffffffffffffffffffffffffff8085166000818152600260209081526040808320948816808452948252918290205482518281529182018690529392917fd870051039fff4ab0b97e713077359f0190e877f191675b18674f45a0cd90a6b9187918791908190810184848082843760405192018290039550909350505050a450506fffffffffffffffffffffffffffffffff91821660009081526002602090815260408083209390941682529190915220439055565b60008054604080517fdbbbde570000000000000000000000000000000000000000000000000000000081526fffffffffffffffffffffffffffffffff881660048201529051339373ffffffffffffffffffffffffffffffffffffffff9093169263dbbbde5792602480820193602093909283900390910190829087803b1580156103ed57600080fd5b505af1158015610401573d6000803e3d6000fd5b505050506040513d602081101561041757600080fd5b505173ffffffffffffffffffffffffffffffffffffffff161461049b57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f596f7520646f6e277420636f6e74726f6c207468697320636f7572742e000000604482015290519081900360640190fd5b6fffffffffffffffffffffffffffffffff8085166000818152600160209081526040808320948816808452948252918290205482518281529182018690529392917f05f4ea672f2d1509c715dbfcf5b934acdae06bca2db96a60a74d3a63766e996a9187918791908190810184848082843760405192018290039550909350505050a450506fffffffffffffffffffffffffffffffff91821660009081526001602090815260408083209390941682529190915220439055565b6001602090815260009283526040808420909152908252902054815600a165627a7a72305820ee87ac3c98dd4b39273e29b12c794e3fdfa626eb2375c6d5f89b861bb60dc54a0029",
   "sourceMap": "55:1450:7:-;;;670:85;8:9:-1;5:2;;;30:1;27;20:12;5:2;670:85:7;;;;;;;;;;;;;720:12;:28;;-1:-1:-1;;;;;720:28:7;;;-1:-1:-1;;;;;;720:28:7;;;;;;;;;55:1450;;;;;;",
-  "deployedSourceMap": "55:1450:7:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1123:380;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1123:380:7;;;;;;;;;;;;;;;;;;;;;761:356;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;761:356:7;;;;;;;;;;;;;;;;;;;350:72;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;350:72:7;;;;;;;;;;;;;;;;;;;;;;;228:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;228:70:7;;;;;;;1123:380;1235:12;;;:37;;;;;;;;;;;;;;1276:10;;1235:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;1235:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1235:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1235:37:7;:51;;;1227:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1388:31;;;;:18;:31;;;;;;;;:41;;;;;;;;;;1335:95;;;;;;;;;;;1388:41;1420:8;;1407:11;;1335:95;;1381:5;;;;1335:95;;;;;1381:5;;;;1335:95;;;;;;;;;;-1:-1:-1;1335:95:7;;-1:-1:-1;;;;1335:95:7;-1:-1:-1;;1440:31:7;;;;:18;:31;;;;;;;;:41;;;;;;;;1484:12;1440:56;;1123:380::o;761:356::-;863:12;;;:37;;;;;;;;;;;;;;904:10;;863:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;863:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;863:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;863:37:7;:51;;;855:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1006:29;;;;:16;:29;;;;;;;;:39;;;;;;;;;;963:83;;;;;;;;;;;1006:39;1036:8;;1023:11;;963:83;;999:5;;;;963:83;;;;;999:5;;;;963:83;;;;;;;;;;-1:-1:-1;963:83:7;;-1:-1:-1;;;;963:83:7;-1:-1:-1;;1056:29:7;;;;:16;:29;;;;;;;;:39;;;;;;;;1098:12;1056:54;;761:356::o;350:72::-;;;;;;;;;;;;;;;;;;;;;;;;:::o;228:70::-;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.0;\n\nimport './RewardCourts.sol';\n\ncontract RewardCourtNames\n{\n    RewardCourts rewardCourts;\n    \n    // See https://ethereum.stackexchange.com/a/78986/36438\n    // ourCourtId => (courtID => prevChange)\n    mapping (uint256 => mapping (uint256 => uint)) public courtNameChanges;\n\n    // ourCourtId => (icToken => prevChange)\n    mapping (uint256 => mapping (uint256 => uint)) public icTokenNameChanges;\n\n    event SetCourtName(uint256 indexed ourCourtId, uint256 indexed courtId, string name, uint indexed previous);\n    event SetIntercourtTokenName(uint256 indexed ourCourtId, uint256 indexed icToken, string name, uint indexed previous);\n    \n    constructor(RewardCourts _rewardCourts) {\n        rewardCourts = _rewardCourts;\n    }\n\n    function setCourtName(uint256 _ourCourtId, uint256 _courtId, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetCourtName(_ourCourtId, _courtId, _name, courtNameChanges[_ourCourtId][_courtId]);\n        courtNameChanges[_ourCourtId][_courtId] = block.number;\n    }\n\n    function setIntercourtTokenName(uint256 _ourCourtId, uint256 _icToken, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetIntercourtTokenName(_ourCourtId, _icToken, _name, icTokenNameChanges[_ourCourtId][_icToken]);\n        icTokenNameChanges[_ourCourtId][_icToken] = block.number;\n    }\n}\n",
+  "deployedSourceMap": "55:1450:7:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;350:72;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;350:72:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;1123:380;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1123:380:7;;;;;;;;;;;;;;;;;;;;;;;;;;;761:356;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;761:356:7;;;;;;;;;;;;;;;;;;;;;;;;;228:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;228:70:7;;;;;;;;;;;;350:72;;;;;;;;;;;;;;;;;;;;;;;;:::o;1123:380::-;1235:12;;;:37;;;;;;;;;;;;;;;1276:10;;1235:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;1235:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1235:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1235:37:7;:51;;;1227:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1388:31;;;;;;;;:18;:31;;;;;;;;:41;;;;;;;;;;;;;;1335:95;;;;;;;;;;;1388:41;;:31;1335:95;;1381:5;;;;1335:95;;;;;1381:5;;;;1335:95;;;;;;;;;;-1:-1:-1;1335:95:7;;-1:-1:-1;;;;1335:95:7;-1:-1:-1;;1440:31:7;;;;;;;;:18;:31;;;;;;;;:41;;;;;;;;;;;1484:12;1440:56;;1123:380::o;761:356::-;863:12;;;:37;;;;;;;;;;;;;;;904:10;;863:51;:12;;;;:24;;:37;;;;;;;;;;;;;;;;;;:12;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;863:37:7;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;863:37:7;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;863:37:7;:51;;;855:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1006:29;;;;;;;;:16;:29;;;;;;;;:39;;;;;;;;;;;;;;963:83;;;;;;;;;;;1006:39;;:29;963:83;;999:5;;;;963:83;;;;;999:5;;;;963:83;;;;;;;;;;-1:-1:-1;963:83:7;;-1:-1:-1;;;;963:83:7;-1:-1:-1;;1056:29:7;;;;;;;;:16;:29;;;;;;;;:39;;;;;;;;;;;1098:12;1056:54;;761:356::o;228:70::-;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.0;\n\nimport './RewardCourts.sol';\n\ncontract RewardCourtNames\n{\n    RewardCourts rewardCourts;\n    \n    // See https://ethereum.stackexchange.com/a/78986/36438\n    // ourCourtId => (courtID => prevChange)\n    mapping (uint128 => mapping (uint128 => uint)) public courtNameChanges;\n\n    // ourCourtId => (icToken => prevChange)\n    mapping (uint128 => mapping (uint128 => uint)) public icTokenNameChanges;\n\n    event SetCourtName(uint128 indexed ourCourtId, uint128 indexed courtId, string name, uint indexed previous);\n    event SetIntercourtTokenName(uint128 indexed ourCourtId, uint128 indexed icToken, string name, uint indexed previous);\n    \n    constructor(RewardCourts _rewardCourts) {\n        rewardCourts = _rewardCourts;\n    }\n\n    function setCourtName(uint128 _ourCourtId, uint128 _courtId, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetCourtName(_ourCourtId, _courtId, _name, courtNameChanges[_ourCourtId][_courtId]);\n        courtNameChanges[_ourCourtId][_courtId] = block.number;\n    }\n\n    function setIntercourtTokenName(uint128 _ourCourtId, uint128 _icToken, string _name) external {\n        require(rewardCourts.courtOwners(_ourCourtId) == msg.sender, \"You don't control this court.\");\n        emit SetIntercourtTokenName(_ourCourtId, _icToken, _name, icTokenNameChanges[_ourCourtId][_icToken]);\n        icTokenNameChanges[_ourCourtId][_icToken] = block.number;\n    }\n}\n",
   "sourcePath": "/home/porton/Projects/courts/contracts/RewardCourtNames.sol",
   "ast": {
     "absolutePath": "/home/porton/Projects/courts/contracts/RewardCourtNames.sol",
@@ -191,7 +191,7 @@
         "id": 564,
         "nodeType": "ImportDirective",
         "scope": 692,
-        "sourceUnit": 2406,
+        "sourceUnit": 2445,
         "src": "25:28:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -219,7 +219,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_RewardCourts_$2405",
+              "typeIdentifier": "t_contract$_RewardCourts_$2444",
               "typeString": "contract RewardCourts"
             },
             "typeName": {
@@ -227,10 +227,10 @@
               "id": 565,
               "name": "RewardCourts",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2405,
+              "referencedDeclaration": 2444,
               "src": "87:12:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                 "typeString": "contract RewardCourts"
               }
             },
@@ -247,44 +247,44 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
             },
             "typeName": {
               "id": 571,
               "keyType": {
                 "id": 567,
-                "name": "uint256",
+                "name": "uint128",
                 "nodeType": "ElementaryTypeName",
                 "src": "237:7:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_uint128",
+                  "typeString": "uint128"
                 }
               },
               "nodeType": "Mapping",
               "src": "228:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
               },
               "valueType": {
                 "id": 570,
                 "keyType": {
                   "id": 568,
-                  "name": "uint256",
+                  "name": "uint128",
                   "nodeType": "ElementaryTypeName",
                   "src": "257:7:7",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   }
                 },
                 "nodeType": "Mapping",
                 "src": "248:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                  "typeString": "mapping(uint256 => uint256)"
+                  "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                  "typeString": "mapping(uint128 => uint256)"
                 },
                 "valueType": {
                   "id": 569,
@@ -311,44 +311,44 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
             },
             "typeName": {
               "id": 577,
               "keyType": {
                 "id": 573,
-                "name": "uint256",
+                "name": "uint128",
                 "nodeType": "ElementaryTypeName",
                 "src": "359:7:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_uint128",
+                  "typeString": "uint128"
                 }
               },
               "nodeType": "Mapping",
               "src": "350:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
               },
               "valueType": {
                 "id": 576,
                 "keyType": {
                   "id": 574,
-                  "name": "uint256",
+                  "name": "uint128",
                   "nodeType": "ElementaryTypeName",
                   "src": "379:7:7",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   }
                 },
                 "nodeType": "Mapping",
                 "src": "370:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                  "typeString": "mapping(uint256 => uint256)"
+                  "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                  "typeString": "mapping(uint128 => uint256)"
                 },
                 "valueType": {
                   "id": 575,
@@ -386,17 +386,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 579,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "448:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -413,17 +413,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 581,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "476:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -509,17 +509,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 589,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "571:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -536,17 +536,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 591,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "599:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -634,7 +634,7 @@
                       "referencedDeclaration": 566,
                       "src": "720:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2444",
                         "typeString": "contract RewardCourts"
                       }
                     },
@@ -649,13 +649,13 @@
                       "referencedDeclaration": 600,
                       "src": "735:13:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2444",
                         "typeString": "contract RewardCourts"
                       }
                     },
                     "src": "720:28:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2444",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -687,7 +687,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                    "typeIdentifier": "t_contract$_RewardCourts_$2444",
                     "typeString": "contract RewardCourts"
                   },
                   "typeName": {
@@ -695,10 +695,10 @@
                     "id": 599,
                     "name": "RewardCourts",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2405,
+                    "referencedDeclaration": 2444,
                     "src": "682:12:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2444",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -754,16 +754,16 @@
                               "referencedDeclaration": 610,
                               "src": "888:11:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             }
                           ],
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             ],
                             "expression": {
@@ -775,7 +775,7 @@
                               "referencedDeclaration": 566,
                               "src": "863:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                                 "typeString": "contract RewardCourts"
                               }
                             },
@@ -789,8 +789,8 @@
                             "referencedDeclaration": 744,
                             "src": "863:24:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
-                              "typeString": "function (uint256) view external returns (address)"
+                              "typeIdentifier": "t_function_external_view$_t_uint128_$returns$_t_address_$",
+                              "typeString": "function (uint128) view external returns (address)"
                             }
                           },
                           "id": 621,
@@ -817,7 +817,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 20687,
+                            "referencedDeclaration": 20726,
                             "src": "904:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -878,10 +878,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        20690,
-                        20691
+                        20729,
+                        20730
                       ],
-                      "referencedDeclaration": 20691,
+                      "referencedDeclaration": 20730,
                       "src": "855:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -919,8 +919,8 @@
                         "referencedDeclaration": 610,
                         "src": "976:11:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -932,8 +932,8 @@
                         "referencedDeclaration": 612,
                         "src": "989:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -962,8 +962,8 @@
                             "referencedDeclaration": 572,
                             "src": "1006:16:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                             }
                           },
                           "id": 634,
@@ -976,8 +976,8 @@
                             "referencedDeclaration": 610,
                             "src": "1023:11:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_uint256",
-                              "typeString": "uint256"
+                              "typeIdentifier": "t_uint128",
+                              "typeString": "uint128"
                             }
                           },
                           "isConstant": false,
@@ -987,8 +987,8 @@
                           "nodeType": "IndexAccess",
                           "src": "1006:29:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                            "typeString": "mapping(uint256 => uint256)"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                            "typeString": "mapping(uint128 => uint256)"
                           }
                         },
                         "id": 636,
@@ -1001,8 +1001,8 @@
                           "referencedDeclaration": 612,
                           "src": "1036:8:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -1020,12 +1020,12 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
                           "typeIdentifier": "t_string_calldata_ptr",
@@ -1043,8 +1043,8 @@
                       "referencedDeclaration": 588,
                       "src": "963:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint128_$_t_uint128_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint128,uint128,string memory,uint256)"
                       }
                     },
                     "id": 637,
@@ -1086,8 +1086,8 @@
                           "referencedDeclaration": 572,
                           "src": "1056:16:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                            "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                           }
                         },
                         "id": 642,
@@ -1100,8 +1100,8 @@
                           "referencedDeclaration": 610,
                           "src": "1073:11:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -1111,8 +1111,8 @@
                         "nodeType": "IndexAccess",
                         "src": "1056:29:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                          "typeString": "mapping(uint256 => uint256)"
+                          "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                          "typeString": "mapping(uint128 => uint256)"
                         }
                       },
                       "id": 643,
@@ -1125,8 +1125,8 @@
                         "referencedDeclaration": 612,
                         "src": "1086:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       "isConstant": false,
@@ -1150,7 +1150,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 20677,
+                        "referencedDeclaration": 20716,
                         "src": "1098:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -1205,17 +1205,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 609,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "783:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -1231,17 +1231,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 611,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "804:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -1322,16 +1322,16 @@
                               "referencedDeclaration": 651,
                               "src": "1260:11:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             }
                           ],
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             ],
                             "expression": {
@@ -1343,7 +1343,7 @@
                               "referencedDeclaration": 566,
                               "src": "1235:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                                 "typeString": "contract RewardCourts"
                               }
                             },
@@ -1357,8 +1357,8 @@
                             "referencedDeclaration": 744,
                             "src": "1235:24:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
-                              "typeString": "function (uint256) view external returns (address)"
+                              "typeIdentifier": "t_function_external_view$_t_uint128_$returns$_t_address_$",
+                              "typeString": "function (uint128) view external returns (address)"
                             }
                           },
                           "id": 662,
@@ -1385,7 +1385,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 20687,
+                            "referencedDeclaration": 20726,
                             "src": "1276:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1446,10 +1446,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        20690,
-                        20691
+                        20729,
+                        20730
                       ],
-                      "referencedDeclaration": 20691,
+                      "referencedDeclaration": 20730,
                       "src": "1227:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1487,8 +1487,8 @@
                         "referencedDeclaration": 651,
                         "src": "1358:11:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -1500,8 +1500,8 @@
                         "referencedDeclaration": 653,
                         "src": "1371:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -1530,8 +1530,8 @@
                             "referencedDeclaration": 578,
                             "src": "1388:18:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                             }
                           },
                           "id": 675,
@@ -1544,8 +1544,8 @@
                             "referencedDeclaration": 651,
                             "src": "1407:11:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_uint256",
-                              "typeString": "uint256"
+                              "typeIdentifier": "t_uint128",
+                              "typeString": "uint128"
                             }
                           },
                           "isConstant": false,
@@ -1555,8 +1555,8 @@
                           "nodeType": "IndexAccess",
                           "src": "1388:31:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                            "typeString": "mapping(uint256 => uint256)"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                            "typeString": "mapping(uint128 => uint256)"
                           }
                         },
                         "id": 677,
@@ -1569,8 +1569,8 @@
                           "referencedDeclaration": 653,
                           "src": "1420:8:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -1588,12 +1588,12 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
                           "typeIdentifier": "t_string_calldata_ptr",
@@ -1611,8 +1611,8 @@
                       "referencedDeclaration": 598,
                       "src": "1335:22:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint128_$_t_uint128_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint128,uint128,string memory,uint256)"
                       }
                     },
                     "id": 678,
@@ -1654,8 +1654,8 @@
                           "referencedDeclaration": 578,
                           "src": "1440:18:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                            "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                           }
                         },
                         "id": 683,
@@ -1668,8 +1668,8 @@
                           "referencedDeclaration": 651,
                           "src": "1459:11:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -1679,8 +1679,8 @@
                         "nodeType": "IndexAccess",
                         "src": "1440:31:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                          "typeString": "mapping(uint256 => uint256)"
+                          "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                          "typeString": "mapping(uint128 => uint256)"
                         }
                       },
                       "id": 684,
@@ -1693,8 +1693,8 @@
                         "referencedDeclaration": 653,
                         "src": "1472:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       "isConstant": false,
@@ -1718,7 +1718,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 20677,
+                        "referencedDeclaration": 20716,
                         "src": "1484:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -1773,17 +1773,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 650,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "1155:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -1799,17 +1799,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 652,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "1176:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -1891,7 +1891,7 @@
         "id": 564,
         "nodeType": "ImportDirective",
         "scope": 692,
-        "sourceUnit": 2406,
+        "sourceUnit": 2445,
         "src": "25:28:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1919,7 +1919,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_RewardCourts_$2405",
+              "typeIdentifier": "t_contract$_RewardCourts_$2444",
               "typeString": "contract RewardCourts"
             },
             "typeName": {
@@ -1927,10 +1927,10 @@
               "id": 565,
               "name": "RewardCourts",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2405,
+              "referencedDeclaration": 2444,
               "src": "87:12:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                 "typeString": "contract RewardCourts"
               }
             },
@@ -1947,44 +1947,44 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
             },
             "typeName": {
               "id": 571,
               "keyType": {
                 "id": 567,
-                "name": "uint256",
+                "name": "uint128",
                 "nodeType": "ElementaryTypeName",
                 "src": "237:7:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_uint128",
+                  "typeString": "uint128"
                 }
               },
               "nodeType": "Mapping",
               "src": "228:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
               },
               "valueType": {
                 "id": 570,
                 "keyType": {
                   "id": 568,
-                  "name": "uint256",
+                  "name": "uint128",
                   "nodeType": "ElementaryTypeName",
                   "src": "257:7:7",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   }
                 },
                 "nodeType": "Mapping",
                 "src": "248:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                  "typeString": "mapping(uint256 => uint256)"
+                  "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                  "typeString": "mapping(uint128 => uint256)"
                 },
                 "valueType": {
                   "id": 569,
@@ -2011,44 +2011,44 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
             },
             "typeName": {
               "id": 577,
               "keyType": {
                 "id": 573,
-                "name": "uint256",
+                "name": "uint128",
                 "nodeType": "ElementaryTypeName",
                 "src": "359:7:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_uint128",
+                  "typeString": "uint128"
                 }
               },
               "nodeType": "Mapping",
               "src": "350:46:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
               },
               "valueType": {
                 "id": 576,
                 "keyType": {
                   "id": 574,
-                  "name": "uint256",
+                  "name": "uint128",
                   "nodeType": "ElementaryTypeName",
                   "src": "379:7:7",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   }
                 },
                 "nodeType": "Mapping",
                 "src": "370:25:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                  "typeString": "mapping(uint256 => uint256)"
+                  "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                  "typeString": "mapping(uint128 => uint256)"
                 },
                 "valueType": {
                   "id": 575,
@@ -2086,17 +2086,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 579,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "448:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -2113,17 +2113,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 581,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "476:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -2209,17 +2209,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 589,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "571:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -2236,17 +2236,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 591,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "599:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -2334,7 +2334,7 @@
                       "referencedDeclaration": 566,
                       "src": "720:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2444",
                         "typeString": "contract RewardCourts"
                       }
                     },
@@ -2349,13 +2349,13 @@
                       "referencedDeclaration": 600,
                       "src": "735:13:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                        "typeIdentifier": "t_contract$_RewardCourts_$2444",
                         "typeString": "contract RewardCourts"
                       }
                     },
                     "src": "720:28:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2444",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -2387,7 +2387,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                    "typeIdentifier": "t_contract$_RewardCourts_$2444",
                     "typeString": "contract RewardCourts"
                   },
                   "typeName": {
@@ -2395,10 +2395,10 @@
                     "id": 599,
                     "name": "RewardCourts",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2405,
+                    "referencedDeclaration": 2444,
                     "src": "682:12:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                      "typeIdentifier": "t_contract$_RewardCourts_$2444",
                       "typeString": "contract RewardCourts"
                     }
                   },
@@ -2454,16 +2454,16 @@
                               "referencedDeclaration": 610,
                               "src": "888:11:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             }
                           ],
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             ],
                             "expression": {
@@ -2475,7 +2475,7 @@
                               "referencedDeclaration": 566,
                               "src": "863:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                                 "typeString": "contract RewardCourts"
                               }
                             },
@@ -2489,8 +2489,8 @@
                             "referencedDeclaration": 744,
                             "src": "863:24:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
-                              "typeString": "function (uint256) view external returns (address)"
+                              "typeIdentifier": "t_function_external_view$_t_uint128_$returns$_t_address_$",
+                              "typeString": "function (uint128) view external returns (address)"
                             }
                           },
                           "id": 621,
@@ -2517,7 +2517,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 20687,
+                            "referencedDeclaration": 20726,
                             "src": "904:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -2578,10 +2578,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        20690,
-                        20691
+                        20729,
+                        20730
                       ],
-                      "referencedDeclaration": 20691,
+                      "referencedDeclaration": 20730,
                       "src": "855:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2619,8 +2619,8 @@
                         "referencedDeclaration": 610,
                         "src": "976:11:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -2632,8 +2632,8 @@
                         "referencedDeclaration": 612,
                         "src": "989:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -2662,8 +2662,8 @@
                             "referencedDeclaration": 572,
                             "src": "1006:16:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                             }
                           },
                           "id": 634,
@@ -2676,8 +2676,8 @@
                             "referencedDeclaration": 610,
                             "src": "1023:11:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_uint256",
-                              "typeString": "uint256"
+                              "typeIdentifier": "t_uint128",
+                              "typeString": "uint128"
                             }
                           },
                           "isConstant": false,
@@ -2687,8 +2687,8 @@
                           "nodeType": "IndexAccess",
                           "src": "1006:29:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                            "typeString": "mapping(uint256 => uint256)"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                            "typeString": "mapping(uint128 => uint256)"
                           }
                         },
                         "id": 636,
@@ -2701,8 +2701,8 @@
                           "referencedDeclaration": 612,
                           "src": "1036:8:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -2720,12 +2720,12 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
                           "typeIdentifier": "t_string_calldata_ptr",
@@ -2743,8 +2743,8 @@
                       "referencedDeclaration": 588,
                       "src": "963:12:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint128_$_t_uint128_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint128,uint128,string memory,uint256)"
                       }
                     },
                     "id": 637,
@@ -2786,8 +2786,8 @@
                           "referencedDeclaration": 572,
                           "src": "1056:16:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                            "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                           }
                         },
                         "id": 642,
@@ -2800,8 +2800,8 @@
                           "referencedDeclaration": 610,
                           "src": "1073:11:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -2811,8 +2811,8 @@
                         "nodeType": "IndexAccess",
                         "src": "1056:29:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                          "typeString": "mapping(uint256 => uint256)"
+                          "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                          "typeString": "mapping(uint128 => uint256)"
                         }
                       },
                       "id": 643,
@@ -2825,8 +2825,8 @@
                         "referencedDeclaration": 612,
                         "src": "1086:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       "isConstant": false,
@@ -2850,7 +2850,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 20677,
+                        "referencedDeclaration": 20716,
                         "src": "1098:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -2905,17 +2905,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 609,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "783:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -2931,17 +2931,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 611,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "804:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -3022,16 +3022,16 @@
                               "referencedDeclaration": 651,
                               "src": "1260:11:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             }
                           ],
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
+                                "typeIdentifier": "t_uint128",
+                                "typeString": "uint128"
                               }
                             ],
                             "expression": {
@@ -3043,7 +3043,7 @@
                               "referencedDeclaration": 566,
                               "src": "1235:12:7",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_RewardCourts_$2405",
+                                "typeIdentifier": "t_contract$_RewardCourts_$2444",
                                 "typeString": "contract RewardCourts"
                               }
                             },
@@ -3057,8 +3057,8 @@
                             "referencedDeclaration": 744,
                             "src": "1235:24:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
-                              "typeString": "function (uint256) view external returns (address)"
+                              "typeIdentifier": "t_function_external_view$_t_uint128_$returns$_t_address_$",
+                              "typeString": "function (uint128) view external returns (address)"
                             }
                           },
                           "id": 662,
@@ -3085,7 +3085,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 20687,
+                            "referencedDeclaration": 20726,
                             "src": "1276:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -3146,10 +3146,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        20690,
-                        20691
+                        20729,
+                        20730
                       ],
-                      "referencedDeclaration": 20691,
+                      "referencedDeclaration": 20730,
                       "src": "1227:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -3187,8 +3187,8 @@
                         "referencedDeclaration": 651,
                         "src": "1358:11:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -3200,8 +3200,8 @@
                         "referencedDeclaration": 653,
                         "src": "1371:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       {
@@ -3230,8 +3230,8 @@
                             "referencedDeclaration": 578,
                             "src": "1388:18:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                              "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                              "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                              "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                             }
                           },
                           "id": 675,
@@ -3244,8 +3244,8 @@
                             "referencedDeclaration": 651,
                             "src": "1407:11:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_uint256",
-                              "typeString": "uint256"
+                              "typeIdentifier": "t_uint128",
+                              "typeString": "uint128"
                             }
                           },
                           "isConstant": false,
@@ -3255,8 +3255,8 @@
                           "nodeType": "IndexAccess",
                           "src": "1388:31:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                            "typeString": "mapping(uint256 => uint256)"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                            "typeString": "mapping(uint128 => uint256)"
                           }
                         },
                         "id": 677,
@@ -3269,8 +3269,8 @@
                           "referencedDeclaration": 653,
                           "src": "1420:8:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -3288,12 +3288,12 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         },
                         {
                           "typeIdentifier": "t_string_calldata_ptr",
@@ -3311,8 +3311,8 @@
                       "referencedDeclaration": 598,
                       "src": "1335:22:7",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
-                        "typeString": "function (uint256,uint256,string memory,uint256)"
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint128_$_t_uint128_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (uint128,uint128,string memory,uint256)"
                       }
                     },
                     "id": 678,
@@ -3354,8 +3354,8 @@
                           "referencedDeclaration": 578,
                           "src": "1440:18:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_uint256_$_t_mapping$_t_uint256_$_t_uint256_$_$",
-                            "typeString": "mapping(uint256 => mapping(uint256 => uint256))"
+                            "typeIdentifier": "t_mapping$_t_uint128_$_t_mapping$_t_uint128_$_t_uint256_$_$",
+                            "typeString": "mapping(uint128 => mapping(uint128 => uint256))"
                           }
                         },
                         "id": 683,
@@ -3368,8 +3368,8 @@
                           "referencedDeclaration": 651,
                           "src": "1459:11:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_uint128",
+                            "typeString": "uint128"
                           }
                         },
                         "isConstant": false,
@@ -3379,8 +3379,8 @@
                         "nodeType": "IndexAccess",
                         "src": "1440:31:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                          "typeString": "mapping(uint256 => uint256)"
+                          "typeIdentifier": "t_mapping$_t_uint128_$_t_uint256_$",
+                          "typeString": "mapping(uint128 => uint256)"
                         }
                       },
                       "id": 684,
@@ -3393,8 +3393,8 @@
                         "referencedDeclaration": 653,
                         "src": "1472:8:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_uint128",
+                          "typeString": "uint128"
                         }
                       },
                       "isConstant": false,
@@ -3418,7 +3418,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 20677,
+                        "referencedDeclaration": 20716,
                         "src": "1484:5:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -3473,17 +3473,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 650,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "1155:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -3499,17 +3499,17 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
                   },
                   "typeName": {
                     "id": 652,
-                    "name": "uint256",
+                    "name": "uint128",
                     "nodeType": "ElementaryTypeName",
                     "src": "1176:7:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
                     }
                   },
                   "value": null,
@@ -3568,9 +3568,71 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "4": {
+      "events": {
+        "0x203fb99c582210f7c473d3db2bbfa15a0548242b113a1c8f6d09f7fe638c7a7c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "ourCourtId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "courtId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "uint256"
+            }
+          ],
+          "name": "SetCourtName",
+          "type": "event"
+        },
+        "0x4d49e29848abd4f2b24a3ff6e5480d28487629ee2f977bc98ffb303ea4e0762c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "ourCourtId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "icToken",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "uint256"
+            }
+          ],
+          "name": "SetIntercourtTokenName",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xdc978C0928a69742Ef629E39a4f7eecbD0300539",
+      "transactionHash": "0x19b5d958b274620c8339fd174508dcc31771cc355361ef88dbf70fccbbf87579"
+    }
+  },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-09T17:54:11.170Z",
+  "updatedAt": "2020-03-13T13:44:44.582Z",
   "devdoc": {
     "methods": {}
   },
