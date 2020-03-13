@@ -546,8 +546,6 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
             _court = _nextCourt;
         }
 
-        require(_court != 0 && _intercourtToken != 0, "Invalid token.");
-
         uint256 _id2 = _generateTokenId(_court, _intercourtToken);
         balances[_id2][_to] = _value.add(balances[_id2][_to]); // SafeMath will throw if overflow
     }
