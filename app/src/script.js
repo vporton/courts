@@ -11,6 +11,7 @@ app.store(async (state, { event }) => {
   if (nextState.ownedContract == null) {
     nextState.ownedContract = await getOwnedContract()
     nextState.courtNamesContract = await getCourtNamesContract()
+    console.log('nextState.courtNamesContract:', nextState.courtNamesContract)
     nextState.courtId = await getCourtId()
     nextState.selectedTab = 3
   }
