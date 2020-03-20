@@ -1,0 +1,54 @@
+This project is to allocate potentially unlimited amounts of crypto money to different recipients including money rewarding any specific kinds of ecological actions such as climate change. Instead of describing the project here in details, I refer you to the project description page: https://github.com/vporton/courts/wiki
+
+I think, my project is the future way of financing ecological projects because the expenses will tend to spread broadly to all mankind, rather than forcing somebody concrete to pay for all the environment.
+
+    Diverse composition of team and advisors with respect to ethnicities, genders, sexual orientation, and other backgrounds.
+
+The project is led by a severely religiously discriminated person from Russia now living in Israel. Another company promised me to allocate more developers and marketers to help me, soon.
+
+    Identification of subgroup of the larger issue, especially focusing on underrepresented or ignored people or concerns
+
+It is exactly this: "focusing on underrepresented or ignored people or concerns", the project was created exactly for this purpose.
+It is a part of a larger issue: financing underrepresented projects, people, and organizations.
+
+    Validation of assumptions through beneficiaries and subject matter experts
+
+I am going to call various NGOs for them to provide expert and benevolent judges for my project.
+
+    The solution is achievable and will benefit the needs of the issue or people impacted
+
+Programming largely finished. It remains to add "intercourt transfer" and check for bugs more thoroughly. The success of Dogecoin has shown that a project with agenda may gather big amounts of real money just by minting tokens associated with some idea.
+
+    Size of impact measured via proxy as numbers, geographic coverage, adoption rate
+
+Geographic coverage is all the world (however creating localish cryptocurrencies is possible). We will count the total number of courts and intercourt tokens.
+
+    The team carefully takes into account the human landscape, economic conditions, geo, political, social, stakeholders
+
+Yes, it is a project taking into account both human greed (not desire to give away money, but it's OK for people to mint money for others for free) and a limited amount of money real people have. The project is to change rather than just taking into account the global economic conditions. It fits perfectly in both political parts: socialists and the free market. The stakeholders will be just judges.
+
+    Business model design for viability, successful operation, how the organization delivers value while self sustaining its operations,
+
+I was promised by a company to be helped with marketing. The cost of sustaining is low, just need to announce the project widely. The project is thought to finance itself in the future as one of the financed by its projects.
+
+    Plan to validate assumptions, test with target users, and in the field
+
+I will just contact many NGOs asking them to allocate expert judges. Before this, the project will be deployed in test mode (on Rinkeby).
+
+    Clear product vision, how it addresses the challenge, communicated in a culturally sensitive way
+
+Yes, see the URL above for details.
+
+    High level architectural overview of the solution, including system requirements, processes, tech stack, users flows, attack vectors, testing
+
+See the wiki.
+
+    Feasible product roadmap and timeline taking into account external factors such as market readiness
+
+The market is ready for new altcoins, as crypto as a whole continues to grow.
+
+It should be accomplished in a few months, then it is to be advertised as widely as possible.
+
+    Defined impact metrics, quantified that relate to the solutions social and environmental performance. Metrics must demonstrate granular understanding of the problem with consideration for the constituents
+
+The number of courts and the number of intercourt tokens.
