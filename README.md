@@ -37,6 +37,14 @@ This is a project in progress.
 Reward Courts is several Ethereum smart contracts with a Web Aragon voting interface around them.
 So each court usually makes decisions by voting.
 
+## Tech stack
+
+* NPM
+* Truffle
+* Aragon
+* IPFS
+* React
+
 # Installation
 
 ## Release mode
