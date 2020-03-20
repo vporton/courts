@@ -14,8 +14,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
     uint8 public constant decimals = 18;
 
-    uint128 internal courtNonce;
-    uint128 internal icTokenNonce;
+    uint128 public courtNonce;
+    uint128 public icTokenNonce;
 
     // token => (owner => balance)
     mapping (uint256 => mapping(address => uint256)) internal balances;
