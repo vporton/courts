@@ -83,3 +83,7 @@ You may need the following tweaks:
 ```
 sudo npm install --unsafe-perm=true  go-ipfs@0.4.22 --global
 ```
+
+# Testing approach
+
+Testing was done with `npm test`, delivering the core contract for security audit (now in progress), manual testing of the UI.
