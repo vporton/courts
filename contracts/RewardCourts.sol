@@ -32,6 +32,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     // truster => trustees[]
     mapping (uint128 => uint128[]) public trustedCourtsList;
 
+    mapping (uint128 => mapping (uint128 => uint256)) internal trustedCourtsIndex;
+
     // token => court
     //mapping (address => uint128) public tokenControllingCourts;
 
@@ -477,21 +479,12 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function trustCourts(uint128 _truster, uint128[] _trustees) external {
         require(courtOwners[_truster] == msg.sender, "We are not court owner");
-
-        uint _pos = trustedCourtsList[_truster].length; // position to insert
-        uint _newLength = _pos;
         for (uint i = 0; i < _trustees.length; ++i) {
             require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
-            if (!trustedCourts[_truster][_trustees[i]])
-                _newLength += 1;
-        }
-
-        trustedCourtsList[_truster].length = _newLength;
-
-        for (uint j = 0; j < _trustees.length; ++j) {
-            if (!trustedCourts[_truster][_trustees[j]]) {
-                trustedCourtsList[_truster][_pos++] = _trustees[j];
-                trustedCourts[_truster][_trustees[j]] = true;
+            if(!trustedCourts[_truster][_trustees[i]]) {
+                trustedCourts[_truster][_trustees[i]] = true;
+                trustedCourtsIndex[_truster][_trustees[i]] = trustedCourtsList[_truster].length;
+                trustedCourtsList[_truster].push(_trustees[i]);
             }
         }
         emit TrustCourts(_truster, _trustees);
@@ -504,21 +497,18 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function untrustCourts(uint128 _truster, uint128[] _trustees) external {
         require(courtOwners[_truster] == msg.sender, "We are not court owner");
-
-        uint max = trustedCourtsList[_truster].length;
+        uint index;
+        uint length = trustedCourtsList[_truster].length;
         for (uint i = 0; i < _trustees.length; ++i) {
             require(_trustees[i] > 0 && _trustees[i] <= courtNonce, "Court does not exist.");
             if (trustedCourts[_truster][_trustees[i]]) {
                 trustedCourts[_truster][_trustees[i]] = false;
-                if (max > 1) {
-                    trustedCourtsList[_truster][i] = trustedCourtsList[_truster][--max];
-                } else {
-                    max = 0;
-                    break;
-                }
+                index = trustedCourtsIndex[_truster][_trustees[i]];
+                trustedCourtsList[_truster][index] = trustedCourtsList[_truster][--length];
+                delete trustedCourtsIndex[_truster][_trustees[i]];
             }
         }
-        trustedCourtsList[_truster].length = max;
+        trustedCourtsList[_truster].length = length;
         emit UntrustCourts(_truster, _trustees);
     }
 
