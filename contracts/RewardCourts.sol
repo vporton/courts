@@ -73,8 +73,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     view
     returns (bool) {
         if (_interfaceId == INTERFACE_SIGNATURE_ERC165 ||
-            _interfaceId == INTERFACE_SIGNATURE_ERC1155 ||
-            _interfaceId == INTERFACE_SIGNATURE_URI) {
+            _interfaceId == INTERFACE_SIGNATURE_ERC1155) {
           return true;
         }
 
