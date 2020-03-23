@@ -66,7 +66,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     bytes4 constant private INTERFACE_SIGNATURE_ERC1155 = 0xd9b67a26;
 
-    bytes4 constant private INTERFACE_SIGNATURE_URI = 0x0e89341c;
+    //bytes4 constant private INTERFACE_SIGNATURE_URI = 0x0e89341c;
 
     function supportsInterface(bytes4 _interfaceId)
     public
