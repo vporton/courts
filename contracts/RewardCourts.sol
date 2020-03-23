@@ -435,10 +435,22 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _owner   New owner
     */
     function setOwner(uint128 _court, address _owner) external {
+        require(_owner != 0x0);
         require(courtOwners[_court] == msg.sender, "We are not the owner");
 
         courtOwners[_court] = _owner;
         emit SetOwner(_court, _owner);
+    }
+
+    /**
+        @notice Set court owner to none.
+        @param _court   Court
+    */
+    function setOwnerToNone(uint128 _court) external {
+        require(courtOwners[_court] == msg.sender, "We are not the owner");
+
+        courtOwners[_court] = 0x0;
+        emit SetOwner(_court, 0x0);
     }
 
     /**
