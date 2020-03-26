@@ -364,9 +364,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _from    Source address
         @param _id      ID of the token type
         @param _value   Transfer amount
-        @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
-    function burnFrom(address _from, uint256 _id, uint256 _value, bytes _data) external {
+    function burnFrom(address _from, uint256 _id, uint256 _value) external {
 
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
 
@@ -386,9 +385,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _from    Source address
         @param _ids     IDs of each token type (order and length must match _values array)
         @param _values  Transfer amounts per token type (order and length must match _ids array)
-        @param _data    Additional data with no specified format, MUST be sent unaltered in call to the `ERC1155TokenReceiver` hook(s) on `_to`
     */
-    function batchBurnFrom(address _from, uint256[] _ids, uint256[] _values, bytes _data) external {
+    function batchBurnFrom(address _from, uint256[] _ids, uint256[] _values) external {
 
         // MUST Throw on errors
         require(_ids.length == _values.length, "_ids and _values array length must match.");
@@ -578,15 +576,15 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
     }
 
-    function _uncheckedGenerateTokenId(uint128 _court, uint128 _intercourtToken) public returns (uint256 _token) {
+    function _uncheckedGenerateTokenId(uint128 _court, uint128 _intercourtToken) public pure returns (uint256 _token) {
         return (uint256(_court) << 128) | uint256(_intercourtToken);
     }
 
-    function _getCourt(uint256 _id) public returns (uint128) {
+    function _getCourt(uint256 _id) public pure returns (uint128) {
         return uint128(_id >> 128);
     }
 
-    function _getIntercourtToken(uint256 _id) public returns (uint128) {
+    function _getIntercourtToken(uint256 _id) public pure returns (uint128) {
         return uint128(_id & ((1 << 128) - 1));
     }
 
