@@ -570,7 +570,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
 
-    function _generateTokenId(uint128 _court, uint128 _intercourtToken) public returns (uint256 _token) {
+    function _generateTokenId(uint128 _court, uint128 _intercourtToken) public pure returns (uint256 _token) {
         require (_court != 0 && _intercourtToken != 0, "Wrong values.");
 
         _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
