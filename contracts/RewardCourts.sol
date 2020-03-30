@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity 0.4.24;
 
 import "@aragon/os/contracts/lib/math/SafeMath.sol";
 import "./Address.sol";
