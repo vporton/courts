@@ -225,6 +225,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
     function intercourtTransfer(address _from, address _to, uint128 _intercourtToken, uint256 _value, uint128[] _courtsPath, bytes _data) external {
+        _checkIntercourtToken(_intercourtToken);
+
         uint128[] memory _ids = new uint128[](1);
         _ids[0] = _intercourtToken;
         uint256[] memory _values = new uint256[](1);
@@ -261,6 +263,8 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256[] memory _ids1 = new uint256[](_intercourtTokens.length);
         uint256[] memory _ids2 = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _intercourtTokens.length; ++i) {
+            _checkIntercourtToken(_intercourtTokens[i]);
+
             _ids1[i] = _generateTokenId(_courtsPath[0], _intercourtTokens[i]);
             _ids2[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
         }
@@ -434,6 +438,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
     */
     function setOwner(uint128 _court, address _owner) external {
         require(_owner != 0x0);
+        _checkCourtId(_court);
         require(courtOwners[_court] == msg.sender, "We are not the owner");
 
         courtOwners[_court] = _owner;
@@ -445,6 +450,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _court   Court
     */
     function setOwnerToNone(uint128 _court) external {
+        _checkCourtId(_court);
         require(courtOwners[_court] == msg.sender, "We are not the owner");
 
         courtOwners[_court] = 0x0;
@@ -523,6 +529,14 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
 /////////////////////////////////////////// Internal //////////////////////////////////////////////
 
+    function _checkIntercourtToken(uint128 _icToken) view returns (bool) {
+        require(_icToken >= 1 && _icToken <= icTokenNonce, "Wrong IC token");
+    }
+
+    function _checkCourtId(uint128 _court) view returns (bool) {
+        require(_court >= 1 && _court <= courtNonce, "Wrong court ID");
+    }
+
     function _doSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value) private {
 
         // SafeMath will throw with insufficient funds _from
@@ -541,6 +555,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
 
         for (uint i = 0; i < _courtsPath.length; ++i) {
             uint128 _nextCourt = _courtsPath[i];
+            _checkCourtId(_nextCourt);
             require(trustedCourts[_nextCourt][_court], "A court in the path is not in a trusted list.");
             _court = _nextCourt;
         }
@@ -570,9 +585,9 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
     }
 
-    function _generateTokenId(uint128 _court, uint128 _intercourtToken) public pure returns (uint256 _token) {
-        require (_court != 0 && _intercourtToken != 0, "Wrong values.");
-
+    function _generateTokenId(uint128 _court, uint128 _intercourtToken) public view returns (uint256 _token) {
+        _checkCourtId(_court);
+        _checkIntercourtToken(_intercourtToken);
         _token = _uncheckedGenerateTokenId(_court, _intercourtToken);
     }
 
@@ -580,12 +595,16 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         return (uint256(_court) << 128) | uint256(_intercourtToken);
     }
 
-    function _getCourt(uint256 _id) public pure returns (uint128) {
-        return uint128(_id >> 128);
+    function _getCourt(uint256 _id) public view returns (uint128) {
+        uint128 _court = uint128(_id >> 128);
+        _checkCourtId(_court);
+        return _court;
     }
 
-    function _getIntercourtToken(uint256 _id) public pure returns (uint128) {
-        return uint128(_id & ((1 << 128) - 1));
+    function _getIntercourtToken(uint256 _id) public view returns (uint128) {
+        uint128 _icToken = uint128(_id & ((1 << 128) - 1));
+        _checkIntercourtToken(_icToken);
+        return _icToken;
     }
 
     function _doIntercourtTransferBatch(address _from, address _to, uint128[] memory _ids, uint256[] memory _values, uint128[] _courtsPath) internal {
@@ -595,12 +614,17 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
         //require(checkNoDuplicates(_courtsPath), "Duplicate courts.");
 
+        for (uint i0 = 0; i0 < _courtsPath.length; ++i0) {
+            _checkCourtId(_courtsPath[i0]);
+        }
+
         for (uint i = 0; i < _courtsPath.length - 1; ++i) {
             require(trustedCourts[_courtsPath[i+1]][_courtsPath[i]], "A court in the path is not in a trusted list.");
         }
 
         for (uint k = 0; k < _ids.length; ++k) {
             uint128 _intercourtToken = _ids[k];
+            _checkIntercourtToken(_intercourtToken);
             uint256 _fromToken = _generateTokenId(_courtsPath[0], _intercourtToken);
             uint256 _toToken = _generateTokenId(_courtsPath[_courtsPath.length-1], _intercourtToken);
             // SafeMath will throw with insufficient funds _from
