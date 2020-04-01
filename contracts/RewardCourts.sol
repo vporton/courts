@@ -225,7 +225,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         @param _data    Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
     */
     function intercourtTransfer(address _from, address _to, uint128 _intercourtToken, uint256 _value, uint128[] _courtsPath, bytes _data) external {
-        _checkIntercourtToken(_intercourtToken);
+        //_checkIntercourtToken(_intercourtToken);
 
         uint128[] memory _ids = new uint128[](1);
         _ids[0] = _intercourtToken;
@@ -263,7 +263,7 @@ contract RewardCourts is IERC1155, ERC165, CommonConstants
         uint256[] memory _ids1 = new uint256[](_intercourtTokens.length);
         uint256[] memory _ids2 = new uint256[](_intercourtTokens.length);
         for (uint i = 0; i < _intercourtTokens.length; ++i) {
-            _checkIntercourtToken(_intercourtTokens[i]);
+            //_checkIntercourtToken(_intercourtTokens[i]);
 
             _ids1[i] = _generateTokenId(_courtsPath[0], _intercourtTokens[i]);
             _ids2[i] = _generateTokenId(_courtsPath[_courtsPath.length - 1], _intercourtTokens[i]);
