@@ -1,8 +1,4 @@
-- FIXME: https://rinkeby.aragon.org/#/testrewardcourt5/0xdfaeb52cf5ad6a82ca8f9652ae58fbed6472805e/tab/3
-  cannot mint token #1 (100 items) to 0xC62ce5310E175fcE50589550AF3e1a4bEDe34077
-  (cannot vote "yes").
-
-- FIXME: It does not check intercourt token validity on minting.
+- Intercourt trust should allow not only minting but also transfering tokens.
 
 - Trust in a separate tab.
 
