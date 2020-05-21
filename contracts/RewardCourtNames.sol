@@ -16,7 +16,7 @@ contract RewardCourtNames
     event SetCourtName(uint128 indexed ourCourtId, uint128 indexed courtId, string name, uint indexed previous);
     event SetIntercourtTokenName(uint128 indexed ourCourtId, uint128 indexed icToken, string name, uint indexed previous);
     
-    constructor(RewardCourts _rewardCourts) {
+    constructor(RewardCourts _rewardCourts) public {
         rewardCourts = _rewardCourts;
     }
 
