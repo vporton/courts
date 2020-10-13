@@ -1,3 +1,5 @@
+- This bug prevents it to work!
+
 - Test in Enjin Wallet (what's about token icons?)
 
 - Fix the bug of always using "allEvents" with "external_past_events":
@@ -32,4 +34,3 @@
 
 - Introduce ADMIN role. Admins could be able to disable child tokens without voting
   (to act quickly in the case of a theft).
-  
