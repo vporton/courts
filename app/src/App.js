@@ -120,7 +120,7 @@ class CreateTokenForm extends React.Component {
   
   createToken() {
     return this.props.api.newToken(
-      this.parentInput.current.value || 0,
+      this.parentInput.current.value || '0',
       this.nameInput.current.value,
       this.symbolInput.current.value,
       this.uriInput.current.value).toPromise()
