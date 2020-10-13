@@ -143,13 +143,16 @@ class ManageForm extends React.Component {
           <tbody>
             <tr>
               <TH>Owned contract:</TH>
-              <td><input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
-                         className={this.state.ownedValid ? "" : "error"}/></td>
+              <td>
+                <input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
+                       className={this.state.ownedValid ? "" : "error"}/>
+                &nbsp;
+                <button disabled={this.valid() ? "" : "disabled"}
+                        onClick={this.changeCourt.bind(this)}>Change</button>
+              </td>
             </tr>
           </tbody>
         </table>
-        <button disabled={this.valid() ? "" : "disabled"}
-                onClick={this.changeCourt.bind(this)}>Change</button>
         <div style={{background: 'red', padding: '3px', marginTop: '0.5ex'}}>
           <H2>Danger zone:</H2>
           Core contract owner:
