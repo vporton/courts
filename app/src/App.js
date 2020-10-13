@@ -59,7 +59,7 @@ class MainWidget extends React.Component {
 
   updateTokens() {
     const items = this.props.tokens.map(v =>
-      `<option value='${safe_attrs(v.id)}"'>${safe_tags(v.id)} ${safe_tags(v.symbol)}  / ${safe_tags(v.name)}</option>"
+      `<option value='${safe_attrs(v.id)}"'>${safe_tags(v.id)} ${safe_tags(v.symbol)}  / ${safe_tags(v.name)}</option>`
     )
     this.setState({tokenItems: items.join('')})
   }
