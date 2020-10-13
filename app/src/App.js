@@ -21,10 +21,42 @@ class MainWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, ownerValid: false
+      ownedValid: false, ownerValid: false,
+      tokens: [],
+      tokenItems: '',
     }
     this.ownedInput = React.createRef()
     this.ownerInput = React.createRef()
+  }
+
+  load() {
+    fetchRewardCourtsJSON()
+      .then(abi => {
+        if (!/^0x0+$/.test(this.props.ownedContract))
+          this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi)
+        if (this.ownedContractHandle) {
+          this.ownedContractHandle.pastEvents({event: 'NewToken', fromBlock: 0, filter: {owner: this.ownedContract}})
+            .subscribe(events => this.processCourtEvents(events))
+        }
+      });
+  }
+
+  processCourtEvents(events) { // TODO: rename
+    for(let i in events) {
+      const event = events[i]
+      if(event.event == 'CourtCreated') {
+        const v = event.returnValues
+        this.state.tokens.push({id: v.id, name: v.name, symbol: v.symbol})
+      }
+    }
+    this.updateTokens()
+  }
+
+  updateTokens() {
+    const items = this.props.tokens.map(v =>
+      "<option value='"+v.id+"'>" + v.symbol + " / " + v.name + "</option>"
+    )
+    this.setState({tokenItems: items.join('')})
   }
 
   render() {
@@ -53,7 +85,8 @@ class MainWidget extends React.Component {
         </div>
         <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
           <H2>Send any amount of tokens to recipients of your choice.</H2>
-          <MintForm ownedContract={appState.ownedContract} api={api}/>
+          <MintForm ownedContract={appState.ownedContract} api={api}
+                    tokens={this.state.tokens} tokenItems={this.state.tokenItems}/>
         </div>
       </div>
     )
@@ -111,7 +144,7 @@ class ManageForm extends React.Component {
             <tr>
               <TH>Owned contract:</TH>
               <td><input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
-                        className={this.state.ownedValid ? "" : "error"}/></td>
+                         className={this.state.ownedValid ? "" : "error"}/></td>
             </tr>
           </tbody>
         </table>
@@ -200,37 +233,6 @@ class MintForm extends React.Component {
     this.recepientInput = React.createRef()
     this.amountInput = React.createRef()
     this.tokenListWidget = React.createRef()
-    this.tokens = []
-  }
-
-  load() {
-    fetchRewardCourtsJSON()
-      .then(abi => {
-        if (!/^0x0+$/.test(this.props.ownedContract))
-          this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi)
-        if (this.ownedContractHandle) {
-          this.ownedContractHandle.pastEvents({event: 'NewToken', fromBlock: 0, filter: {owner: this.ownedContract}})
-            .subscribe(events => this.processCourtEvents(events))
-        }
-      });
-  }
-
-  processCourtEvents(events) { // TODO: rename
-    for(let i in events) {
-      const event = events[i]
-      if(event.event == 'CourtCreated') {
-        const v = event.returnValues
-        this.tokens.push({id: v.id, name: v.name, symbol: v.symbol})
-      }
-    }
-    this.updateTokens()
-  }
-
-  updateTokens() {
-    const items = this.tokens.map(v =>
-      "<option value='"+v.id+"'>" + v.symbol + " / " + v.name + "</option>"
-    )
-    this.setState({tokenItems: items.join('')})
   }
 
   onAmountChange() {
@@ -260,7 +262,7 @@ class MintForm extends React.Component {
               <TH><label>Token:</label></TH>
               <td>
                 <select ref={this.tokenListWidget}>
-                  {Parser(this.state.tokenItems)}
+                  {Parser(this.props.tokenItems)}
                 </select>
                 </td>
             </tr>
