@@ -1,7 +1,7 @@
 node_modules
-build
+artifacts
 .cache
+cache
 dist
 ipfs.cmd
-coverage.json
-coverage
+package-lock.json

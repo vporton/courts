@@ -3,7 +3,6 @@ pragma solidity ^0.4.24;
 import "@aragon/os/contracts/apps/AragonApp.sol";
 import "@aragon/os/contracts/lib/math/SafeMath.sol";
 
-
 contract CounterApp is AragonApp {
     using SafeMath for uint256;
 
@@ -18,7 +17,9 @@ contract CounterApp is AragonApp {
     bytes32 constant public INCREMENT_ROLE = keccak256("INCREMENT_ROLE");
     bytes32 constant public DECREMENT_ROLE = keccak256("DECREMENT_ROLE");
 
-    function initialize() public onlyInit {
+    function initialize(uint256 _initValue) public onlyInit {
+        value = _initValue;
+
         initialized();
     }
 
