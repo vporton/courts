@@ -33,9 +33,9 @@ app.store(async (state, { event }) => {
 // 
 
 async function getOwnedContract() {
-  return app.call('ownedContract').toPromise()
+  return await app.call('ownedContract').toPromise()
 }
 
-async function getCourtId() {
-  return app.call('courtId').toPromise()
+async function getCourtId() { // FIXME: remove this function
+  return 0;
 }

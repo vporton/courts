@@ -33,5 +33,5 @@
     }
   },
   "appName": "reward3.aragonpm.eth",
-  "path": "contracts/CounterApp.sol"
+  "path": "contracts/CourtWrapper.sol"
 }
