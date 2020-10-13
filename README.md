@@ -73,3 +73,7 @@ You may need the following tweaks:
 ```
 sudo npm install --unsafe-perm=true  go-ipfs@0.4.22 --global
 ```
+
+# See also
+
+- `BOUNTIES.md`
