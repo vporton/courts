@@ -40,8 +40,15 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Set child tokens `_childs` enabled status to `_enabled`.
       */
-    function setEnabled(uint256[] _childs, bool _enabled) external {
+    function setEnabled(uint256[] _childs, bool _enabled) external auth(JUDGE_ROLE) {
         ownedContract.setEnabled(_childs, _enabled);
+    }
+
+    /**
+      * @notice Make `_newOwner` (it should be DAO contract address, not DAO address!) the owner of token `_id`.
+      */
+    function setTokenOwner(uint256 _id, address _newOwner) external auth(JUDGE_ROLE) {
+        ownedContract.setTokenOwner(_id, _newOwner);
     }
 
     // TODO: @formatPct here is a hack.
