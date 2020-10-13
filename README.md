@@ -1,6 +1,16 @@
 # Reward Courts
 
-[The site](https://reward.portonvictor.org/)
+[The site](https://reward.portonvictor.org)
+
+Topics: **Social Good**, **Carbon Accounting**, **Crypto** and reward for reduction.
+
+_Some people and organizations have less money than they should. This project aims to mint crypto money for them, ruled by “court” decisions. For example, some people or organizations who can do something against environmental problems do not have access to enough financing, and that this court system is a way for anyone to set up a court and fund them._
+
+The system has particular emphasis on anti-theft by transferring money through multiple layers of indirection with transfer limits settable by the upper levels.
+
+Reward Courts is an Ethereum blockchain (“crypto”) project allowing anybody to create a “court” that could reward anybody other (or himself) with an arbitrary amount of crypto.
+
+The purpose of the project is to reduce world monetary injustice in its various kinds: The courts are intended to give money to someone who has less money than he should.
 
 This is a project in progress. See also `TODO` file.
 
