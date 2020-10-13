@@ -171,11 +171,43 @@ class MintForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: null,
+      tokenItems: '',
       recepientValid: false, amountValid: false
     }
     this.recepientInput = React.createRef()
     this.amountInput = React.createRef()
+    this.tokenListWidget = React.createRef()
+    this.tokens = []
+  }
+
+  load() {
+    fetchRewardCourtsJSON()
+      .then(abi => {
+        if (!/^0x0+$/.test(this.props.ownedContract))
+          this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi)
+        if (this.ownedContractHandle) {
+          this.ownedContractHandle.pastEvents({event: 'NewToken', fromBlock: 0, filter: {owner: this.ownedContract}})
+            .subscribe(events => this.processCourtEvents(events))
+        }
+      });
+  }
+
+  processCourtEvents(events) { // TODO: rename
+    for(let i in events) {
+      const event = events[i]
+      if(event.event == 'CourtCreated') {
+        const v = event.returnValues
+        this.tokens.push({id: v.id, name: v.name, symbol: v.symbol})
+      }
+    }
+    this.updateTokens()
+  }
+
+  updateTokens() {
+    const items = this.tokens.map(v =>
+      "<option value='"+v.id+"'>" + v.symbol + " / " + v.name + "</option>"
+    )
+    this.setState({tokenItems: items.join('')})
   }
 
   onAmountChange() {
@@ -187,7 +219,12 @@ class MintForm extends React.Component {
   }
   
   mint() {
-    // TODO
+    return this.props.api.mint(
+      this.tokenListWidget.current.value,
+      String(BigInt(this.amountInput.current.value * (10**18))),
+      this.recepientInput.current.value,
+      '0x0000000000000000000000000000000000000000000000000000000000000000' // TODO
+      ).toPromise()
   }
   
   render() {
@@ -198,8 +235,11 @@ class MintForm extends React.Component {
           <tbody>
             <tr>
               <TH><label>Token:</label></TH>
-              <td><input ref={this.ICTokenInput}
-                         type="number"/></td>
+              <td>
+                <select ref={this.tokenListWidget}>
+                  {Parser(this.state.tokenItems)}
+                </select>
+                </td>
             </tr>
             <tr>
               <TH><label>Recepient:</label></TH>
