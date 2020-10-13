@@ -1,7 +1,5 @@
 - Test in Enjin Wallet (what's about token icons?)
 
-- Trust in a separate tab.
-
 - Fix the bug of always using "allEvents" with "external_past_events":
   https://github.com/aragon/aragon.js/issues/362
   (Currently solved by distributing aragon.js/ with our software.)
@@ -15,8 +13,6 @@
 - App initialization function.
 
 - Intercourt transfer in UI.
-
-- Can we optimize by loading only latest token names, not historic ones from Ethereum events?
 
 - Is it possible to change the files in app/public/ every time contracts compile?
   (Report feature request to Aragon if impossible.)
