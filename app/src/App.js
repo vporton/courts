@@ -111,7 +111,6 @@ class ManageForm extends React.Component {
       ownedValid: false, ownerValid: false, parentValid: false,
     }
     this.ownedInput = React.createRef()
-    this.ownerInput = React.createRef()
     this.parentInput = React.createRef()
     this.tokenListWidget = React.createRef()
   }
@@ -123,16 +122,6 @@ class ManageForm extends React.Component {
     } catch(e) { 
       console.error('invalid Ethereum address', e.message)
       this.setState({ownedValid: false})
-    }
-  }
-
-  onOwnerChange() {
-    try {
-      toChecksumAddress(this.ownerInput.current.value)
-      this.setState({ownerValid: true})
-    } catch(e) { 
-      console.error('invalid Ethereum address', e.message)
-      this.setState({ownerValid: false})
     }
   }
 
@@ -149,14 +138,9 @@ class ManageForm extends React.Component {
   }
   
   changeCourt() {
-    console.log(this.ownedInput.current.value)
     return this.props.api.setCourt(this.ownedInput.current.value).toPromise()
   }
-    
-  changeOwner() {
-    return this.props.api.setContractOwner(this.ownerInput.current.value).toPromise()
-  }
-  
+
   changeParent() {
     return this.props.api.setTokenParent(this.tokenListWidget.current.value, this.parentInput.current.value || '0')
   }
@@ -194,14 +178,6 @@ class ManageForm extends React.Component {
             </tr>
           </tbody>
         </table>
-        <div style={{background: 'red', padding: '3px', marginTop: '0.5ex'}}>
-          <H2>Danger zone:</H2>
-          Core contract owner:
-          <input ref={this.ownerInput} onChange={this.onOwnerChange.bind(this)}
-                className={this.state.ownerValid ? "" : "error"}/>
-          <button disabled={this.state.ownerValid ? "" : "disabled"}
-                  onClick={this.changeOwner.bind(this)}>Change</button>
-        </div>
       </div>
     )
   }
@@ -271,8 +247,10 @@ class ManageChildsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      ownerValid: false,
     }
     this.tokenListWidget = React.createRef()
+    this.ownerInput = React.createRef()
   }
 
   setEnabled(value) {
@@ -286,16 +264,40 @@ class ManageChildsForm extends React.Component {
   disable() {
     return this.setEnabled(false);
   }
+
+  changeOwner() {
+    return this.props.api.setTokenOwner(this.tokenListWidget.current.value,
+                                        this.ownerInput.current.value).toPromise()
+  }
   
+  onOwnerChange() {
+    try {
+      toChecksumAddress(this.ownerInput.current.value)
+      this.setState({ownerValid: true})
+    } catch(e) { 
+      console.error('invalid Ethereum address', e.message)
+      this.setState({ownerValid: false})
+    }
+  }
+
   // TODO: Prevent clicking buttons when no token selected.
   render() {
     return (
       <div>
-        <select ref={this.tokenListWidget}>
-          {Parser(this.props.tokenItems)}
-        </select>
-        <button onClick={this.disable.bind(this)}>Disable child</button>
-        <button onClick={this.enable.bind(this)}>Enable child</button>
+        <p>
+          <select ref={this.tokenListWidget}>
+            {Parser(this.props.tokenItems)}
+          </select>:
+        </p>
+        <p>
+          <button onClick={this.disable.bind(this)}>Disable child</button>
+          <button onClick={this.enable.bind(this)}>Enable child</button>
+        </p>
+        <p>Token owner:
+          <input size="42" maxLength="42" ref={this.ownerInput} onChange={this.onOwnerChange.bind(this)}
+                className={this.state.ownerValid ? "" : "error"}/>
+          <button onClick={this.changeOwner.bind(this)}>Change</button>
+        </p>
       </div>
     )
   }
