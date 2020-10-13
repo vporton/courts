@@ -8,33 +8,56 @@ const { soliditySha3, toChecksumAddress } = require("web3-utils")
 function App() {
   const { api, appState, setAppState, path, requestPath } = useAragonApi()
   const { isSyncing } = appState
-  const pathParts = path.match(/^\/tab\/([0-9]+)/)
-  const pageIndex = Array.isArray(pathParts)
-    ? parseInt(pathParts[1], 10) - 1
-    : 0
-
   return (
     <Main>
       {isSyncing && <Syncing />}
       <H1>Judge Whom to Give Rewards</H1>
-      <Tabs items={['Info', 'Manage', 'Create token', 'Mint']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
-      <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
-        <p>Owned contract: {appState.ownedContract}</p>
-      </div>
-      <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
-        <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} api={api}/>
-      </div>
-      <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
-        <H2>Create token</H2>
-        <CreateTokenForm ownedContract={appState.ownedContract} api={api}/>
-      </div>
-      <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
-        <H2>Send any amount of tokens to recipients of your choice.</H2>
-        <MintForm ownedContract={appState.ownedContract} api={api}/>
-      </div>
+      <MainWidget api={api} appState={appState} path={path} requestPath={requestPath}/>
     </Main>
   )
+}
+
+class MainWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ownedValid: false, ownerValid: false
+    }
+    this.ownedInput = React.createRef()
+    this.ownerInput = React.createRef()
+  }
+
+  render() {
+    const pathParts = this.props.path.match(/^\/tab\/([0-9]+)/)
+    const pageIndex = Array.isArray(pathParts)
+      ? parseInt(pathParts[1], 10) - 1
+      : 0
+
+    const api = this.props.api
+    const appState = this.props.appState
+  
+    return (
+      <div>
+        <Tabs items={['Info', 'Manage', 'Create token', 'Mint']} selected={pageIndex}
+              onChange={index => this.props.requestPath(`/tab/${index + 1}`)}/>
+        <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
+          <p>Owned contract: {appState.ownedContract}</p>
+        </div>
+        <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
+          <H2>Manage</H2>
+          <ManageForm ownedContract={appState.ownedContract} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
+          <H2>Create token</H2>
+          <CreateTokenForm ownedContract={appState.ownedContract} api={api}/>
+        </div>
+        <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
+          <H2>Send any amount of tokens to recipients of your choice.</H2>
+          <MintForm ownedContract={appState.ownedContract} api={api}/>
+        </div>
+      </div>
+    )
+  }
 }
 
 class ManageForm extends React.Component {
