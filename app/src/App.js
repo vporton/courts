@@ -1,4 +1,3 @@
-import { zip } from 'rxjs';
 import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import { Main, Button, Tabs } from '@aragon/ui'
@@ -175,7 +174,6 @@ class MintForm extends React.Component {
       token: null,
       recepientValid: false, amountValid: false
     }
-    this.ICTokenInput = React.createRef()
     this.recepientInput = React.createRef()
     this.amountInput = React.createRef()
   }
@@ -201,24 +199,20 @@ class MintForm extends React.Component {
             <tr>
               <TH><label>Token:</label></TH>
               <td><input ref={this.ICTokenInput}
-                        type="number"
-                        onChange={this.onICTokenChange.bind(this)}
-                        className={this.state.intercourtTokenValid ? "" : "error"}/></td>
+                         type="number"/></td>
             </tr>
-            <tr><TH>Token:</TH><td>{this.state.token}</td></tr>
             <tr>
               <TH><label>Recepient:</label></TH>
               <td><input ref={this.recepientInput}
-                        size="42" maxLength="42"
-                        onChange={this.onRecepientTokenChange.bind(this)}
-                        className={this.state.recepientValid ? "" : "error"}/></td>
+                         size="42" maxLength="42"
+                         className={this.state.recepientValid ? "" : "error"}/></td>
             </tr>
             <tr>
               <TH><label>Amount:</label></TH>
               <td><input ref={this.amountInput}
-                        id="amount" type="text"
-                        onChange={this.onAmountChange.bind(this)}
-                        className={this.state.amountValid ? "" : "error"}/></td>
+                         id="amount" type="text"
+                         onChange={this.onAmountChange.bind(this)}
+                         className={this.state.amountValid ? "" : "error"}/></td>
             </tr>
           </tbody>
         </table>
