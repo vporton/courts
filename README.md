@@ -1,5 +1,11 @@
 # Reward Courts
-Courts That Perform Crypto Rewards Smart Contract
+
+[I'm an inline-style link](https://reward.portonvictor.org/)
+
+This is a project in progress. See also `TODO` file.
+
+This is software for rewarding social good of all kinds, particularly managing and
+selling carbon credits: https://gitcoin.co/issue/MPlus4Climate/MPlusToolKit/3/100023836
 
 The idea is simple: Courts mint money to them who in any reason have too little (less than they should) money.
 There is much too much injustice and poverty in this world, and we should do something
@@ -11,26 +17,10 @@ are decided by a centralized entity. That entity may lose reputation or fail bad
 Consider the Australian jurisdiction where the wheel is patented. The same could happen
 with our crypto courts.
 
-To solve this big drawback, it is proposed to be able to convert money from a currency of one court
-to a currency of another court. Every token in our system consist of a court ID and
-an _intercourt token_.
-
-It is best explained with an example:
-
-Consider the intercourt token HONEST of verifiable honestly earned money. Multiple courts (one entity is not
-enough to check honesty of everybody in the world) may create their currencies like
-HONEST1, HONEST2, ..., HONEST10. Then one would build a court H which would allow all these
-HONEST1, HONEST2, ..., HONEST10 to be converted into its currency. This way we split the work
-of verifying honesty into multiple organizations and have a "central" hub that based on their
-decisions verifies honesty automatically.
-
-Now a payment gateway may accept the money H of our hub, or it may choose to use another hub.
-There is no really "central" hub, it is up to payment gateways and traders to decide which
-money they accept and which don't. That's the democratic way to control money.
+See https://github.com/vporton/carbon-flow/blob/main/README.md about child/parent relationships between courts
+and (limits of) converting tokens between courts.
 
 For more details, see [the wiki](https://github.com/vporton/courts/wiki).
-
-This is a project in progress.
 
 # Kind of software
 
@@ -40,7 +30,7 @@ So each court usually makes decisions by voting.
 ## Tech stack
 
 * NPM
-* Truffle
+* Buidler
 * Aragon
 * IPFS
 * React

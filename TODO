@@ -34,3 +34,7 @@
 
 - Introduce ADMIN role. Admins could be able to disable child tokens without voting
   (to act quickly in the case of a theft).
+
+- A script to easily install a carbon managing fund and other kinds of funds.
+
+- TODO and FIXME comments in the source.
