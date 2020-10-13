@@ -16,7 +16,7 @@
 
 - Intercourt transfer in UI.
 
-- Can we optimize by loading only latest court names, not historic ones from Ethereum events?
+- Can we optimize by loading only latest token names, not historic ones from Ethereum events?
 
 - Is it possible to change the files in app/public/ every time contracts compile?
   (Report feature request to Aragon if impossible.)

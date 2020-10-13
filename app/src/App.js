@@ -21,19 +21,15 @@ function App() {
       <Tabs items={['Info', 'Manage', 'Mint', 'Names & Trust']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
       <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
         <p>Owned contract: {appState.ownedContract}<br/>
-          Court names contract: {appState.courtNamesContract}<br/>
           Controlled court: {appState.courtId}</p>
       </div>
       <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
         <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
+        <ManageForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
       </div>
       <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
         <H2>Send any amount of tokens to recipients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
-      </div>
-      <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
-        <CourtNamesForm ownedContract={appState.ownedContract} courtNamesContract={appState.courtNamesContract} courtId={appState.courtId} api={api}/>
       </div>
     </Main>
   )
@@ -43,10 +39,9 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, courtNamesValid: false, courtValid: false, ownerValid: false
+      ownedValid: false, courtValid: false, ownerValid: false
     }
     this.ownedInput = React.createRef()
-    this.courtNamesInput = React.createRef()
     this.courtInput = React.createRef()
     this.ownerInput = React.createRef()
   }
@@ -58,16 +53,6 @@ class ManageForm extends React.Component {
     } catch(e) { 
       console.error('invalid Ethereum address', e.message)
       this.setState({ownedValid: false})
-    }
-  }
-
-  onCourtNamesChange() {
-    try {
-      const address = toChecksumAddress(this.courtNamesInput.current.value)
-      this.setState({courtNamesValid: true})
-    } catch(e) { 
-      console.error('invalid Ethereum address', e.message)
-      this.setState({courtNamesValid: false})
     }
   }
 
@@ -88,12 +73,11 @@ class ManageForm extends React.Component {
   }
 
   valid() {
-    return this.state.ownedValid && this.state.courtNamesValid && this.state.courtValid
+    return this.state.ownedValid && this.state.courtValid
   }
   
   changeCourt() {
     return this.props.api.setCourt(this.ownedInput.current.value,
-                                   this.courtNamesInput.current.value,
                                    this.courtInput.current.value).toPromise()
   }
   
@@ -110,11 +94,6 @@ class ManageForm extends React.Component {
               <TH>Owned contract:</TH>
               <td><input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
                         className={this.state.ownedValid ? "" : "error"}/></td>
-            </tr>
-            <tr>
-              <TH>Court names contract:</TH>
-              <td><input size="42" maxLength="42" ref={this.courtNamesInput} onChange={this.onCourtNamesChange.bind(this)}
-                        className={this.state.courtNamesValid ? "" : "error"}/></td>
             </tr>
             <tr>
               <TH>Court ID:</TH>
@@ -141,7 +120,7 @@ class ManageForm extends React.Component {
   }
 }
 
-let rewardCourtsJSON = null, courtNamesJSON = null;
+let rewardCourtsJSON = null;
 
 function fetchRewardCourtsJSON() {
   if(rewardCourtsJSON !== null)
@@ -151,212 +130,6 @@ function fetchRewardCourtsJSON() {
     return response.json()
   })
   return rewardCourtsJSON
-}
-
-function fetchCourtNamesJSON() {
-  if(courtNamesJSON !== null)
-    return courtNamesJSON;
-  let f = fetch("public/RewardCourtNames.json")
-  courtNamesJSON = f.then((response) => {
-    return response.json()
-  })
-  return courtNamesJSON
-}
-
-class CourtNamesForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      courtItems: '',
-      tokensItems: '',
-      icTokensItems: '',
-      trustedCourtsItems: '',
-    }
-
-    this.allIntercourtTokens = new Set(); // named IC tokens
-    this.ownedContractHandle = null;
-    this.courtNamesContractHandle = null;
-    this.trustedCourts = null;
-
-    this.courtsListWidget = React.createRef()
-    this.courtNameEntryWidget = React.createRef()
-    this.baseCourtWidget = React.createRef()
-    this.icTokenEntry = React.createRef()
-    this.amountEntry = React.createRef()
-    this.icTokensListWidget = React.createRef()
-    this.icTokenEntryWidget = React.createRef()
-    this.icTokenNameEntryWidget = React.createRef()
-    this.trustedCourtsWidget = React.createRef()
-    this.trustedCourtEntry = React.createRef()
-
-    this.loaded = false
-    this.courtIDs = []
-    this.courtNames = new Map();
-    this.icDict = {} // courts to arrays of IC tokens mapping
-    this.icTokenNames = new Map()
-  }
-  
-  // FIXME: Needed also componentDidMount()?
-  componentDidUpdate() {
-    if(this.loaded) return
-    if(!this.props.ownedContract || !this.props.courtNamesContract)
-      return
-    this.load()
-    this.loaded = true
-  }
-
-  updateCourtItems() {
-    const items = this.courtIDs.map(id =>
-      "<option value='"+id+"'>" + id + " " + (this.courtNames.has(id) ? this.courtNames.get(id) : "") + "</option>"
-    )
-    this.setState({courtItems: items.join('')})
-  }
-
-  updateTokenNames() {
-    let absolutelyAllIntercourtTokens = Array.from(new Set([...this.allIntercourtTokens, ...this.icTokenNames.keys()]))
-    let items = []
-    for(let i=0; i<absolutelyAllIntercourtTokens.length; ++i) {
-      const id = absolutelyAllIntercourtTokens[i]
-      items.push("<option value='"+id+"'>" + id + " " + (this.icTokenNames.has(id) ? this.icTokenNames.get(id) : "") + "</option>")
-    }
-    this.setState({icTokensItems: items.join('')})
-  }
-
-  updateTrustedCourts() {
-    let items = []
-    for(let i in this.trustedCourts) {
-      items.push("<option value='"+this.trustedCourts[i]+"'>" + this.trustedCourts[i] + " " + this.courtNames.get(this.trustedCourts[i]) + "</option>")
-    }
-    this.setState({trustedCourtsItems: items.join('')})
-  }
-  
-  processCourtEvents(events) {
-    for(let i in events) {
-      const event = events[i]
-      if(event.event == 'CourtCreated') {
-        const courtID = event.returnValues.createdCourt
-        this.courtIDs.push(courtID)
-      }
-    }
-    this.updateCourtItems()
-  }
-  
-  processNameEvents(events) {
-    let items = []
-    for(let i in events) {
-      const event = events[i]
-      //if(!this.courtIDs.includes(event.returnValues.courtId)) continue;
-      if(event.event == 'SetCourtName') {
-        this.courtNames.set(event.returnValues.courtId, event.returnValues.name)
-      }
-      if(event.event == 'SetIntercourtTokenName') {
-        this.allIntercourtTokens = new Set([...this.allIntercourtTokens, event.returnValues.icToken])
-        this.icTokenNames.set(event.returnValues.icToken, event.returnValues.name)
-      }
-    }
-    for(let court in this.icDict) {
-      this.allIntercourtTokens = new Set([...this.allIntercourtTokens, ...this.icDict[court]])
-    }
-    this.updateCourtItems()
-    this.updateTokenNames()
-    this.updateTrustedCourts()
-  }
-
-  load() {
-    let widget = this;
-    
-    Promise.all([fetchRewardCourtsJSON(), fetchCourtNamesJSON()])
-    .then(abi => {
-      let [abi1, abi2] = abi
-        
-      if (!/^0x0+$/.test(this.props.ownedContract))
-        this.ownedContractHandle = this.props.api.external(this.props.ownedContract, abi1)
-      if (!/^0x0+$/.test(this.props.courtNamesContract))
-        this.courtNamesContractHandle = this.props.api.external(this.props.courtNamesContract, abi2)
-
-      // FIXME: Does not work (https://github.com/aragon/aragon.js/issues/362)
-      if (this.ownedContractHandle) {
-        this.ownedContractHandle.pastEvents({event: 'CourtCreated', fromBlock: 0, filter: {courtId: this.courtIDs}})
-          .subscribe(events => this.processCourtEvents(events))
-      }
-      if (this.courtNamesContractHandle) {
-        this.courtNamesContractHandle.pastEvents({event: 'SetCourtName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-          .subscribe(events => this.processNameEvents(events))
-        this.courtNamesContractHandle.pastEvents({event: 'SetIntercourtTokenName', fromBlock: 0, filter: {ourCourtId: this.props.courtId}})
-          .subscribe(events => this.processNameEvents(events))
-      }
-      if (this.ownedContractHandle) {
-        this.ownedContractHandle.getTrustedCourtsList(this.props.courtId).toPromise()
-          .then(function(values) {
-            widget.trustedCourts = values;
-            widget.updateTrustedCourts()
-          })
-      }
-    });
-  }
-
-  rename() {
-    this.props.api.setCourtName(this.props.courtId, this.courtsListWidget.current.value, this.courtNameEntryWidget.current.value).toPromise()
-  }
-  
-  onICTokenSelect() {
-    this.icTokenEntryWidget.current.value = this.icTokensListWidget.current.value
-  }
-  
-  renameICToken() {
-    this.props.api.renameICToken(this.icTokenEntryWidget.current.value, this.icTokenNameEntryWidget.current.value).toPromise()
-  }
-  
-  newICToken() {
-    this.props.api.createICToken(this.icTokenNameEntryWidget.current.value).toPromise()
-  }
-  
-  trust() {
-    this.props.api.trustCourt(this.trustedCourtEntry.current.value).toPromise()
-  }
-
-  untrust() {
-    this.props.api.untrustCourt(this.trustedCourtsWidget.current.value).toPromise()
-  }
-
-  render() {
-    // TODO: Validate the amount.
-    return (
-      <div>
-        <H2>Court names</H2>
-        <div>
-          <select ref={this.courtsListWidget}>
-            {Parser(this.state.courtItems)}
-          </select>
-          <input type="text" ref={this.courtNameEntryWidget}/>
-          <button type="button" onClick={this.rename.bind(this)}>Rename</button>
-        </div>
-        <H2>Intercourt tokens</H2>
-        <div>
-          <select ref={this.icTokensListWidget} onChange={this.onICTokenSelect.bind(this)}>
-            {Parser(this.state.icTokensItems)}
-          </select>
-          IC token: <input type="number" ref={this.icTokenEntryWidget}/>
-          Name: <input type="text" ref={this.icTokenNameEntryWidget}/>
-          <button type="button" onClick={this.renameICToken.bind(this)}>Rename</button>
-          <button type="button" onClick={this.newICToken.bind(this)}>Create new</button>
-        </div>
-        <H2>Intercourt trust</H2>
-        <div>
-          <p>Trusted courts:
-            <select ref={this.trustedCourtsWidget}>
-              {Parser(this.state.trustedCourtsItems)}
-            </select>
-            <button onClick={this.untrust.bind(this)}>Untrust</button>
-          </p>
-          <p>Court ID: <input type="number" ref={this.trustedCourtEntry}/>
-            <button onClick={this.trust.bind(this)}>Trust</button>
-          </p>
-        </div>
-      </div>
-    )
-  }
 }
 
 class MintForm extends React.Component {

@@ -36,9 +36,8 @@ dao acl create <ORG ADDRESS> <PROXY ADDRESS> JUDGE_ROLE 0xf2b29300165ecfea297aa5
 
 * Remove Manage Apps permission
 
-* Set owned contract and names contracts ("Manage" tab).
+* Set owned contract ("Manage" tab).
 
 On Rinkeby these contracts are the following:
 
-owned: 0x2bd4D216803883136b882643Df1048247695F2bC
-names: 0xdc978C0928a69742Ef629E39a4f7eecbD0300539
+owned: TODO
