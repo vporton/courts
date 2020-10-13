@@ -23,14 +23,23 @@ contract CourtWrapper is AragonApp {
         ownedContract = _ownedContract;
     }
 
+    /**
+      * @notice Create new token (parent `_parent`; `_name` / `_symbol` / `_uri`).
+      */
     function newToken(uint256 _parent, string _name, string _symbol, string _uri) external auth(JUDGE_ROLE) {
         ownedContract.newToken(_parent, _name, _symbol, _uri);
     }
 
+    /**
+      * @notice Set parent of the token `_child` to token `_parent`.
+      */
     function setTokenParent(uint256 _child, uint256 _parent) external auth(JUDGE_ROLE) {
         ownedContract.setTokenParent(_child, _parent);
     }
 
+    /**
+      * @notice Set child tokens `_childs` enabled status to `_enabled`.
+      */
     function setEnabled(uint256[] _childs, bool _enabled) external {
         ownedContract.setEnabled(_childs, _enabled);
     }
