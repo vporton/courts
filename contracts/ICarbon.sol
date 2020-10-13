@@ -135,7 +135,7 @@ interface ICarbon {
 
 // Administrativia
 
-    function newToken(uint256 _parent, string   _name, string _symbol, string _uri)
+    function newToken(uint256 _parent, string _name, string _symbol, string _uri)
         external returns (uint256);
 
     function setTokenOwner(uint256 _id, address _newOwner) external;

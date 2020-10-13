@@ -18,7 +18,7 @@ function App() {
     <Main>
       {isSyncing && <Syncing />}
       <H1>Judge Whom to Give Rewards</H1>
-      <Tabs items={['Info', 'Manage', 'Mint']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
+      <Tabs items={['Info', 'Manage', 'Create token', 'Mint']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
       <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
         <p>Owned contract: {appState.ownedContract}</p>
       </div>
@@ -27,6 +27,10 @@ function App() {
         <ManageForm ownedContract={appState.ownedContract} api={api}/>
       </div>
       <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
+        <H2>Create token</H2>
+        <CreateTokenForm ownedContract={appState.ownedContract} api={api}/>
+      </div>
+      <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
         <H2>Send any amount of tokens to recipients of your choice.</H2>
         <MintForm ownedContract={appState.ownedContract} api={api}/>
       </div>
@@ -98,6 +102,54 @@ class ManageForm extends React.Component {
           <button disabled={this.state.ownerValid ? "" : "disabled"}
                   onClick={this.changeOwner.bind(this)}>Change</button>
         </div>
+      </div>
+    )
+  }
+}
+
+class CreateTokenForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+    this.parentInput = React.createRef()
+    this.nameInput = React.createRef()
+    this.symbolInput = React.createRef()
+    this.uriInput = React.createRef()
+  }
+  
+  createToken() {
+    return this.props.api.newToken(
+      this.parentInput.current.value || 0,
+      this.nameInput.current.value,
+      this.symbolInput.current.value,
+      this.uriInput.current.value).toPromise()
+  }
+  
+  render() {
+    return (
+      <div>
+        <table>
+          <tbody>
+          <tr>
+              <TH>Parent token ID:</TH>
+              <td><input type="number" ref={this.parentInput} /></td>
+            </tr>
+            <tr>
+              <TH>Token name:</TH>
+              <td><input ref={this.nameInput} /></td>
+            </tr>
+            <tr>
+              <TH>Symbol name:</TH>
+              <td><input ref={this.symbolInput} /></td>
+            </tr>
+            <tr>
+              <TH>Token URI:</TH>
+              <td><input type="url" ref={this.uriInput} /></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onClick={this.createToken.bind(this)}>Create</button>
       </div>
     )
   }

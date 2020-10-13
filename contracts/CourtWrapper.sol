@@ -11,7 +11,6 @@ contract CourtWrapper is AragonApp {
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
     ICarbon public ownedContract;
-    uint128 public courtId; // FIXME
 
     function initialize() public onlyInit {
         initialized();
@@ -24,14 +23,10 @@ contract CourtWrapper is AragonApp {
         ownedContract = _ownedContract;
     }
 
-    /**
-      * @notice Set owner of our core contract to `_owner` (dangerous, irreversible operation!)
-      */
-    function setContractOwner(address _owner) external auth(JUDGE_ROLE) {
-      // require(_owner != 0);
-      ownedContract.setTokenOwner(courtId, _owner);
+    function newToken(uint256 _parent, string _name, string _symbol, string _uri) public {
+        ownedContract.newToken(_parent, _name, _symbol, _uri);
     }
-    
+
     // TODO: @formatPct here is a hack.
     
     /**
