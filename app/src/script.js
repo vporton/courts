@@ -10,7 +10,6 @@ app.store(async (state, { event }) => {
   // Initial state
   if (nextState.ownedContract == null) {
     nextState.ownedContract = await getOwnedContract()
-    nextState.courtId = await getCourtId()
     nextState.selectedTab = 3
   }
 
@@ -34,8 +33,4 @@ app.store(async (state, { event }) => {
 
 async function getOwnedContract() {
   return await app.call('ownedContract').toPromise()
-}
-
-async function getCourtId() { // FIXME: remove this function
-  return 0;
 }

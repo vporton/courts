@@ -180,36 +180,16 @@ class MintForm extends React.Component {
     this.amountInput = React.createRef()
   }
 
-  onICTokenChange(e) {
-    const ict = this.ICTokenInput.current.value
-    const valid = /^[0-9]+$/.test(ict)
-    this.setState({token: valid ? String(calculateTokenId(this.props.courtId, ict)) : null,
-                   intercourtTokenValid: valid})
-  }
-
-  onRecepientTokenChange() {
-    try {
-      const address = toChecksumAddress(this.recepientInput.current.value)
-      this.setState({recepientValid: true})
-    } catch(e) { 
-      console.error('invalid Ethereum address', e.message)
-      this.setState({recepientValid: false})
-    }
-  }
-
   onAmountChange() {
     this.setState({amountValid: /^[0-9]+(\.[0-9]+)?$/.test(this.amountInput.current.value)})
   }
 
   valid() {
-    return this.state.intercourtTokenValid && this.state.recepientValid  && this.state.amountValid
+    return this.state.amountValid
   }
   
   mint() {
-    return this.props.api.mint(this.recepientInput.current.value,
-                               this.ICTokenInput.current.value,
-                               String(BigInt(this.amountInput.current.value * (10**18))),
-                               []).toPromise()
+    // TODO
   }
   
   render() {
