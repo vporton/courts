@@ -145,7 +145,6 @@ class ManageForm extends React.Component {
   }
   
   changeParent() {
-    console.log(this.tokenListWidget.current.value, this.parentInput.current.value || '0')
     return this.props.api.setTokenParent(this.tokenListWidget.current.value, this.parentInput.current.value || '0')
   }
   
