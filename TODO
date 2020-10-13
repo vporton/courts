@@ -20,3 +20,5 @@
 
 - Is it possible to change the files in app/public/ every time contracts compile?
   (Report feature request to Aragon if impossible.)
+
+- Enabling/disabling multiple childs at once.
