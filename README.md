@@ -1,6 +1,6 @@
 # Reward Courts
 
-[I'm an inline-style link](https://reward.portonvictor.org/)
+[The site](https://reward.portonvictor.org/)
 
 This is a project in progress. See also `TODO` file.
 
