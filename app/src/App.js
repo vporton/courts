@@ -5,6 +5,14 @@ import styled from 'styled-components'
 import Parser from 'html-react-parser';
 const { soliditySha3, toChecksumAddress } = require("web3-utils")
 
+function safe_tags(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function safe_attrs(str) {
+  return safe_tags(str).replace(/"/g,'&quot;').replace(/'<'/g,'&apos;');
+}
+
 function App() {
   const { api, appState, setAppState, path, requestPath } = useAragonApi()
   const { isSyncing } = appState
@@ -51,7 +59,7 @@ class MainWidget extends React.Component {
 
   updateTokens() {
     const items = this.props.tokens.map(v =>
-      "<option value='"+v.id+"'>" + v.symbol + " / " + v.name + "</option>"
+      `<option value='${safe_attrs(v.id)}"'>${safe_tags(v.id)} ${safe_tags(v.symbol)}  / ${safe_tags(v.name)}</option>"
     )
     this.setState({tokenItems: items.join('')})
   }
