@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 
 import "@aragon/os/contracts/apps/AragonApp.sol";
-import "@porton/carbon-flow/contracts/Carbon.sol";
+import "./ICarbon.sol";
 
 
 contract CourtWrapper is AragonApp {
@@ -10,8 +10,8 @@ contract CourtWrapper is AragonApp {
     /// ACL
     bytes32 constant public JUDGE_ROLE = keccak256("JUDGE_ROLE");
 
-    Carbon public ownedContract;
-    uint128 public courtId;
+    ICarbon public ownedContract;
+    uint128 public courtId; // FIXME
 
     function initialize() public onlyInit {
         initialized();
@@ -20,7 +20,7 @@ contract CourtWrapper is AragonApp {
     /**
       * @notice Set us to own the contract `_ownedContract` with court `_courtId` and names contract `_courtNamesContract`.
       */
-    function setCourt(Carbon _ownedContract) external auth(JUDGE_ROLE) {
+    function setCourt(ICarbon _ownedContract) external auth(JUDGE_ROLE) {
         ownedContract = _ownedContract;
     }
 
@@ -29,7 +29,7 @@ contract CourtWrapper is AragonApp {
       */
     function setContractOwner(address _owner) external auth(JUDGE_ROLE) {
       // require(_owner != 0);
-      ownedContract.setOwner(courtId, _owner);
+      ownedContract.setTokenOwner(courtId, _owner);
     }
     
     // TODO: @formatPct here is a hack.
