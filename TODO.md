@@ -37,4 +37,6 @@
 
 - A script to easily install a carbon managing fund and other kinds of funds.
 
+- Show current swap limit data.
+
 - TODO and FIXME comments in the source.
