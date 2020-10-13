@@ -49,7 +49,7 @@ class ManageForm extends React.Component {
 
   onOwnedChange() {
     try {
-      const address = toChecksumAddress(this.ownedInput.current.value)
+      toChecksumAddress(this.ownedInput.current.value)
       this.setState({ownedValid: true})
     } catch(e) { 
       console.error('invalid Ethereum address', e.message)
@@ -59,7 +59,7 @@ class ManageForm extends React.Component {
 
   onOwnerChange() {
     try {
-      const address = toChecksumAddress(this.ownerInput.current.value)
+      toChecksumAddress(this.ownerInput.current.value)
       this.setState({ownerValid: true})
     } catch(e) { 
       console.error('invalid Ethereum address', e.message)
