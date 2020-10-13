@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@aragon/os": "^4.4.0",
-    "@aragon/ui": "^1.7.0"
+    "@aragon/ui": "^1.7.0",
+    "@porton/carbon-flow": "ssh://git@github.com:vporton/carbon-flow.git#stable"
   },
   "devDependencies": {
     "@aragon/buidler-aragon": "^0.2.0",
