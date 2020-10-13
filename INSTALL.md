@@ -39,5 +39,3 @@ dao acl create <ORG ADDRESS> <PROXY ADDRESS> JUDGE_ROLE 0xf2b29300165ecfea297aa5
 * Set owned contract ("Manage" tab).
 
 On Rinkeby these contracts are the following:
-
-owned: TODO
