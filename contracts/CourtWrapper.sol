@@ -31,6 +31,10 @@ contract CourtWrapper is AragonApp {
         ownedContract.setTokenParent(_child, _parent);
     }
 
+    function setEnabled(uint256[] _childs, bool _enabled) external {
+        ownedContract.setEnabled(_childs, _enabled);
+    }
+
     // TODO: @formatPct here is a hack.
     
     /**

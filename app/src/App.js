@@ -67,7 +67,7 @@ class MainWidget extends React.Component {
   
     return (
       <div>
-        <Tabs items={['Info', 'Manage', 'Create token', 'Mint']} selected={pageIndex}
+        <Tabs items={['Info', 'Manage', 'Create token', 'Manage childs', 'Mint']} selected={pageIndex}
               onChange={index => this.props.requestPath(`/tab/${index + 1}`)}/>
         <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
           <p>Owned contract: {appState.ownedContract}</p>
@@ -82,6 +82,11 @@ class MainWidget extends React.Component {
           <CreateTokenForm ownedContract={appState.ownedContract} api={api}/>
         </div>
         <div style={{display: pageIndex == 3 ? 'block' : 'none'}}>
+          <H2>Manage childs</H2>
+          <ManageChildsForm ownedContract={appState.ownedContract} api={api}
+                            tokens={this.state.tokens} tokenItems={this.state.tokenItems}/>
+        </div>
+        <div style={{display: pageIndex == 4 ? 'block' : 'none'}}>
           <H2>Send any amount of tokens to recipients of your choice.</H2>
           <MintForm ownedContract={appState.ownedContract} api={api}
                     tokens={this.state.tokens} tokenItems={this.state.tokenItems}/>
@@ -252,6 +257,40 @@ function fetchRewardCourtsJSON() {
     return response.json()
   })
   return rewardCourtsJSON
+}
+
+class ManageChildsForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+    this.tokenListWidget = React.createRef()
+  }
+
+  setEnabled(value) {
+    return this.props.api.setEnabled([this.tokenListWidget.current.value], value).toPromise()
+  }
+
+  enable() {
+    return this.setEnabled(true);
+  }
+  
+  disable() {
+    return this.setEnabled(false);
+  }
+  
+  // TODO: Prevent clicking buttons when no token selected.
+  render() {
+    return (
+      <div>
+        <select ref={this.tokenListWidget}>
+          {Parser(this.props.tokenItems)}
+        </select>
+        <button onClick={this.disable.bind(this)}>Disable child</button>
+        <button onClick={this.enable.bind(this)}>Enable child</button>
+      </div>
+    )
+  }
 }
 
 class MintForm extends React.Component {
