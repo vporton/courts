@@ -27,6 +27,10 @@ contract CourtWrapper is AragonApp {
         ownedContract.newToken(_parent, _name, _symbol, _uri);
     }
 
+    function setTokenParent(uint256 _child, uint256 _parent) external auth(JUDGE_ROLE) {
+        ownedContract.setTokenParent(_child, _parent);
+    }
+
     // TODO: @formatPct here is a hack.
     
     /**

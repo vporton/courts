@@ -21,12 +21,9 @@ class MainWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, ownerValid: false,
       tokens: [],
       tokenItems: '',
     }
-    this.ownedInput = React.createRef()
-    this.ownerInput = React.createRef()
   }
 
   load() {
@@ -76,8 +73,9 @@ class MainWidget extends React.Component {
           <p>Owned contract: {appState.ownedContract}</p>
         </div>
         <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
-          <H2>Manage</H2>
-          <ManageForm ownedContract={appState.ownedContract} api={api}/>
+          <H2>Manage DAO</H2>
+          <ManageForm ownedContract={appState.ownedContract} api={api}
+                      tokens={this.state.tokens} tokenItems={this.state.tokenItems}/>
         </div>
         <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
           <H2>Create token</H2>
@@ -97,10 +95,12 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, ownerValid: false
+      ownedValid: false, ownerValid: false, parentValid: false,
     }
     this.ownedInput = React.createRef()
     this.ownerInput = React.createRef()
+    this.parentInput = React.createRef()
+    this.tokenListWidget = React.createRef()
   }
 
   onOwnedChange() {
@@ -123,8 +123,16 @@ class ManageForm extends React.Component {
     }
   }
 
-  valid() {
-    return this.state.ownedValid
+  onParentChange() {
+    this.setState({parentValid: /^([0-9]+|)$/.test(this.parentInput.current.value)})
+  }
+
+  validOwned() {
+    return this.state.ownedValid && this.state.parentValid
+  }
+  
+  validParent() {
+    return this.state.parentValid // TODO: on empty list invalid
   }
   
   changeCourt() {
@@ -136,19 +144,40 @@ class ManageForm extends React.Component {
     return this.props.api.setContractOwner(this.ownerInput.current.value).toPromise()
   }
   
+  changeParent() {
+    console.log(this.tokenListWidget.current.value, this.parentInput.current.value || '0')
+    return this.props.api.setTokenParent(this.tokenListWidget.current.value, this.parentInput.current.value || '0')
+  }
+  
   render() {
     return (
       <div>
         <table>
           <tbody>
-            <tr>
+          <tr>
               <TH>Owned contract:</TH>
               <td>
                 <input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
                        className={this.state.ownedValid ? "" : "error"}/>
                 &nbsp;
-                <button disabled={this.valid() ? "" : "disabled"}
+                <button disabled={this.state.ownedValid ? "" : "disabled"}
                         onClick={this.changeCourt.bind(this)}>Change</button>
+              </td>
+            </tr>
+            <tr>
+              <TH>Parent token:</TH>
+              <td>
+                Child token:
+                <select ref={this.tokenListWidget}>
+                  {Parser(this.props.tokenItems)}
+                </select>
+                Parent token:
+                <input size="50" ref={this.parentInput} type="number"
+                       onChange={this.onParentChange.bind(this)}
+                       className={this.validParent() ? "" : "error"}/>
+                &nbsp;
+                <button disabled={this.validParent() ? "" : "disabled"}
+                        onClick={this.changeParent.bind(this)}>Change</button>
               </td>
             </tr>
           </tbody>
