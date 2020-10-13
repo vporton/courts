@@ -18,7 +18,7 @@ function App() {
     <Main>
       {isSyncing && <Syncing />}
       <H1>Judge Whom to Give Rewards</H1>
-      <Tabs items={['Info', 'Manage', 'Mint', 'Names & Trust']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
+      <Tabs items={['Info', 'Manage', 'Mint']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
       <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
         <p>Owned contract: {appState.ownedContract}</p>
       </div>
