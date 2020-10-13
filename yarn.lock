@@ -10708,7 +10708,7 @@ web3-core-helpers@1.2.4:
     web3-eth-iban "1.2.4"
     web3-utils "1.2.4"
 
-web3-core-helpers@1.3.0:
+web3-core-helpers@1.3.0, web3-core-helpers@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/web3-core-helpers/-/web3-core-helpers-1.3.0.tgz#697cc3246a7eaaaac64ea506828d861c981c3f31"
   integrity sha512-+MFb1kZCrRctf7UYE7NCG4rGhSXaQJ/KF07di9GVK1pxy1K0+rFi61ZobuV1ky9uQp+uhhSPts4Zp55kRDB5sw==
