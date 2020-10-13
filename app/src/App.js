@@ -20,16 +20,15 @@ function App() {
       <H1>Judge Whom to Give Rewards</H1>
       <Tabs items={['Info', 'Manage', 'Mint', 'Names & Trust']} selected={pageIndex} onChange={index => requestPath(`/tab/${index + 1}`)}/>
       <div style={{display: pageIndex == 0 ? 'block' : 'none'}}>
-        <p>Owned contract: {appState.ownedContract}<br/>
-          Controlled court: {appState.courtId}</p>
+        <p>Owned contract: {appState.ownedContract}</p>
       </div>
       <div style={{display: pageIndex == 1 ? 'block' : 'none'}}>
         <H2>Manage</H2>
-        <ManageForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        <ManageForm ownedContract={appState.ownedContract} api={api}/>
       </div>
       <div style={{display: pageIndex == 2 ? 'block' : 'none'}}>
         <H2>Send any amount of tokens to recipients of your choice.</H2>
-        <MintForm ownedContract={appState.ownedContract} courtId={appState.courtId} api={api}/>
+        <MintForm ownedContract={appState.ownedContract} api={api}/>
       </div>
     </Main>
   )
@@ -39,10 +38,9 @@ class ManageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownedValid: false, courtValid: false, ownerValid: false
+      ownedValid: false, ownerValid: false
     }
     this.ownedInput = React.createRef()
-    this.courtInput = React.createRef()
     this.ownerInput = React.createRef()
   }
 
@@ -56,12 +54,6 @@ class ManageForm extends React.Component {
     }
   }
 
-  onCourtChange(e) {
-    const ict = this.courtInput.current.value
-    const valid = /^[0-9]+$/.test(ict)
-    this.setState({courtValid: valid})
-  }
-
   onOwnerChange() {
     try {
       const address = toChecksumAddress(this.ownerInput.current.value)
@@ -73,14 +65,13 @@ class ManageForm extends React.Component {
   }
 
   valid() {
-    return this.state.ownedValid && this.state.courtValid
+    return this.state.ownedValid
   }
   
   changeCourt() {
-    return this.props.api.setCourt(this.ownedInput.current.value,
-                                   this.courtInput.current.value).toPromise()
+    return this.props.api.setCourt(this.ownedInput.current.value).toPromise()
   }
-  
+    
   changeOwner() {
     return this.props.api.setContractOwner(this.ownerInput.current.value).toPromise()
   }
@@ -94,14 +85,6 @@ class ManageForm extends React.Component {
               <TH>Owned contract:</TH>
               <td><input size="42" maxLength="42" ref={this.ownedInput} onChange={this.onOwnedChange.bind(this)}
                         className={this.state.ownedValid ? "" : "error"}/></td>
-            </tr>
-            <tr>
-              <TH>Court ID:</TH>
-              <td>
-                <input type="number" ref={this.courtInput} onChange={this.onCourtChange.bind(this)}
-                      className={this.state.courtValid ? "" : "error"}/>
-                (enter 0 to create a new court)
-              </td>
             </tr>
           </tbody>
         </table>
@@ -137,7 +120,7 @@ class MintForm extends React.Component {
     super(props);
     this.state = {
       token: null,
-      intercourtTokenValid: false, recepientValid: false, amountValid: false
+      recepientValid: false, amountValid: false
     }
     this.ICTokenInput = React.createRef()
     this.recepientInput = React.createRef()
@@ -183,7 +166,7 @@ class MintForm extends React.Component {
         <table>
           <tbody>
             <tr>
-              <TH><label>Intercourt token:</label></TH>
+              <TH><label>Token:</label></TH>
               <td><input ref={this.ICTokenInput}
                         type="number"
                         onChange={this.onICTokenChange.bind(this)}
@@ -231,9 +214,5 @@ const Syncing = styled.div.attrs({ children: 'Syncing…' })`
   top: 15px;
   right: 20px;
 `
-
-function calculateTokenId(court, intercourtToken) {
-  return (BigInt(court) << BigInt(128)) + BigInt(intercourtToken)
-}
 
 export default App
