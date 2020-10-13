@@ -29,3 +29,7 @@
 
 - Port Aragon to Fuse and then use GoodDollar Identity contract for anti-Sybil when
   quadratic voting.
+
+- Introduce ADMIN role. Admins could be able to disable child tokens without voting
+  (to act quickly in the case of a theft).
+  
