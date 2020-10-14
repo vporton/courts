@@ -87,3 +87,7 @@ sudo npm install --unsafe-perm=true  go-ipfs@0.4.22 --global
 # See also
 
 - `BOUNTIES.md`
+
+GoodDollar Ropsten contract addresses:
+in files contracts/release/deployment.json and contracts/stakingModel/release/deployment.json
+under the key "staging-mainnet"
