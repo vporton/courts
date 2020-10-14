@@ -1,5 +1,7 @@
 - [This bug](https://github.com/aragon/aragon-react-boilerplate/issues/115) prevents it to work!
 
+- Setting child limits.
+
 - Test in Enjin Wallet (what's about token icons?)
 
 - Fix the bug of always using "allEvents" with "external_past_events":
