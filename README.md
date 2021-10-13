@@ -1,4 +1,6 @@
 # Reward Courts
+_It's better to rewrite in DAOstack._
+
 Courts That Perform Crypto Rewards Smart Contract
 
 The idea is simple: Courts mint money to them who in any reason have too little (less than they should) money.
